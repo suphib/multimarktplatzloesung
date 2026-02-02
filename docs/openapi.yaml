@@ -1,0 +1,454 @@
+openapi: 3.0.3
+info:
+  title: KI-Klassifizierungsmodul für eProcurement
+  description: |
+    API für die KI-gestützte Klassifizierung von Beschaffungsartikeln,
+    Marktplatzsuche und revisionssichere Vergabedokumentation.
+  version: 0.1.0
+  contact:
+    name: Procurement AI Team
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Lokale Entwicklung
+
+tags:
+  - name: Klassifizierung
+    description: KI-gestützte Artikelklassifizierung
+  - name: Suche
+    description: Marktplatz-übergreifende Artikelsuche
+  - name: Dokumentation
+    description: Revisionssichere Vergabedokumentation
+  - name: System
+    description: Systemstatus und Health-Checks
+
+paths:
+  /classify:
+    post:
+      tags: [Klassifizierung]
+      summary: Artikel klassifizieren
+      description: |
+        Klassifiziert einen Beschaffungsartikel mittels KI und empfiehlt
+        den optimalen Beschaffungskanal inkl. Compliance-Prüfung.
+      operationId: classify
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassifyRequest'
+            example:
+              artikelBezeichnung: "Dell Latitude 5540 Laptop"
+              artikelBeschreibung: "Business Laptop, 15.6 Zoll, Intel i7, 16GB RAM, 512GB SSD"
+              geschaetzterPreis: 1200
+              menge: 5
+      responses:
+        '200':
+          description: Erfolgreiche Klassifizierung
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassifyResponse'
+        '400':
+          description: Ungültige Anfrage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Serverfehler
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+  /search:
+    post:
+      tags: [Suche]
+      summary: Artikel suchen
+      description: |
+        Durchsucht konfigurierte Marktplätze nach Artikeln.
+        Unterstützt Filter nach Preis, Kategorie und Nachhaltigkeit.
+      operationId: search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+            example:
+              suchbegriff: "Laptop Business"
+              marktplaetze: ["AMAZON_BUSINESS", "MERCATEO"]
+              preisVon: 500
+              preisBis: 2000
+      responses:
+        '200':
+          description: Suchergebnisse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          description: Ungültige Anfrage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+  /documentation/{id}:
+    get:
+      tags: [Dokumentation]
+      summary: Vergabedokumentation abrufen
+      description: Gibt die revisionssichere Dokumentation für eine Klassifizierung zurück.
+      operationId: getDocumentation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID der Klassifizierung
+      responses:
+        '200':
+          description: Dokumentation gefunden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dokumentation'
+        '404':
+          description: Dokumentation nicht gefunden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+
+  /health:
+    get:
+      tags: [System]
+      summary: Health Check
+      description: Prüft den Status aller abhängigen Services.
+      operationId: health
+      responses:
+        '200':
+          description: System gesund
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: System beeinträchtigt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+components:
+  schemas:
+    ClassifyRequest:
+      type: object
+      required: [artikelBezeichnung]
+      properties:
+        artikelBezeichnung:
+          type: string
+          minLength: 3
+          maxLength: 500
+          description: Bezeichnung des zu klassifizierenden Artikels
+        artikelBeschreibung:
+          type: string
+          maxLength: 2000
+          description: Optionale detaillierte Beschreibung
+        geschaetzterPreis:
+          type: number
+          minimum: 0
+          description: Geschätzter Preis in EUR
+        menge:
+          type: integer
+          minimum: 1
+          description: Bestellmenge
+        kategorie:
+          type: string
+          description: Optionale Vorkategorisierung
+
+    ClassifyResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        artikelBezeichnung:
+          type: string
+        empfohlenerKanal:
+          $ref: '#/components/schemas/Kanal'
+        konfidenz:
+          $ref: '#/components/schemas/Konfidenz'
+        konfidenzWert:
+          type: number
+          minimum: 0
+          maximum: 1
+        cpvCode:
+          type: string
+        cpvBezeichnung:
+          type: string
+        begruendung:
+          type: string
+        compliance:
+          $ref: '#/components/schemas/ComplianceInfo'
+        rahmenvertrag:
+          $ref: '#/components/schemas/RahmenvertragMatch'
+        alternativeKanaele:
+          type: array
+          items:
+            $ref: '#/components/schemas/KanalEmpfehlung'
+        erstelltAm:
+          type: string
+          format: date-time
+
+    SearchRequest:
+      type: object
+      required: [suchbegriff]
+      properties:
+        suchbegriff:
+          type: string
+          minLength: 2
+        marktplaetze:
+          type: array
+          items:
+            $ref: '#/components/schemas/Marktplatz'
+        preisVon:
+          type: number
+          minimum: 0
+        preisBis:
+          type: number
+          minimum: 0
+        kategorie:
+          type: string
+        nurNachhaltig:
+          type: boolean
+        seite:
+          type: integer
+          minimum: 1
+          default: 1
+        proSeite:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+
+    SearchResponse:
+      type: object
+      properties:
+        ergebnisse:
+          type: array
+          items:
+            $ref: '#/components/schemas/Artikel'
+        gesamt:
+          type: integer
+        seite:
+          type: integer
+        proSeite:
+          type: integer
+        aggregationen:
+          $ref: '#/components/schemas/Aggregationen'
+
+    Artikel:
+      type: object
+      properties:
+        id:
+          type: string
+        bezeichnung:
+          type: string
+        beschreibung:
+          type: string
+        preis:
+          type: number
+        waehrung:
+          type: string
+          default: EUR
+        marktplatz:
+          $ref: '#/components/schemas/Marktplatz'
+        lieferant:
+          type: string
+        lieferzeit:
+          type: string
+        bildUrl:
+          type: string
+          format: uri
+        nachhaltigkeitslabel:
+          type: array
+          items:
+            type: string
+        verfuegbar:
+          type: boolean
+        artikelnummer:
+          type: string
+
+    Aggregationen:
+      type: object
+      properties:
+        marktplaetze:
+          type: array
+          items:
+            type: object
+            properties:
+              marktplatz:
+                $ref: '#/components/schemas/Marktplatz'
+              anzahl:
+                type: integer
+        preisbereiche:
+          type: array
+          items:
+            type: object
+            properties:
+              von:
+                type: number
+              bis:
+                type: number
+              anzahl:
+                type: integer
+        kategorien:
+          type: array
+          items:
+            type: object
+            properties:
+              bezeichnung:
+                type: string
+              anzahl:
+                type: integer
+
+    Dokumentation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        klassifizierungId:
+          type: string
+          format: uuid
+        zeitstempel:
+          type: string
+          format: date-time
+        benutzer:
+          type: string
+        artikelBezeichnung:
+          type: string
+        klassifizierung:
+          $ref: '#/components/schemas/ClassifyResponse'
+        suchergebnisse:
+          $ref: '#/components/schemas/SearchResponse'
+        ausgewaehlterArtikel:
+          $ref: '#/components/schemas/Artikel'
+        begruendung:
+          type: string
+        compliancePruefung:
+          $ref: '#/components/schemas/ComplianceInfo'
+        integritaetsHash:
+          type: string
+
+    ComplianceInfo:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ComplianceStatus'
+        pruefpunkte:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pruefpunkt'
+        schwellenwertKategorie:
+          type: string
+        dokumentationspflicht:
+          type: boolean
+
+    Pruefpunkt:
+      type: object
+      properties:
+        bezeichnung:
+          type: string
+        erfuellt:
+          type: boolean
+        hinweis:
+          type: string
+
+    RahmenvertragMatch:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        bezeichnung:
+          type: string
+        lieferant:
+          type: string
+        vertragsnummer:
+          type: string
+        gueltigBis:
+          type: string
+          format: date
+        aehnlichkeit:
+          type: number
+
+    KanalEmpfehlung:
+      type: object
+      properties:
+        kanal:
+          $ref: '#/components/schemas/Kanal'
+        begruendung:
+          type: string
+        prioritaet:
+          type: integer
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [ok, degraded, error]
+        version:
+          type: string
+        services:
+          type: object
+          properties:
+            database:
+              $ref: '#/components/schemas/ServiceStatus'
+            redis:
+              $ref: '#/components/schemas/ServiceStatus'
+            azureOpenAI:
+              $ref: '#/components/schemas/ServiceStatus'
+
+    ServiceStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [up, down]
+        latenzMs:
+          type: number
+
+    ApiError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        fehler:
+          type: string
+        nachricht:
+          type: string
+        zeitstempel:
+          type: string
+          format: date-time
+
+    Kanal:
+      type: string
+      enum: [RAHMENVERTRAG, KATALOG, FREIE_VERGABE, OEFFENTLICHE_AUSSCHREIBUNG]
+
+    Konfidenz:
+      type: string
+      enum: [HOCH, MITTEL, NIEDRIG]
+
+    Marktplatz:
+      type: string
+      enum: [AMAZON_BUSINESS, MERCATEO, CONRAD]
+
+    ComplianceStatus:
+      type: string
+      enum: [KONFORM, PRUEFUNG_ERFORDERLICH, NICHT_KONFORM]

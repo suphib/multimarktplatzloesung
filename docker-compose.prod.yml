@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: procurement
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-procurement_secret}
+      POSTGRES_DB: procurement_ai
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U procurement -d procurement_ai']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: procurement
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-procurement_secret}
+      DATABASE_NAME: procurement_ai
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY}
+      AZURE_OPENAI_ENDPOINT: ${AZURE_OPENAI_ENDPOINT}
+      AZURE_OPENAI_API_VERSION: ${AZURE_OPENAI_API_VERSION:-2024-02-01}
+      AZURE_OPENAI_DEPLOYMENT_CHAT: ${AZURE_OPENAI_DEPLOYMENT_CHAT:-gpt-4}
+      AZURE_OPENAI_DEPLOYMENT_EMBEDDING: ${AZURE_OPENAI_DEPLOYMENT_EMBEDDING:-text-embedding-ada-002}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - '80:80'
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  redis_data:
