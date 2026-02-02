@@ -1,0 +1,167 @@
+{
+  "common": {
+    "appName": "eProcurement AI",
+    "search": "Search",
+    "compare": "Compare",
+    "docs": "Docs",
+    "back": "Back",
+    "details": "Details",
+    "classify": "Classify",
+    "toSearch": "Go to Search",
+    "marketplace": {
+      "AMAZON_BUSINESS": "Amazon Business",
+      "MERCATEO": "Mercateo",
+      "CONRAD": "Conrad"
+    },
+    "kanal": {
+      "RAHMENVERTRAG": "Framework Agreement",
+      "KATALOG": "Catalogue Order",
+      "FREIE_VERGABE": "Direct Award",
+      "OEFFENTLICHE_AUSSCHREIBUNG": "Public Tender"
+    },
+    "konfidenz": "{{value}}% Confidence"
+  },
+  "search": {
+    "title": "Article Search",
+    "headline": "AI-Powered Procurement",
+    "subtitle": "Find, compare and classify articles in compliance with procurement law",
+    "browseByCategory": "Or browse by category:",
+    "error": "Search failed. Please try again.",
+    "placeholder": "Search articles... (e.g. Laptop, Office Chair, Monitor)",
+    "button": "Search",
+    "buttonLoading": "Searching...",
+    "suggestionsLabel": "Suggestions ({{count}})",
+    "categories": {
+      "laptops": "Laptops",
+      "monitors": "Monitors",
+      "desktops": "Desktop PCs",
+      "chairs": "Office Chairs",
+      "desks": "Desks",
+      "printers": "Printers",
+      "peripherals": "Peripherals",
+      "lab": "Lab Supplies",
+      "measurement": "Measurement Tech",
+      "office": "Office Supplies",
+      "all": "All Articles"
+    },
+    "features": {
+      "classification": { "label": "AI Classification", "desc": "Automatic CPV assignment" },
+      "compliance": { "label": "Compliance", "desc": "Procurement law check" },
+      "comparison": { "label": "Price Comparison", "desc": "3 marketplaces" },
+      "documentation": { "label": "Documentation", "desc": "Audit-proof" }
+    },
+    "suggestions": [
+      { "text": "Laptop", "hint": "Dell, Lenovo, HP, Apple, Surface", "searchTerm": "Laptop" },
+      { "text": "Monitor", "hint": "Dell, LG, Samsung, 27 inch, 4K", "searchTerm": "Monitor" },
+      { "text": "Desk", "hint": "Height-adjustable, FlexiSpot, IKEA", "searchTerm": "Schreibtisch" },
+      { "text": "Office Chair", "hint": "Steelcase, Herman Miller, Interstuhl", "searchTerm": "Bürostuhl" },
+      { "text": "Printer", "hint": "HP LaserJet, Brother colour laser", "searchTerm": "Drucker" },
+      { "text": "Mouse", "hint": "Logitech MX Master, wireless", "searchTerm": "Maus" },
+      { "text": "Keyboard", "hint": "Logitech MX Keys, backlit", "searchTerm": "Tastatur" },
+      { "text": "Headset", "hint": "Jabra Evolve, ANC, UC-certified", "searchTerm": "Headset" },
+      { "text": "Webcam", "hint": "Logitech Brio, 4K, USB-C", "searchTerm": "Webcam" },
+      { "text": "Docking Station", "hint": "CalDigit, Thunderbolt 4", "searchTerm": "Docking Station" },
+      { "text": "Desktop PC", "hint": "Dell OptiPlex, Lenovo ThinkCentre", "searchTerm": "Desktop PC" },
+      { "text": "Paper", "hint": "Navigator A4, FSC-certified", "searchTerm": "Papier" },
+      { "text": "Binder", "hint": "Leitz, A4, cloud marble", "searchTerm": "Ordner" },
+      { "text": "Video Conferencing", "hint": "Logitech Rally Bar, 4K", "searchTerm": "Videokonferenz" },
+      { "text": "Monitor Arm", "hint": "Ergotron LX, VESA", "searchTerm": "Monitorarm" },
+      { "text": "Hydrochloric Acid", "hint": "HCl 37%, Carl Roth, lab grade", "searchTerm": "Salzsäure" },
+      { "text": "Pipette", "hint": "Eppendorf Research Plus, 100–1000 µL", "searchTerm": "Pipette" },
+      { "text": "Safety Goggles", "hint": "Uvex pheos, EN 166, lab", "searchTerm": "Schutzbrille" },
+      { "text": "Analytical Balance", "hint": "Sartorius Quintix, 0.1 mg", "searchTerm": "Analysenwaage" },
+      { "text": "Nitrile Gloves", "hint": "Powder-free, EN 374, size M", "searchTerm": "Nitrilhandschuhe" },
+      { "text": "GPU", "hint": "NVIDIA A100, AI training, HPC", "searchTerm": "GPU" },
+      { "text": "Raspberry Pi", "hint": "Pi 5, 8 GB, Starter Kit", "searchTerm": "Raspberry Pi" },
+      { "text": "NAS", "hint": "Synology DS1621+, 6-Bay", "searchTerm": "NAS" },
+      { "text": "Multimeter", "hint": "Keysight 34465A, 6½ digits", "searchTerm": "Multimeter" }
+    ]
+  },
+  "results": {
+    "title": "Search Results",
+    "articlesSelected": "{{count}} article selected",
+    "articlesSelected_other": "{{count}} articles selected",
+    "compareButton": "Compare",
+    "resultCount": "{{count}} result found",
+    "resultCount_other": "{{count}} results found",
+    "noResults": "No results found",
+    "noResultsHint": "Try a different search term"
+  },
+  "article": {
+    "notFound": "Article not found",
+    "notFoundText": "Please start a new search.",
+    "classificationTitle": "AI Classification",
+    "cpvCode": "CPV Code",
+    "reasoning": "Reasoning",
+    "frameworkFound": "Framework agreement found",
+    "similarity": "Similarity: {{value}}%",
+    "showDocumentation": "Show procurement documentation",
+    "classifyPrompt": "Have this article classified by AI to determine the optimal procurement channel.",
+    "classifyButton": "Classify now",
+    "classifying": "Classifying...",
+    "classifyError": "Classification failed. Please try again.",
+    "selected": "Selected ✓",
+    "compareAction": "Compare"
+  },
+  "compare": {
+    "title": "Price Comparison",
+    "articlesInComparison": "{{count}} articles compared",
+    "demoData": "Demo data",
+    "backToResults": "Back to Results",
+    "possibleSavings": "Potential savings: €{{amount}}",
+    "cheapestVsExpensive": "Cheapest offer: €{{min}} vs. most expensive: €{{max}}",
+    "classifyingArticle": "Classifying article...",
+    "noArticles": "No articles to compare",
+    "noArticlesHint": "Select up to 5 articles from the search results.",
+    "cheapestOffer": "Cheapest Offer",
+    "bestPrice": "Best Price",
+    "cheapest": "Cheapest",
+    "technicalSpecs": "Technical Specifications",
+    "specLabels": {
+      "price": "Price",
+      "display": "Display",
+      "cpu": "Processor",
+      "ram": "RAM",
+      "storage": "Storage",
+      "os": "Operating System",
+      "warranty": "Warranty",
+      "weight": "Weight",
+      "battery": "Battery Life",
+      "sustainability": "Sustainability",
+      "deliveryTime": "Delivery Time"
+    },
+    "procurementNotice": "Procurement Law Notice",
+    "procurementNoticeText": "For purchases over €1,000 net, a documented price comparison is required. Use the classification function to determine the correct procurement channel and automatically generate the procurement documentation."
+  },
+  "supplier": {
+    "marketplace": "Marketplace: {{name}}",
+    "articleNumber": "Art. No.: {{number}}"
+  },
+  "documentation": {
+    "title": "Procurement Documentation",
+    "article": "Article",
+    "timestamp": "Timestamp",
+    "user": "User",
+    "classification": "Classification",
+    "reasoning": "Reasoning",
+    "complianceCheck": "Compliance Check",
+    "integrityProof": "Integrity Proof",
+    "integrityHint": "SHA-256 hash to ensure document integrity",
+    "notFound": "Documentation not found or not yet created.",
+    "notFoundHint": "Classify an article first to generate documentation.",
+    "complianceStatus": {
+      "KONFORM": "Compliant",
+      "PRUEFUNG_ERFORDERLICH": "Review required",
+      "NICHT_KONFORM": "Non-compliant"
+    }
+  },
+  "footer": {
+    "copyright": "© 2026 WP Workers GmbH",
+    "imprint": "Legal Notice",
+    "privacy": "Privacy Policy"
+  },
+  "organisms": {
+    "noArticlesForComparison": "No articles selected for comparison.",
+    "selectUpTo5": "Select up to 5 articles from the search results."
+  }
+}

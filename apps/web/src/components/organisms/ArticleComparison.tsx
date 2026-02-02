@@ -1,4 +1,5 @@
 import type { Artikel } from '@procurement/shared';
+import { useTranslation } from 'react-i18next';
 import { PriceTag, Badge, Button } from '../atoms';
 import { X, Truck, Leaf } from 'lucide-react';
 
@@ -8,19 +9,15 @@ interface ArticleComparisonProps {
   onClassify: (artikel: Artikel) => void;
 }
 
-const mpLabels: Record<string, string> = {
-  AMAZON_BUSINESS: 'Amazon Business',
-  MERCATEO: 'Mercateo',
-  CONRAD: 'Conrad',
-};
-
 export function ArticleComparison({ articles, onRemove, onClassify }: ArticleComparisonProps) {
+  const { t } = useTranslation();
+
   if (articles.length === 0) {
     return (
       <div className="text-center py-12 text-gray-500">
-        Keine Artikel zum Vergleich ausgewählt.
+        {t('organisms.noArticlesForComparison')}
         <br />
-        Wählen Sie bis zu 5 Artikel aus den Suchergebnissen.
+        {t('organisms.selectUpTo5')}
       </div>
     );
   }
@@ -36,7 +33,7 @@ export function ArticleComparison({ articles, onRemove, onClassify }: ArticleCom
             className={`card w-72 flex-shrink-0 ${a.preis === minPreis ? 'ring-2 ring-green-500' : ''}`}
           >
             <div className="flex justify-between items-start mb-3">
-              <Badge variant="info">{mpLabels[a.marktplatz] ?? a.marktplatz}</Badge>
+              <Badge variant="info">{t(`common.marketplace.${a.marktplatz}`, { defaultValue: a.marktplatz })}</Badge>
               <button onClick={() => onRemove(a.id)} className="text-gray-400 hover:text-gray-600">
                 <X className="h-4 w-4" />
               </button>
@@ -48,7 +45,7 @@ export function ArticleComparison({ articles, onRemove, onClassify }: ArticleCom
             />
             {a.preis === minPreis && (
               <Badge variant="success" className="mt-1">
-                Günstigster
+                {t('compare.cheapest')}
               </Badge>
             )}
             <div className="mt-3 space-y-1 text-sm text-gray-600">
@@ -65,7 +62,7 @@ export function ArticleComparison({ articles, onRemove, onClassify }: ArticleCom
               )}
             </div>
             <Button variant="secondary" size="sm" className="w-full mt-4" onClick={() => onClassify(a)}>
-              Klassifizieren
+              {t('common.classify')}
             </Button>
           </div>
         ))}

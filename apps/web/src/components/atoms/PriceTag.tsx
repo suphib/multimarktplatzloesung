@@ -1,11 +1,17 @@
+import { useTranslation } from 'react-i18next';
+
 interface PriceTagProps {
   preis: number;
   waehrung?: string;
   className?: string;
 }
 
+const localeMap: Record<string, string> = { de: 'de-DE', en: 'en-GB' };
+
 export function PriceTag({ preis, waehrung = 'EUR', className = '' }: PriceTagProps) {
-  const formatted = new Intl.NumberFormat('de-DE', {
+  const { i18n } = useTranslation();
+  const locale = localeMap[i18n.language] ?? 'de-DE';
+  const formatted = new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: waehrung,
   }).format(preis);

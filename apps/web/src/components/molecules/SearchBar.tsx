@@ -1,33 +1,13 @@
 import { useState, useRef, useEffect, FormEvent } from 'react';
 import { Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button, Input } from '../atoms';
 
-const SUGGESTIONS = [
-  { text: 'Laptop', hinweis: 'Dell, Lenovo, HP, Apple, Surface' },
-  { text: 'Monitor', hinweis: 'Dell, LG, Samsung, 27 Zoll, 4K' },
-  { text: 'Schreibtisch', hinweis: 'Höhenverstellbar, FlexiSpot, IKEA' },
-  { text: 'Bürostuhl', hinweis: 'Steelcase, Herman Miller, Interstuhl' },
-  { text: 'Drucker', hinweis: 'HP LaserJet, Brother Farblaser' },
-  { text: 'Maus', hinweis: 'Logitech MX Master, kabellos' },
-  { text: 'Tastatur', hinweis: 'Logitech MX Keys, beleuchtet' },
-  { text: 'Headset', hinweis: 'Jabra Evolve, ANC, UC-zertifiziert' },
-  { text: 'Webcam', hinweis: 'Logitech Brio, 4K, USB-C' },
-  { text: 'Docking Station', hinweis: 'CalDigit, Thunderbolt 4' },
-  { text: 'Desktop PC', hinweis: 'Dell OptiPlex, Lenovo ThinkCentre' },
-  { text: 'Papier', hinweis: 'Navigator A4, FSC-zertifiziert' },
-  { text: 'Ordner', hinweis: 'Leitz, A4, Wolkenmarmor' },
-  { text: 'Videokonferenz', hinweis: 'Logitech Rally Bar, 4K' },
-  { text: 'Monitorarm', hinweis: 'Ergotron LX, VESA' },
-  { text: 'Salzsäure', hinweis: 'HCl 37%, Carl Roth, Laborqualität' },
-  { text: 'Pipette', hinweis: 'Eppendorf Research Plus, 100-1000µL' },
-  { text: 'Schutzbrille', hinweis: 'Uvex pheos, EN 166, Labor' },
-  { text: 'Analysenwaage', hinweis: 'Sartorius Quintix, 0,1mg' },
-  { text: 'Nitrilhandschuhe', hinweis: 'Puderfrei, EN 374, Gr. M' },
-  { text: 'GPU', hinweis: 'NVIDIA A100, KI-Training, HPC' },
-  { text: 'Raspberry Pi', hinweis: 'Pi 5, 8GB, Starter Kit' },
-  { text: 'NAS', hinweis: 'Synology DS1621+, 6-Bay' },
-  { text: 'Multimeter', hinweis: 'Keysight 34465A, 6½ Stellen' },
-];
+interface Suggestion {
+  text: string;
+  hint: string;
+  searchTerm?: string;
+}
 
 interface SearchBarProps {
   onSearch: (term: string) => void;
@@ -36,17 +16,20 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ onSearch, isLoading, initialValue = '' }: SearchBarProps) {
+  const { t } = useTranslation();
+  const suggestions = t('search.suggestions', { returnObjects: true }) as Suggestion[];
+
   const [value, setValue] = useState(initialValue);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(-1);
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLFormElement>(null);
 
   const filtered = value.trim().length >= 1
-    ? SUGGESTIONS.filter((s) =>
+    ? suggestions.filter((s) =>
         s.text.toLowerCase().includes(value.toLowerCase()) ||
-        s.hinweis.toLowerCase().includes(value.toLowerCase())
+        s.hint.toLowerCase().includes(value.toLowerCase())
       )
-    : SUGGESTIONS;
+    : suggestions;
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -66,10 +49,11 @@ export function SearchBar({ onSearch, isLoading, initialValue = '' }: SearchBarP
     }
   };
 
-  const handleSelect = (text: string) => {
-    setValue(text);
+  const handleSelect = (suggestion: Suggestion) => {
+    const searchTerm = suggestion.searchTerm ?? suggestion.text;
+    setValue(suggestion.text);
     setShowSuggestions(false);
-    onSearch(text);
+    onSearch(searchTerm);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -82,7 +66,7 @@ export function SearchBar({ onSearch, isLoading, initialValue = '' }: SearchBarP
       setSelectedIdx((prev) => (prev > 0 ? prev - 1 : filtered.length - 1));
     } else if (e.key === 'Enter' && selectedIdx >= 0) {
       e.preventDefault();
-      handleSelect(filtered[selectedIdx].text);
+      handleSelect(filtered[selectedIdx]);
     } else if (e.key === 'Escape') {
       setShowSuggestions(false);
     }
@@ -93,7 +77,7 @@ export function SearchBar({ onSearch, isLoading, initialValue = '' }: SearchBarP
       <div className="relative flex-1">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 z-10" />
         <Input
-          placeholder="Artikel suchen... (z.B. Laptop, Bürostuhl, Monitor)"
+          placeholder={t('search.placeholder')}
           value={value}
           onChange={(e) => {
             setValue(e.target.value);
@@ -108,7 +92,7 @@ export function SearchBar({ onSearch, isLoading, initialValue = '' }: SearchBarP
         {showSuggestions && filtered.length > 0 && (
           <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-20 max-h-72 overflow-y-auto">
             <div className="px-3 py-1.5 text-xs text-gray-400 border-b border-gray-100">
-              Vorschläge ({filtered.length})
+              {t('search.suggestionsLabel', { count: filtered.length })}
             </div>
             {filtered.map((s, i) => (
               <button
@@ -117,21 +101,21 @@ export function SearchBar({ onSearch, isLoading, initialValue = '' }: SearchBarP
                 className={`w-full text-left px-3 py-2.5 flex items-center justify-between gap-2 hover:bg-primary-50 transition-colors ${
                   i === selectedIdx ? 'bg-primary-50' : ''
                 }`}
-                onClick={() => handleSelect(s.text)}
+                onClick={() => handleSelect(s)}
                 onMouseEnter={() => setSelectedIdx(i)}
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <Search className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
                   <span className="font-medium text-sm text-gray-900">{s.text}</span>
                 </div>
-                <span className="text-xs text-gray-400 truncate">{s.hinweis}</span>
+                <span className="text-xs text-gray-400 truncate">{s.hint}</span>
               </button>
             ))}
           </div>
         )}
       </div>
       <Button type="submit" disabled={isLoading || value.trim().length < 2} size="lg">
-        {isLoading ? 'Suche...' : 'Suchen'}
+        {isLoading ? t('search.buttonLoading') : t('search.button')}
       </Button>
     </form>
   );

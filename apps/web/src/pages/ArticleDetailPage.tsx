@@ -1,4 +1,5 @@
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { DetailLayout } from '../components/templates/DetailLayout';
 import { PriceTag, Badge, Button, Spinner } from '../components/atoms';
 import { SupplierInfo } from '../components/molecules/SupplierInfo';
@@ -12,6 +13,7 @@ export function ArticleDetailPage() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const classifyMutation = useClassify();
   const { classifyResult, setClassifyResult } = useSearchStore();
 
@@ -19,13 +21,13 @@ export function ArticleDetailPage() {
 
   if (!artikel) {
     return (
-      <DetailLayout title="Artikel nicht gefunden" backTo="/results">
+      <DetailLayout title={t('article.notFound')} backTo="/results">
         <div className="text-center py-16">
           <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-lg font-medium text-gray-900">Artikel nicht gefunden</p>
-          <p className="text-sm text-gray-500 mt-1">Bitte starten Sie eine neue Suche.</p>
+          <p className="text-lg font-medium text-gray-900">{t('article.notFound')}</p>
+          <p className="text-sm text-gray-500 mt-1">{t('article.notFoundText')}</p>
           <Button className="mt-4" onClick={() => navigate('/search')}>
-            Zur Suche
+            {t('common.toSearch')}
           </Button>
         </div>
       </DetailLayout>
@@ -90,7 +92,7 @@ export function ArticleDetailPage() {
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 md:p-6">
           <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
             <Sparkles className="h-5 w-5 text-primary-600" />
-            KI-Klassifizierung
+            {t('article.classificationTitle')}
           </h3>
           {classifyResult ? (
             <div className="space-y-4">
@@ -101,24 +103,24 @@ export function ArticleDetailPage() {
               />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-gray-500">CPV-Code</p>
+                  <p className="text-sm text-gray-500">{t('article.cpvCode')}</p>
                   <p className="font-medium mt-0.5">
                     {classifyResult.cpvCode} – {classifyResult.cpvBezeichnung}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Begründung</p>
+                  <p className="text-sm text-gray-500">{t('article.reasoning')}</p>
                   <p className="text-sm mt-0.5">{classifyResult.begruendung}</p>
                 </div>
               </div>
               {classifyResult.rahmenvertrag && (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <p className="text-sm font-semibold text-green-800">Rahmenvertrag gefunden</p>
+                  <p className="text-sm font-semibold text-green-800">{t('article.frameworkFound')}</p>
                   <p className="text-sm text-green-700 mt-1">
                     {classifyResult.rahmenvertrag.bezeichnung} ({classifyResult.rahmenvertrag.lieferant})
                   </p>
                   <p className="text-xs text-green-600 mt-0.5">
-                    Ähnlichkeit: {Math.round(classifyResult.rahmenvertrag.aehnlichkeit * 100)}%
+                    {t('article.similarity', { value: Math.round(classifyResult.rahmenvertrag.aehnlichkeit * 100) })}
                   </p>
                 </div>
               )}
@@ -128,31 +130,30 @@ export function ArticleDetailPage() {
                 className="w-full sm:w-auto"
               >
                 <FileText className="h-4 w-4 mr-2" />
-                Vergabedokumentation anzeigen
+                {t('article.showDocumentation')}
               </Button>
             </div>
           ) : (
             <div>
               <p className="text-sm text-gray-500 mb-4">
-                Lassen Sie diesen Artikel durch die KI klassifizieren, um den optimalen
-                Beschaffungskanal zu ermitteln.
+                {t('article.classifyPrompt')}
               </p>
               <Button onClick={handleClassify} disabled={classifyMutation.isPending} className="w-full sm:w-auto">
                 {classifyMutation.isPending ? (
                   <>
                     <Spinner size="sm" className="mr-2" />
-                    Klassifiziere...
+                    {t('article.classifying')}
                   </>
                 ) : (
                   <>
                     <Sparkles className="h-4 w-4 mr-2" />
-                    Jetzt klassifizieren
+                    {t('article.classifyButton')}
                   </>
                 )}
               </Button>
               {classifyMutation.isError && (
                 <p className="text-sm text-red-600 mt-2">
-                  Fehler bei der Klassifizierung. Bitte versuchen Sie es erneut.
+                  {t('article.classifyError')}
                 </p>
               )}
             </div>

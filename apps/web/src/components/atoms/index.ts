@@ -3,3 +3,5 @@ export { Input } from './Input';
 export { Badge } from './Badge';
 export { PriceTag } from './PriceTag';
 export { Spinner } from './Spinner';
+export { LanguageSwitcher } from './LanguageSwitcher';
+export { Footer } from './Footer';

@@ -1,0 +1,166 @@
+{
+  "common": {
+    "appName": "eProcurement KI",
+    "search": "Suche",
+    "compare": "Vergleich",
+    "docs": "Doku",
+    "back": "Zurück",
+    "details": "Details",
+    "classify": "Klassifizieren",
+    "toSearch": "Zur Suche",
+    "marketplace": {
+      "AMAZON_BUSINESS": "Amazon Business",
+      "MERCATEO": "Mercateo",
+      "CONRAD": "Conrad"
+    },
+    "kanal": {
+      "RAHMENVERTRAG": "Rahmenvertrag",
+      "KATALOG": "Katalogbestellung",
+      "FREIE_VERGABE": "Freie Vergabe",
+      "OEFFENTLICHE_AUSSCHREIBUNG": "Öffentliche Ausschreibung"
+    },
+    "konfidenz": "{{value}}% Konfidenz"
+  },
+  "search": {
+    "title": "Artikelsuche",
+    "headline": "KI-gestützte Beschaffung",
+    "subtitle": "Finden, vergleichen und klassifizieren Sie Artikel vergaberechtskonform",
+    "browseByCategory": "Oder nach Kategorie durchsuchen:",
+    "error": "Fehler bei der Suche. Bitte versuchen Sie es erneut.",
+    "placeholder": "Artikel suchen... (z.B. Laptop, Bürostuhl, Monitor)",
+    "button": "Suchen",
+    "buttonLoading": "Suche...",
+    "suggestionsLabel": "Vorschläge ({{count}})",
+    "categories": {
+      "laptops": "Laptops",
+      "monitors": "Monitore",
+      "desktops": "Desktop PCs",
+      "chairs": "Bürostühle",
+      "desks": "Schreibtische",
+      "printers": "Drucker",
+      "peripherals": "Peripherie",
+      "lab": "Laborbedarf",
+      "measurement": "Messtechnik",
+      "office": "Bürobedarf",
+      "all": "Alle Artikel"
+    },
+    "features": {
+      "classification": { "label": "KI-Klassifizierung", "desc": "Automatische CPV-Zuordnung" },
+      "compliance": { "label": "Compliance", "desc": "Vergaberechtsprüfung" },
+      "comparison": { "label": "Preisvergleich", "desc": "3 Marktplätze" },
+      "documentation": { "label": "Dokumentation", "desc": "Revisionssicher" }
+    },
+    "suggestions": [
+      { "text": "Laptop", "hint": "Dell, Lenovo, HP, Apple, Surface" },
+      { "text": "Monitor", "hint": "Dell, LG, Samsung, 27 Zoll, 4K" },
+      { "text": "Schreibtisch", "hint": "Höhenverstellbar, FlexiSpot, IKEA" },
+      { "text": "Bürostuhl", "hint": "Steelcase, Herman Miller, Interstuhl" },
+      { "text": "Drucker", "hint": "HP LaserJet, Brother Farblaser" },
+      { "text": "Maus", "hint": "Logitech MX Master, kabellos" },
+      { "text": "Tastatur", "hint": "Logitech MX Keys, beleuchtet" },
+      { "text": "Headset", "hint": "Jabra Evolve, ANC, UC-zertifiziert" },
+      { "text": "Webcam", "hint": "Logitech Brio, 4K, USB-C" },
+      { "text": "Docking Station", "hint": "CalDigit, Thunderbolt 4" },
+      { "text": "Desktop PC", "hint": "Dell OptiPlex, Lenovo ThinkCentre" },
+      { "text": "Papier", "hint": "Navigator A4, FSC-zertifiziert" },
+      { "text": "Ordner", "hint": "Leitz, A4, Wolkenmarmor" },
+      { "text": "Videokonferenz", "hint": "Logitech Rally Bar, 4K" },
+      { "text": "Monitorarm", "hint": "Ergotron LX, VESA" },
+      { "text": "Salzsäure", "hint": "HCl 37%, Carl Roth, Laborqualität" },
+      { "text": "Pipette", "hint": "Eppendorf Research Plus, 100-1000µL" },
+      { "text": "Schutzbrille", "hint": "Uvex pheos, EN 166, Labor" },
+      { "text": "Analysenwaage", "hint": "Sartorius Quintix, 0,1mg" },
+      { "text": "Nitrilhandschuhe", "hint": "Puderfrei, EN 374, Gr. M" },
+      { "text": "GPU", "hint": "NVIDIA A100, KI-Training, HPC" },
+      { "text": "Raspberry Pi", "hint": "Pi 5, 8GB, Starter Kit" },
+      { "text": "NAS", "hint": "Synology DS1621+, 6-Bay" },
+      { "text": "Multimeter", "hint": "Keysight 34465A, 6½ Stellen" }
+    ]
+  },
+  "results": {
+    "title": "Suchergebnisse",
+    "articlesSelected": "{{count}} Artikel ausgewählt",
+    "compareButton": "Vergleichen",
+    "resultCount": "{{count}} Ergebnis gefunden",
+    "resultCount_other": "{{count}} Ergebnisse gefunden",
+    "noResults": "Keine Ergebnisse gefunden",
+    "noResultsHint": "Versuchen Sie einen anderen Suchbegriff"
+  },
+  "article": {
+    "notFound": "Artikel nicht gefunden",
+    "notFoundText": "Bitte starten Sie eine neue Suche.",
+    "classificationTitle": "KI-Klassifizierung",
+    "cpvCode": "CPV-Code",
+    "reasoning": "Begründung",
+    "frameworkFound": "Rahmenvertrag gefunden",
+    "similarity": "Ähnlichkeit: {{value}}%",
+    "showDocumentation": "Vergabedokumentation anzeigen",
+    "classifyPrompt": "Lassen Sie diesen Artikel durch die KI klassifizieren, um den optimalen Beschaffungskanal zu ermitteln.",
+    "classifyButton": "Jetzt klassifizieren",
+    "classifying": "Klassifiziere...",
+    "classifyError": "Fehler bei der Klassifizierung. Bitte versuchen Sie es erneut.",
+    "selected": "Ausgewählt ✓",
+    "compareAction": "Vergleichen"
+  },
+  "compare": {
+    "title": "Preisvergleich",
+    "articlesInComparison": "{{count}} Artikel im Vergleich",
+    "demoData": "Demo-Daten",
+    "backToResults": "Zurück zu Ergebnissen",
+    "possibleSavings": "Mögliche Ersparnis: {{amount}} €",
+    "cheapestVsExpensive": "Günstigstes Angebot: {{min}} € vs. teuerstes: {{max}} €",
+    "classifyingArticle": "Klassifiziere Artikel...",
+    "noArticles": "Keine Artikel zum Vergleich",
+    "noArticlesHint": "Wählen Sie bis zu 5 Artikel aus den Suchergebnissen.",
+    "cheapestOffer": "Günstigstes Angebot",
+    "bestPrice": "Bester Preis",
+    "cheapest": "Günstigster",
+    "technicalSpecs": "Technische Spezifikationen",
+    "specLabels": {
+      "price": "Preis",
+      "display": "Display",
+      "cpu": "Prozessor",
+      "ram": "RAM",
+      "storage": "Speicher",
+      "os": "Betriebssystem",
+      "warranty": "Garantie",
+      "weight": "Gewicht",
+      "battery": "Akkulaufzeit",
+      "sustainability": "Nachhaltigkeit",
+      "deliveryTime": "Lieferzeit"
+    },
+    "procurementNotice": "Vergaberechts-Hinweis",
+    "procurementNoticeText": "Bei Beschaffungen über 1.000 € netto ist ein dokumentierter Preisvergleich erforderlich. Nutzen Sie die Klassifizierungsfunktion, um den korrekten Beschaffungskanal zu ermitteln und die Vergabedokumentation automatisch zu erstellen."
+  },
+  "supplier": {
+    "marketplace": "Marktplatz: {{name}}",
+    "articleNumber": "Art.-Nr.: {{number}}"
+  },
+  "documentation": {
+    "title": "Vergabedokumentation",
+    "article": "Artikel",
+    "timestamp": "Zeitstempel",
+    "user": "Benutzer",
+    "classification": "Klassifizierung",
+    "reasoning": "Begründung",
+    "complianceCheck": "Compliance-Prüfung",
+    "integrityProof": "Integritätsnachweis",
+    "integrityHint": "SHA-256 Hash zur Sicherstellung der Dokumentenintegrität",
+    "notFound": "Dokumentation nicht gefunden oder noch nicht erstellt.",
+    "notFoundHint": "Klassifizieren Sie zuerst einen Artikel, um eine Dokumentation zu erzeugen.",
+    "complianceStatus": {
+      "KONFORM": "Konform",
+      "PRUEFUNG_ERFORDERLICH": "Prüfung erforderlich",
+      "NICHT_KONFORM": "Nicht konform"
+    }
+  },
+  "footer": {
+    "copyright": "© 2026 WP Workers GmbH",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz"
+  },
+  "organisms": {
+    "noArticlesForComparison": "Keine Artikel zum Vergleich ausgewählt.",
+    "selectUpTo5": "Wählen Sie bis zu 5 Artikel aus den Suchergebnissen."
+  }
+}

@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { SearchLayout } from '../components/templates/SearchLayout';
 import { Button, Badge, PriceTag, Spinner } from '../components/atoms';
 import { useSearchStore } from '../store/useSearchStore';
@@ -55,31 +56,28 @@ const DEMO_ARTICLES: Artikel[] = [
   },
 ];
 
-const mpLabels: Record<string, string> = {
-  AMAZON_BUSINESS: 'Amazon Business',
-  MERCATEO: 'Mercateo',
-  CONRAD: 'Conrad',
-};
-
 const mpColors: Record<string, string> = {
   AMAZON_BUSINESS: 'bg-orange-100 text-orange-800',
   MERCATEO: 'bg-blue-100 text-blue-800',
   CONRAD: 'bg-purple-100 text-purple-800',
 };
 
-const SPECS: { label: string; key: string; values: Record<string, string> }[] = [
-  { label: 'Display', key: 'display', values: { 'cmp-1': '15.6" FHD (1920×1080)', 'cmp-2': '14" WUXGA (1920×1200)', 'cmp-3': '14" WUXGA (1920×1200)' } },
-  { label: 'Prozessor', key: 'cpu', values: { 'cmp-1': 'Intel Core i7-1365U', 'cmp-2': 'AMD Ryzen 7 PRO 7840U', 'cmp-3': 'Intel Core i7-1355U' } },
-  { label: 'RAM', key: 'ram', values: { 'cmp-1': '16 GB DDR5', 'cmp-2': '16 GB LPDDR5x', 'cmp-3': '16 GB DDR5' } },
-  { label: 'Speicher', key: 'storage', values: { 'cmp-1': '512 GB NVMe SSD', 'cmp-2': '512 GB NVMe SSD', 'cmp-3': '512 GB NVMe SSD' } },
-  { label: 'Betriebssystem', key: 'os', values: { 'cmp-1': 'Windows 11 Pro', 'cmp-2': 'Windows 11 Pro', 'cmp-3': 'Windows 11 Pro' } },
-  { label: 'Garantie', key: 'warranty', values: { 'cmp-1': '3 Jahre ProSupport', 'cmp-2': '3 Jahre Vor-Ort-Service', 'cmp-3': '3 Jahre Next Business Day' } },
-  { label: 'Gewicht', key: 'weight', values: { 'cmp-1': '1,66 kg', 'cmp-2': '1,22 kg', 'cmp-3': '1,36 kg' } },
-  { label: 'Akkulaufzeit', key: 'battery', values: { 'cmp-1': 'bis zu 10 Std.', 'cmp-2': 'bis zu 13 Std.', 'cmp-3': 'bis zu 14 Std.' } },
-];
+const SPEC_KEYS = ['display', 'cpu', 'ram', 'storage', 'os', 'warranty', 'weight', 'battery'] as const;
+
+const SPEC_VALUES: Record<string, Record<string, string>> = {
+  display: { 'cmp-1': '15.6" FHD (1920×1080)', 'cmp-2': '14" WUXGA (1920×1200)', 'cmp-3': '14" WUXGA (1920×1200)' },
+  cpu: { 'cmp-1': 'Intel Core i7-1365U', 'cmp-2': 'AMD Ryzen 7 PRO 7840U', 'cmp-3': 'Intel Core i7-1355U' },
+  ram: { 'cmp-1': '16 GB DDR5', 'cmp-2': '16 GB LPDDR5x', 'cmp-3': '16 GB DDR5' },
+  storage: { 'cmp-1': '512 GB NVMe SSD', 'cmp-2': '512 GB NVMe SSD', 'cmp-3': '512 GB NVMe SSD' },
+  os: { 'cmp-1': 'Windows 11 Pro', 'cmp-2': 'Windows 11 Pro', 'cmp-3': 'Windows 11 Pro' },
+  warranty: { 'cmp-1': '3 Jahre ProSupport', 'cmp-2': '3 Jahre Vor-Ort-Service', 'cmp-3': '3 Jahre Next Business Day' },
+  weight: { 'cmp-1': '1,66 kg', 'cmp-2': '1,22 kg', 'cmp-3': '1,36 kg' },
+  battery: { 'cmp-1': 'bis zu 10 Std.', 'cmp-2': 'bis zu 13 Std.', 'cmp-3': 'bis zu 14 Std.' },
+};
 
 export function ComparePage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { selectedArticles, toggleArticle, setClassifyResult } = useSearchStore();
   const classifyMutation = useClassify();
   const [showSpecs, setShowSpecs] = useState(true);
@@ -115,24 +113,24 @@ export function ComparePage() {
   };
 
   return (
-    <SearchLayout title="Preisvergleich">
+    <SearchLayout title={t('compare.title')}>
       <div className="space-y-4 md:space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-xl md:text-2xl font-bold text-gray-900">Preisvergleich</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900">{t('compare.title')}</h2>
             <p className="text-sm text-gray-500 mt-0.5">
-              {articles.length} Artikel im Vergleich
+              {t('compare.articlesInComparison', { count: articles.length })}
               {isDemo && (
                 <span className="ml-2 text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
-                  Demo-Daten
+                  {t('compare.demoData')}
                 </span>
               )}
             </p>
           </div>
           <Button variant="secondary" size="sm" onClick={() => navigate('/results')}>
             <ArrowLeft className="h-4 w-4 mr-1" />
-            Zurück zu Ergebnissen
+            {t('compare.backToResults')}
           </Button>
         </div>
 
@@ -144,10 +142,10 @@ export function ComparePage() {
             </div>
             <div>
               <p className="text-sm font-semibold text-green-800">
-                Mögliche Ersparnis: {ersparnis.toFixed(2)} €
+                {t('compare.possibleSavings', { amount: ersparnis.toFixed(2) })}
               </p>
               <p className="text-xs text-green-600">
-                Günstigstes Angebot: {minPreis.toFixed(2)} € vs. teuerstes: {maxPreis.toFixed(2)} €
+                {t('compare.cheapestVsExpensive', { min: minPreis.toFixed(2), max: maxPreis.toFixed(2) })}
               </p>
             </div>
           </div>
@@ -156,43 +154,36 @@ export function ComparePage() {
         {classifyMutation.isPending && (
           <div className="flex items-center gap-2 text-sm text-gray-600 bg-blue-50 rounded-lg p-3">
             <Spinner size="sm" />
-            Klassifiziere Artikel...
+            {t('compare.classifyingArticle')}
           </div>
         )}
 
         {articles.length === 0 ? (
           <div className="text-center py-16">
             <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <p className="text-lg font-medium text-gray-900">Keine Artikel zum Vergleich</p>
+            <p className="text-lg font-medium text-gray-900">{t('compare.noArticles')}</p>
             <p className="text-sm text-gray-500 mt-1">
-              Wählen Sie bis zu 5 Artikel aus den Suchergebnissen.
+              {t('compare.noArticlesHint')}
             </p>
             <Button className="mt-4" onClick={() => navigate('/search')}>
-              Zur Suche
+              {t('common.toSearch')}
             </Button>
           </div>
         ) : (
           <>
             {/* Mobile: Karten-Ansicht */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 md:p-6 space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
               {articles.map((a) => {
                 const isCheapest = a.preis === minPreis && articles.length >= 2;
+                const mpLabel = t(`common.marketplace.${a.marktplatz}`, { defaultValue: a.marktplatz });
                 return (
                   <div
                     key={a.id}
-                    className={`bg-white rounded-xl border-2 shadow-sm overflow-hidden transition-all ${
+                    className={`bg-white rounded-xl border-2 shadow-sm overflow-hidden transition-all flex flex-col ${
                       isCheapest ? 'border-green-400 ring-1 ring-green-200' : 'border-gray-100'
                     }`}
                   >
-                    {/* Günstigster Badge */}
-                    {isCheapest && (
-                      <div className="bg-green-500 text-white text-xs font-semibold text-center py-1.5 flex items-center justify-center gap-1">
-                        <Star className="h-3.5 w-3.5" />
-                        Günstigstes Angebot
-                      </div>
-                    )}
-
-                    {/* Bild + Entfernen */}
                     <div className="relative">
                       <div className="h-40 bg-gray-50 flex items-center justify-center">
                         {a.bildUrl ? (
@@ -209,19 +200,23 @@ export function ComparePage() {
                       </button>
                       <div className="absolute top-2 left-2">
                         <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${mpColors[a.marktplatz] ?? 'bg-gray-100 text-gray-700'}`}>
-                          {mpLabels[a.marktplatz] ?? a.marktplatz}
+                          {mpLabel}
                         </span>
                       </div>
+                      {isCheapest && (
+                        <div className="absolute bottom-0 inset-x-0 bg-green-500/90 backdrop-blur-sm text-white text-xs font-semibold text-center py-1.5 flex items-center justify-center gap-1">
+                          <Star className="h-3.5 w-3.5" />
+                          {t('compare.cheapestOffer')}
+                        </div>
+                      )}
                     </div>
 
-                    {/* Inhalt */}
-                    <div className="p-4">
+                    <div className="p-4 flex flex-col flex-1">
                       <h3 className="font-semibold text-sm text-gray-900 line-clamp-2 min-h-[2.5rem]">
                         {a.bezeichnung}
                       </h3>
-                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">{a.beschreibung}</p>
+                      <p className="text-xs text-gray-500 mt-1 line-clamp-2 min-h-[2rem]">{a.beschreibung}</p>
 
-                      {/* Preis */}
                       <div className="mt-3 flex items-baseline gap-2">
                         <PriceTag
                           preis={a.preis}
@@ -230,7 +225,6 @@ export function ComparePage() {
                         />
                       </div>
 
-                      {/* Details */}
                       <div className="mt-3 space-y-2">
                         <div className="flex items-center gap-2 text-sm text-gray-600">
                           <Truck className="h-4 w-4 text-gray-400 flex-shrink-0" />
@@ -240,30 +234,27 @@ export function ComparePage() {
                           <Shield className="h-4 w-4 text-gray-400 flex-shrink-0" />
                           <span>{a.lieferant}</span>
                         </div>
-                        {a.nachhaltigkeitslabel.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {a.nachhaltigkeitslabel.map((label) => (
-                              <span
-                                key={label}
-                                className="inline-flex items-center gap-1 text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full"
-                              >
-                                <Leaf className="h-3 w-3" />
-                                {label}
-                              </span>
-                            ))}
-                          </div>
-                        )}
+                        <div className="flex flex-wrap gap-1 min-h-[1.5rem]">
+                          {a.nachhaltigkeitslabel.map((label) => (
+                            <span
+                              key={label}
+                              className="inline-flex items-center gap-1 text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full"
+                            >
+                              <Leaf className="h-3 w-3" />
+                              {label}
+                            </span>
+                          ))}
+                        </div>
                       </div>
 
-                      {/* Aktionen */}
-                      <div className="mt-4 flex gap-2">
+                      <div className="mt-auto pt-4 flex gap-2">
                         <Button
                           variant="secondary"
                           size="sm"
                           className="flex-1 text-xs"
                           onClick={() => navigate(`/article/${a.id}`, { state: { artikel: a } })}
                         >
-                          Details
+                          {t('common.details')}
                         </Button>
                         <Button
                           size="sm"
@@ -271,7 +262,7 @@ export function ComparePage() {
                           onClick={() => handleClassify(a)}
                           disabled={classifyMutation.isPending}
                         >
-                          Klassifizieren
+                          {t('common.classify')}
                         </Button>
                       </div>
                     </div>
@@ -280,72 +271,45 @@ export function ComparePage() {
               })}
             </div>
 
-            {/* Spezifikations-Vergleich (nur für Demo mit 3 festen Artikeln) */}
+            {/* Spezifikations-Vergleich */}
             {isDemo && demoArticles.length >= 2 && (
-              <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+              <div>
                 <button
                   onClick={() => setShowSpecs(!showSpecs)}
-                  className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors"
+                  className="w-full flex items-center justify-between py-2 text-left"
                 >
-                  <span className="font-semibold text-gray-900 flex items-center gap-2">
-                    <Info className="h-4 w-4 text-gray-500" />
-                    Technische Spezifikationen
+                  <span className="font-semibold text-gray-900 flex items-center gap-2 text-sm">
+                    <Info className="h-4 w-4 text-gray-400" />
+                    {t('compare.technicalSpecs')}
                   </span>
                   {showSpecs ? (
-                    <ChevronUp className="h-5 w-5 text-gray-400" />
+                    <ChevronUp className="h-4 w-4 text-gray-400" />
                   ) : (
-                    <ChevronDown className="h-5 w-5 text-gray-400" />
+                    <ChevronDown className="h-4 w-4 text-gray-400" />
                   )}
                 </button>
                 {showSpecs && (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b border-gray-100">
-                          <th className="text-left py-3 px-4 font-medium text-gray-500 w-32">Merkmal</th>
-                          {demoArticles.map((a) => (
-                            <th key={a.id} className="text-left py-3 px-4 font-medium text-gray-900 min-w-[180px]">
-                              {a.bezeichnung.split(' ').slice(0, 2).join(' ')}
-                            </th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="border-b border-gray-50">
-                          <td className="py-2.5 px-4 font-medium text-gray-500">Preis</td>
-                          {demoArticles.map((a) => (
-                            <td
-                              key={a.id}
-                              className={`py-2.5 px-4 font-bold ${
-                                a.preis === minPreis ? 'text-green-600' : 'text-gray-900'
-                              }`}
-                            >
-                              {a.preis.toFixed(2)} €
-                              {a.preis === minPreis && (
-                                <span className="ml-1 text-xs font-normal bg-green-100 text-green-700 px-1.5 py-0.5 rounded">
-                                  Bester Preis
-                                </span>
-                              )}
-                            </td>
-                          ))}
-                        </tr>
-                        {SPECS.filter((spec) =>
-                          demoArticles.some((a) => spec.values[a.id])
-                        ).map((spec) => (
-                          <tr key={spec.key} className="border-b border-gray-50">
-                            <td className="py-2.5 px-4 font-medium text-gray-500">{spec.label}</td>
-                            {demoArticles.map((a) => (
-                              <td key={a.id} className="py-2.5 px-4 text-gray-700">
-                                {spec.values[a.id] ?? '–'}
-                              </td>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {demoArticles.map((a) => {
+                      const isCheapest = a.preis === minPreis;
+                      return (
+                        <div
+                          key={a.id}
+                          className={`border-t-4 pt-3 ${isCheapest ? 'border-green-400' : 'border-gray-200'}`}
+                        >
+                          <h4 className="font-semibold text-sm text-gray-900 mb-3 truncate">
+                            {a.bezeichnung.split(' ').slice(0, 3).join(' ')}
+                          </h4>
+                          <div className="space-y-0">
+                            {SPEC_KEYS.map((key, i) => (
+                              <div key={key} className={`flex flex-col py-2 px-2.5 rounded ${i % 2 === 0 ? 'bg-gray-50' : ''}`}>
+                                <span className="text-xs font-medium text-gray-400">{t(`compare.specLabels.${key}`)}</span>
+                                <span className="text-sm text-gray-700">{SPEC_VALUES[key]?.[a.id] ?? '–'}</span>
+                              </div>
                             ))}
-                          </tr>
-                        ))}
-                        <tr className="border-b border-gray-50">
-                          <td className="py-2.5 px-4 font-medium text-gray-500">Nachhaltigkeit</td>
-                          {demoArticles.map((a) => (
-                            <td key={a.id} className="py-2.5 px-4">
-                              <div className="flex flex-wrap gap-1">
+                            <div className={`flex flex-col py-2 px-2.5 rounded ${SPEC_KEYS.length % 2 === 0 ? 'bg-gray-50' : ''}`}>
+                              <span className="text-xs font-medium text-gray-400">{t('compare.specLabels.sustainability')}</span>
+                              <div className="flex flex-wrap gap-1 mt-0.5">
                                 {a.nachhaltigkeitslabel.map((label) => (
                                   <span
                                     key={label}
@@ -355,34 +319,31 @@ export function ComparePage() {
                                   </span>
                                 ))}
                               </div>
-                            </td>
-                          ))}
-                        </tr>
-                        <tr>
-                          <td className="py-2.5 px-4 font-medium text-gray-500">Lieferzeit</td>
-                          {demoArticles.map((a) => (
-                            <td key={a.id} className="py-2.5 px-4 text-gray-700 flex items-center gap-1">
-                              <Truck className="h-3.5 w-3.5 text-gray-400" />
-                              {a.lieferzeit}
-                            </td>
-                          ))}
-                        </tr>
-                      </tbody>
-                    </table>
+                            </div>
+                            <div className={`flex flex-col py-2 px-2.5 rounded ${(SPEC_KEYS.length + 1) % 2 === 0 ? 'bg-gray-50' : ''}`}>
+                              <span className="text-xs font-medium text-gray-400">{t('compare.specLabels.deliveryTime')}</span>
+                              <span className="text-sm text-gray-700 inline-flex items-center gap-1">
+                                <Truck className="h-3.5 w-3.5 text-gray-400" />
+                                {a.lieferzeit}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>
             )}
+            </div>
 
             {/* Info-Box */}
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex gap-3">
               <Info className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
               <div className="text-sm text-blue-800">
-                <p className="font-medium">Vergaberechts-Hinweis</p>
+                <p className="font-medium">{t('compare.procurementNotice')}</p>
                 <p className="mt-1 text-blue-600">
-                  Bei Beschaffungen über 1.000 € netto ist ein dokumentierter Preisvergleich erforderlich.
-                  Nutzen Sie die Klassifizierungsfunktion, um den korrekten Beschaffungskanal zu ermitteln
-                  und die Vergabedokumentation automatisch zu erstellen.
+                  {t('compare.procurementNoticeText')}
                 </p>
               </div>
             </div>

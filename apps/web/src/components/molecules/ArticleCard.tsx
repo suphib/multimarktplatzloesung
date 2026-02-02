@@ -1,5 +1,6 @@
 import { Package, Truck, Leaf } from 'lucide-react';
 import type { Artikel } from '@procurement/shared';
+import { useTranslation } from 'react-i18next';
 import { Badge, PriceTag, Button } from '../atoms';
 
 interface ArticleCardProps {
@@ -9,12 +10,6 @@ interface ArticleCardProps {
   onViewDetail?: () => void;
 }
 
-const marktplatzLabels: Record<string, string> = {
-  AMAZON_BUSINESS: 'Amazon Business',
-  MERCATEO: 'Mercateo',
-  CONRAD: 'Conrad',
-};
-
 const mpColors: Record<string, string> = {
   AMAZON_BUSINESS: 'bg-orange-100 text-orange-800 border-orange-200',
   MERCATEO: 'bg-blue-100 text-blue-800 border-blue-200',
@@ -22,13 +17,20 @@ const mpColors: Record<string, string> = {
 };
 
 export function ArticleCard({ artikel, isSelected, onToggleSelect, onViewDetail }: ArticleCardProps) {
+  const { t } = useTranslation();
+  const mpLabel = t(`common.marketplace.${artikel.marktplatz}`, { defaultValue: artikel.marktplatz });
+
   return (
     <div className={`bg-white rounded-xl border-2 shadow-sm hover:shadow-md transition-all ${
       isSelected ? 'border-primary-400 ring-1 ring-primary-200' : 'border-gray-100'
     }`}>
       <div className="flex flex-col sm:flex-row">
         {/* Bild */}
-        <div className="w-full sm:w-36 md:w-44 h-40 sm:h-auto bg-gray-50 flex items-center justify-center flex-shrink-0 rounded-t-xl sm:rounded-t-none sm:rounded-l-xl overflow-hidden relative">
+        <div
+          onClick={onViewDetail}
+          role={onViewDetail ? 'button' : undefined}
+          className={`w-full sm:w-36 md:w-44 h-40 sm:h-auto bg-gray-50 flex items-center justify-center flex-shrink-0 rounded-t-xl sm:rounded-t-none sm:rounded-l-xl overflow-hidden relative ${onViewDetail ? 'cursor-pointer' : ''}`}
+        >
           {artikel.bildUrl ? (
             <img src={artikel.bildUrl} alt={artikel.bezeichnung} className="w-full h-full object-cover" />
           ) : (
@@ -36,7 +38,7 @@ export function ArticleCard({ artikel, isSelected, onToggleSelect, onViewDetail 
           )}
           <div className="absolute top-2 left-2 sm:hidden">
             <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${mpColors[artikel.marktplatz] ?? 'bg-gray-100 text-gray-700'}`}>
-              {marktplatzLabels[artikel.marktplatz] ?? artikel.marktplatz}
+              {mpLabel}
             </span>
           </div>
         </div>
@@ -47,10 +49,15 @@ export function ArticleCard({ artikel, isSelected, onToggleSelect, onViewDetail 
             <div className="min-w-0 flex-1">
               <div className="hidden sm:block mb-1">
                 <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${mpColors[artikel.marktplatz] ?? 'bg-gray-100 text-gray-700'}`}>
-                  {marktplatzLabels[artikel.marktplatz] ?? artikel.marktplatz}
+                  {mpLabel}
                 </span>
               </div>
-              <h3 className="font-semibold text-gray-900 line-clamp-1">{artikel.bezeichnung}</h3>
+              <h3
+                onClick={onViewDetail}
+                className={`font-semibold text-gray-900 line-clamp-1 ${onViewDetail ? 'cursor-pointer hover:text-primary-700 transition-colors' : ''}`}
+              >
+                {artikel.bezeichnung}
+              </h3>
               <p className="text-sm text-gray-500 mt-1 line-clamp-2">{artikel.beschreibung}</p>
             </div>
             <PriceTag preis={artikel.preis} waehrung={artikel.waehrung} className="text-xl font-bold flex-shrink-0" />
@@ -72,11 +79,11 @@ export function ArticleCard({ artikel, isSelected, onToggleSelect, onViewDetail 
 
           <div className="flex gap-2 mt-3">
             {onViewDetail && (
-              <Button variant="secondary" size="sm" onClick={onViewDetail}>Details</Button>
+              <Button variant="secondary" size="sm" onClick={onViewDetail}>{t('common.details')}</Button>
             )}
             {onToggleSelect && (
               <Button variant={isSelected ? 'primary' : 'ghost'} size="sm" onClick={onToggleSelect}>
-                {isSelected ? 'Ausgewählt ✓' : 'Vergleichen'}
+                {isSelected ? t('article.selected') : t('article.compareAction')}
               </Button>
             )}
           </div>

@@ -4,6 +4,8 @@ import { ResultsPage } from './pages/ResultsPage';
 import { ArticleDetailPage } from './pages/ArticleDetailPage';
 import { ComparePage } from './pages/ComparePage';
 import { DocumentationPage } from './pages/DocumentationPage';
+import { ImpressumPage } from './pages/ImpressumPage';
+import { DatenschutzPage } from './pages/DatenschutzPage';
 
 export function App() {
   return (
@@ -14,6 +16,8 @@ export function App() {
       <Route path="/article/:id" element={<ArticleDetailPage />} />
       <Route path="/compare" element={<ComparePage />} />
       <Route path="/documentation/:id" element={<DocumentationPage />} />
+      <Route path="/impressum" element={<ImpressumPage />} />
+      <Route path="/datenschutz" element={<DatenschutzPage />} />
     </Routes>
   );
 }

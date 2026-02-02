@@ -1,14 +1,18 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { SearchLayout } from '../components/templates/SearchLayout';
 import { SearchBar } from '../components/molecules/SearchBar';
 import { SearchResults } from '../components/organisms/SearchResults';
 import { Spinner, Button } from '../components/atoms';
 import { useSearchStore } from '../store/useSearchStore';
 import { useSearch } from '../hooks/useSearch';
-import { BarChart3 } from 'lucide-react';
+import { BarChart3, Search } from 'lucide-react';
 
 export function ResultsPage() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { t } = useTranslation();
   const {
     suchbegriff,
     searchResponse,
@@ -19,41 +23,50 @@ export function ResultsPage() {
   } = useSearchStore();
   const searchMutation = useSearch();
 
+  const queryParam = searchParams.get('q') ?? '';
+
+  // Auto-search when landing with ?q= but no store data
+  useEffect(() => {
+    if (queryParam && !searchResponse && !searchMutation.isPending) {
+      setSuchbegriff(queryParam);
+      searchMutation
+        .mutateAsync({ suchbegriff: queryParam })
+        .then((result) => setSearchResponse(result))
+        .catch(() => {});
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleSearch = async (term: string) => {
     setSuchbegriff(term);
+    setSearchParams({ q: term }, { replace: true });
     const result = await searchMutation.mutateAsync({ suchbegriff: term });
     setSearchResponse(result);
   };
 
-  if (!searchResponse) {
-    navigate('/search');
-    return null;
-  }
-
   return (
-    <SearchLayout title="Suchergebnisse">
+    <SearchLayout title={t('results.title')}>
       <div className="space-y-4 md:space-y-6">
         <SearchBar
           onSearch={handleSearch}
           isLoading={searchMutation.isPending}
-          initialValue={suchbegriff}
+          initialValue={queryParam || suchbegriff}
         />
 
         {selectedArticles.length > 0 && (
           <div className="flex items-center gap-3 bg-primary-50 border border-primary-200 rounded-xl p-3">
             <BarChart3 className="h-5 w-5 text-primary-600 flex-shrink-0" />
             <span className="text-sm text-primary-800 flex-1">
-              {selectedArticles.length} Artikel ausgewählt
+              {t('results.articlesSelected', { count: selectedArticles.length })}
             </span>
             <Button size="sm" onClick={() => navigate('/compare')}>
-              Vergleichen
+              {t('results.compareButton')}
             </Button>
           </div>
         )}
 
         {searchMutation.isPending ? (
           <Spinner size="lg" className="py-12" />
-        ) : (
+        ) : searchResponse ? (
           <SearchResults
             ergebnisse={searchResponse.ergebnisse}
             gesamt={searchResponse.gesamt}
@@ -62,7 +75,13 @@ export function ResultsPage() {
             onToggleSelect={toggleArticle}
             onViewDetail={(artikel) => navigate(`/article/${artikel.id}`, { state: { artikel } })}
           />
-        )}
+        ) : !queryParam ? (
+          <div className="text-center py-16">
+            <Search className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+            <p className="text-lg font-medium text-gray-900">{t('results.noResults')}</p>
+            <p className="text-sm text-gray-500 mt-1">{t('results.noResultsHint')}</p>
+          </div>
+        ) : null}
       </div>
     </SearchLayout>
   );
