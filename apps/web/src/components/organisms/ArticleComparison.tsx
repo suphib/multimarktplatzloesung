@@ -18,9 +18,9 @@ export function ArticleComparison({ articles, onRemove, onClassify }: ArticleCom
   if (articles.length === 0) {
     return (
       <div className="text-center py-12 text-gray-500">
-        Keine Artikel zum Vergleich ausgewaehlt.
+        Keine Artikel zum Vergleich ausgewählt.
         <br />
-        Waehlen Sie bis zu 5 Artikel aus den Suchergebnissen.
+        Wählen Sie bis zu 5 Artikel aus den Suchergebnissen.
       </div>
     );
   }
@@ -48,7 +48,7 @@ export function ArticleComparison({ articles, onRemove, onClassify }: ArticleCom
             />
             {a.preis === minPreis && (
               <Badge variant="success" className="mt-1">
-                Guenstigster
+                Günstigster
               </Badge>
             )}
             <div className="mt-3 space-y-1 text-sm text-gray-600">
