@@ -21,7 +21,7 @@ export function ArticleDetailPage() {
 
   if (!artikel) {
     return (
-      <DetailLayout title={t('article.notFound')} backTo="/results">
+      <DetailLayout title={t('article.notFound')} backTo={undefined}>
         <div className="text-center py-16">
           <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
           <p className="text-lg font-medium text-gray-900">{t('article.notFound')}</p>
@@ -45,7 +45,7 @@ export function ArticleDetailPage() {
   };
 
   return (
-    <DetailLayout title={artikel.bezeichnung} backTo="/results">
+    <DetailLayout title={artikel.bezeichnung} backTo={undefined}>
       <div className="space-y-4 md:space-y-6">
         {/* Artikel-Info */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">

@@ -12,7 +12,7 @@ export function DocumentationPage() {
 
   if (isLoading) {
     return (
-      <DetailLayout title={t('documentation.title')} backTo="/search">
+      <DetailLayout title={t('documentation.title')} backTo={undefined}>
         <Spinner size="lg" className="py-12" />
       </DetailLayout>
     );
@@ -20,7 +20,7 @@ export function DocumentationPage() {
 
   if (isError || !data) {
     return (
-      <DetailLayout title={t('documentation.title')} backTo="/search">
+      <DetailLayout title={t('documentation.title')} backTo={undefined}>
         <div className="text-center py-12 text-gray-500">
           <p>{t('documentation.notFound')}</p>
           <p className="text-sm mt-1">
@@ -32,7 +32,7 @@ export function DocumentationPage() {
   }
 
   return (
-    <DetailLayout title={t('documentation.title')} backTo="/results">
+    <DetailLayout title={t('documentation.title')} backTo={undefined}>
       <DocumentationPanel dokumentation={data} />
     </DetailLayout>
   );

@@ -17,11 +17,11 @@ const KATEGORIEN = [
   { tKey: 'search.categories.chairs', suchbegriff: 'stuhl', icon: Armchair, anzahl: 3 },
   { tKey: 'search.categories.desks', suchbegriff: 'Schreibtisch', icon: Package, anzahl: 2 },
   { tKey: 'search.categories.printers', suchbegriff: 'Drucker', icon: Printer, anzahl: 2 },
-  { tKey: 'search.categories.peripherals', suchbegriff: 'Maus', icon: Mouse, anzahl: 6 },
+  { tKey: 'search.categories.peripherals', suchbegriff: 'Peripherie', icon: Mouse, anzahl: 6 },
   { tKey: 'search.categories.lab', suchbegriff: 'Labor', icon: FlaskConical, anzahl: 6 },
-  { tKey: 'search.categories.measurement', suchbegriff: 'GPU', icon: Tv, anzahl: 4 },
-  { tKey: 'search.categories.office', suchbegriff: 'Papier', icon: Package, anzahl: 3 },
-  { tKey: 'search.categories.all', suchbegriff: 'er', icon: Package, anzahl: 37 },
+  { tKey: 'search.categories.measurement', suchbegriff: 'Messtechnik', icon: Tv, anzahl: 4 },
+  { tKey: 'search.categories.office', suchbegriff: 'Bürobedarf', icon: Package, anzahl: 3 },
+  { tKey: 'search.categories.all', suchbegriff: 'Alle', icon: Package, anzahl: 36 },
 ] as const;
 
 const FEATURE_KEYS = [

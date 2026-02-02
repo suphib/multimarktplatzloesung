@@ -16,6 +16,12 @@ export class DocumentationService {
   ) {}
 
   async getDokumentation(klassifizierungId: string): Promise<Dokumentation | null> {
+    // Validate UUID format before querying to avoid PostgreSQL errors
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(klassifizierungId)) {
+      return null;
+    }
+
     const entity = await this.docRepo.findOne({
       where: { klassifizierungId },
     });

@@ -7,7 +7,7 @@ import { SearchResults } from '../components/organisms/SearchResults';
 import { Spinner, Button } from '../components/atoms';
 import { useSearchStore } from '../store/useSearchStore';
 import { useSearch } from '../hooks/useSearch';
-import { BarChart3, Search } from 'lucide-react';
+import { ArrowLeft, BarChart3, Search } from 'lucide-react';
 
 export function ResultsPage() {
   const navigate = useNavigate();
@@ -46,11 +46,24 @@ export function ResultsPage() {
   return (
     <SearchLayout title={t('results.title')}>
       <div className="space-y-4 md:space-y-6">
-        <SearchBar
-          onSearch={handleSearch}
-          isLoading={searchMutation.isPending}
-          initialValue={queryParam || suchbegriff}
-        />
+        <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate('/search')}
+            className="flex-shrink-0 min-h-[44px] min-w-[44px]"
+          >
+            <ArrowLeft className="h-4 w-4 mr-1" />
+            <span className="hidden sm:inline">{t('common.back')}</span>
+          </Button>
+          <div className="flex-1">
+            <SearchBar
+              onSearch={handleSearch}
+              isLoading={searchMutation.isPending}
+              initialValue={queryParam || suchbegriff}
+            />
+          </div>
+        </div>
 
         {selectedArticles.length > 0 && (
           <div className="flex items-center gap-3 bg-primary-50 border border-primary-200 rounded-xl p-3">

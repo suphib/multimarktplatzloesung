@@ -302,7 +302,7 @@ const MOCK_ARTIKEL: Artikel[] = [
     marktplatz: Marktplatz.AMAZON_BUSINESS,
     lieferant: 'Logitech Europe S.A.',
     lieferzeit: '5-7 Werktage',
-    bildUrl: 'https://images.unsplash.com/photo-1587825140708-dfaf18c4a170?w=400&h=300&fit=crop',
+    bildUrl: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=400&h=300&fit=crop',
     nachhaltigkeitslabel: [],
     verfuegbar: true,
     artikelnummer: 'LOG-RALLY-BAR',
@@ -454,7 +454,7 @@ const MOCK_ARTIKEL: Artikel[] = [
     marktplatz: Marktplatz.MERCATEO,
     lieferant: 'Sartorius AG',
     lieferzeit: '7-10 Werktage',
-    bildUrl: 'https://images.unsplash.com/photo-1581093458791-9f3c3250a8b0?w=400&h=300&fit=crop',
+    bildUrl: 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400&h=300&fit=crop',
     nachhaltigkeitslabel: [],
     verfuegbar: true,
     artikelnummer: 'SART-Q224-1S',
@@ -482,7 +482,7 @@ const MOCK_ARTIKEL: Artikel[] = [
     marktplatz: Marktplatz.CONRAD,
     lieferant: 'VWR International GmbH',
     lieferzeit: '2-3 Werktage',
-    bildUrl: 'https://images.unsplash.com/photo-1616711906333-23cf7b666ca5?w=400&h=300&fit=crop',
+    bildUrl: 'https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?w=400&h=300&fit=crop',
     nachhaltigkeitslabel: [],
     verfuegbar: true,
     artikelnummer: 'VWR-IPA999-25',
@@ -528,7 +528,7 @@ const MOCK_ARTIKEL: Artikel[] = [
     marktplatz: Marktplatz.MERCATEO,
     lieferant: 'Raspberry Pi Ltd.',
     lieferzeit: '2-4 Werktage',
-    bildUrl: 'https://images.unsplash.com/photo-1629292176988-4cc0d23213f0?w=400&h=300&fit=crop',
+    bildUrl: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=300&fit=crop',
     nachhaltigkeitslabel: [],
     verfuegbar: true,
     artikelnummer: 'RPI5-8G-KIT',
@@ -558,10 +558,11 @@ export class SearchService {
     const marktplaetze = dto.marktplaetze ?? [Marktplatz.AMAZON_BUSINESS, Marktplatz.MERCATEO, Marktplatz.CONRAD];
 
     let ergebnisse = MOCK_ARTIKEL.filter((a) => {
+      const marktplatzMatch = marktplaetze.includes(a.marktplatz);
+      if (suchbegriff === 'alle') return marktplatzMatch;
       const textMatch =
         a.bezeichnung.toLowerCase().includes(suchbegriff) ||
         a.beschreibung.toLowerCase().includes(suchbegriff);
-      const marktplatzMatch = marktplaetze.includes(a.marktplatz);
       return textMatch && marktplatzMatch;
     });
 
@@ -575,7 +576,36 @@ export class SearchService {
       ergebnisse = ergebnisse.filter((a) => a.nachhaltigkeitslabel.length > 0);
     }
 
-    // Fuzzy: wenn keine exakten Treffer
+    // Kategorie-basierte Suche: Suchbegriff auf Kategorie-Keywords mappen
+    const kategorieKeywords: Record<string, string[]> = {
+      labor: ['säure', 'pipette', 'schutzbrille', 'waage', 'handschuh', 'isopropanol', 'laborqualität', 'laboranwendung'],
+      laptop: ['laptop', 'notebook', 'macbook', 'surface', 'latitude', 'thinkpad', 'elitebook', 'probook'],
+      monitor: ['monitor', 'bildschirm', 'display', 'ultrasharp', 'thinkvision', 'odyssey'],
+      drucker: ['drucker', 'laser', 'mfc', 'toner'],
+      schreibtisch: ['schreibtisch', 'bekant', 'stehschreibtisch'],
+      stuhl: ['stuhl', 'aeron', 'bürostuhl'],
+      desktop: ['desktop', 'optiplex', 'thinkcentre', 'tower'],
+      peripherie: ['maus', 'tastatur', 'headset', 'webcam', 'dock', 'monitorarm', 'rally'],
+      bürobedarf: ['papier', 'ordner', 'post-it', 'haftnotiz'],
+      messtechnik: ['multimeter', 'gpu', 'raspberry', 'nas', 'nvidia', 'oszilloskop'],
+    };
+
+    // Kategorie-Expansion: immer anwenden um verwandte Produkte zu finden
+    const katEntry = Object.entries(kategorieKeywords).find(([kat, keywords]) =>
+      suchbegriff.includes(kat) || keywords.some((kw) => suchbegriff.includes(kw)),
+    );
+    if (katEntry) {
+      const [, keywords] = katEntry;
+      const katErgebnisse = MOCK_ARTIKEL.filter((a) => {
+        const text = (a.bezeichnung + ' ' + a.beschreibung).toLowerCase();
+        return keywords.some((kw) => text.includes(kw)) && marktplaetze.includes(a.marktplatz);
+      });
+      // Merge: bestehende + neue, ohne Duplikate
+      const existingIds = new Set(ergebnisse.map((a) => a.id));
+      katErgebnisse.forEach((a) => { if (!existingIds.has(a.id)) ergebnisse.push(a); });
+    }
+
+    // Fuzzy: wenn immer noch keine Treffer
     if (ergebnisse.length === 0) {
       const worte = suchbegriff.split(/\s+/);
       ergebnisse = MOCK_ARTIKEL.filter((a) => {
@@ -585,7 +615,7 @@ export class SearchService {
     }
 
     const seite = dto.seite ?? 1;
-    const proSeite = dto.proSeite ?? 20;
+    const proSeite = dto.proSeite ?? 50;
     const gesamt = ergebnisse.length;
     const paginiert = ergebnisse.slice((seite - 1) * proSeite, seite * proSeite);
 
@@ -621,13 +651,13 @@ export class SearchService {
     ergebnisse.forEach((a) => {
       let kat = 'Sonstiges';
       const lower = a.bezeichnung.toLowerCase();
-      if (lower.includes('laptop') || lower.includes('notebook') || lower.includes('macbook') || lower.includes('surface')) kat = 'Laptops';
-      else if (lower.includes('monitor') || lower.includes('bildschirm')) kat = 'Monitore';
+      if (lower.includes('laptop') || lower.includes('notebook') || lower.includes('macbook') || lower.includes('surface') || lower.includes('elitebook') || lower.includes('latitude') || lower.includes('thinkpad')) kat = 'Laptops';
+      else if ((lower.includes('monitor') || lower.includes('bildschirm') || lower.includes('odyssey') || lower.includes('ultrasharp') || lower.includes('thinkvision')) && !lower.includes('monitorarm')) kat = 'Monitore';
       else if (lower.includes('stuhl') || lower.includes('aeron')) kat = 'Bürostühle';
       else if (lower.includes('schreibtisch') || lower.includes('bekant')) kat = 'Schreibtische';
       else if (lower.includes('drucker') || lower.includes('laser') || lower.includes('mfc')) kat = 'Drucker';
       else if (lower.includes('desktop') || lower.includes('optiplex') || lower.includes('thinkcentre')) kat = 'Desktop PCs';
-      else if (lower.includes('maus') || lower.includes('tastatur') || lower.includes('headset') || lower.includes('webcam') || lower.includes('dock') || lower.includes('arm') || lower.includes('rally')) kat = 'Peripherie';
+      else if (lower.includes('maus') || lower.includes('tastatur') || lower.includes('headset') || lower.includes('webcam') || lower.includes('dock') || lower.includes('monitorarm') || lower.includes('rally')) kat = 'Peripherie';
       else if (lower.includes('papier') || lower.includes('ordner') || lower.includes('post-it')) kat = 'Bürobedarf';
       else if (lower.includes('säure') || lower.includes('pipette') || lower.includes('schutzbrille') || lower.includes('waage') || lower.includes('handschuh') || lower.includes('isopropanol')) kat = 'Laborbedarf';
       else if (lower.includes('multimeter') || lower.includes('gpu') || lower.includes('raspberry') || lower.includes('nas') || lower.includes('nvidia')) kat = 'Messtechnik & Spezial-IT';

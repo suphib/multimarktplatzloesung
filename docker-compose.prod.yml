@@ -1,8 +1,19 @@
 version: '3.8'
 
+networks:
+  procurement-network:
+    name: procurement-dlr
+    driver: bridge
+  # Connect to casamanager's nginx proxy network
+  casamanager-demo:
+    external: true
+    name: casamanager-demo
+
 services:
   postgres:
     image: pgvector/pgvector:pg16
+    container_name: procurement-postgres
+    restart: unless-stopped
     environment:
       POSTGRES_USER: procurement
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-procurement_secret}
@@ -14,28 +25,41 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - procurement-network
 
   redis:
     image: redis:7-alpine
+    container_name: procurement-redis
+    restart: unless-stopped
     volumes:
       - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - procurement-network
 
   api:
     build:
       context: .
       dockerfile: apps/api/Dockerfile
-    ports:
-      - '3000:3000'
+    container_name: procurement-api
+    restart: unless-stopped
     environment:
-      DATABASE_HOST: postgres
+      DATABASE_HOST: procurement-postgres
       DATABASE_PORT: 5432
       DATABASE_USERNAME: procurement
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:-procurement_secret}
       DATABASE_NAME: procurement_ai
-      REDIS_HOST: redis
+      REDIS_HOST: procurement-redis
       REDIS_PORT: 6379
-      AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY}
-      AZURE_OPENAI_ENDPOINT: ${AZURE_OPENAI_ENDPOINT}
+      API_PORT: 3000
+      API_PREFIX: api/v1
+      AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY:-}
+      AZURE_OPENAI_ENDPOINT: ${AZURE_OPENAI_ENDPOINT:-}
       AZURE_OPENAI_API_VERSION: ${AZURE_OPENAI_API_VERSION:-2024-02-01}
       AZURE_OPENAI_DEPLOYMENT_CHAT: ${AZURE_OPENAI_DEPLOYMENT_CHAT:-gpt-4}
       AZURE_OPENAI_DEPLOYMENT_EMBEDDING: ${AZURE_OPENAI_DEPLOYMENT_EMBEDDING:-text-embedding-ada-002}
@@ -43,16 +67,21 @@ services:
       postgres:
         condition: service_healthy
       redis:
-        condition: service_started
+        condition: service_healthy
+    networks:
+      - procurement-network
 
   web:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
-    ports:
-      - '80:80'
+    container_name: procurement-web
+    restart: unless-stopped
     depends_on:
       - api
+    networks:
+      - procurement-network
+      - casamanager-demo
 
 volumes:
   postgres_data:
