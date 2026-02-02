@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -28,7 +29,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  const port = process.env.API_PORT || 3000;
+  const configService = app.get(ConfigService);
+  const port = configService.get('API_PORT', 3050);
   await app.listen(port);
   console.log(`API läuft auf http://localhost:${port}`);
   console.log(`Swagger UI: http://localhost:${port}/api/docs`);
