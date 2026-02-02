@@ -66,6 +66,28 @@ async function seed() {
       cpvCodes: '30232000',
       maxVolumen: 150000,
     },
+    {
+      id: uuidv4(),
+      bezeichnung: 'Laborchemikalien und Verbrauchsmaterial',
+      beschreibung:
+        'Rahmenvertrag für Laborchemikalien (Säuren, Lösungsmittel, Reagenzien), Einwegmaterial (Handschuhe, Pipettenspitzen) und Laborglas. Gefahrstofflagerung inklusive.',
+      lieferant: 'Carl Roth GmbH + Co. KG',
+      vertragsnummer: 'RV-2024-LAB-005',
+      gueltigBis: new Date('2026-06-30'),
+      cpvCodes: '24300000,33140000,38437000',
+      maxVolumen: 250000,
+    },
+    {
+      id: uuidv4(),
+      bezeichnung: 'Konferenztechnik und AV-Systeme',
+      beschreibung:
+        'Rahmenvertrag für Videokonferenzsysteme, Beamer, interaktive Displays und Audio-/Videozubehör für Besprechungsräume.',
+      lieferant: 'Logitech Europe S.A.',
+      vertragsnummer: 'RV-2024-AV-006',
+      gueltigBis: new Date('2026-09-30'),
+      cpvCodes: '32232000,32321200,38652000',
+      maxVolumen: 180000,
+    },
   ];
 
   for (const rv of rahmenvertraege) {
