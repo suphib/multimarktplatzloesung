@@ -5,6 +5,7 @@ import { SearchResults } from '../components/organisms/SearchResults';
 import { Spinner, Button } from '../components/atoms';
 import { useSearchStore } from '../store/useSearchStore';
 import { useSearch } from '../hooks/useSearch';
+import { BarChart3 } from 'lucide-react';
 
 export function ResultsPage() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export function ResultsPage() {
 
   return (
     <SearchLayout title="Suchergebnisse">
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         <SearchBar
           onSearch={handleSearch}
           isLoading={searchMutation.isPending}
@@ -39,9 +40,10 @@ export function ResultsPage() {
         />
 
         {selectedArticles.length > 0 && (
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">
-              {selectedArticles.length} Artikel ausgewaehlt
+          <div className="flex items-center gap-3 bg-primary-50 border border-primary-200 rounded-xl p-3">
+            <BarChart3 className="h-5 w-5 text-primary-600 flex-shrink-0" />
+            <span className="text-sm text-primary-800 flex-1">
+              {selectedArticles.length} Artikel ausgewählt
             </span>
             <Button size="sm" onClick={() => navigate('/compare')}>
               Vergleichen

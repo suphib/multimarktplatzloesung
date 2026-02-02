@@ -20,14 +20,15 @@ export function DetailLayout({ children, title, backTo }: DetailLayoutProps) {
             variant="ghost"
             size="sm"
             onClick={() => (backTo ? navigate(backTo) : navigate(-1))}
+            className="min-h-[44px] min-w-[44px]"
           >
             <ArrowLeft className="h-4 w-4 mr-1" />
-            Zurueck
+            <span className="hidden sm:inline">Zurück</span>
           </Button>
-          <h1 className="font-semibold text-gray-900 truncate">{title}</h1>
+          <h1 className="font-semibold text-gray-900 truncate text-sm sm:text-base">{title}</h1>
         </div>
       </header>
-      <main className="max-w-4xl mx-auto px-4 py-6">{children}</main>
+      <main className="max-w-4xl mx-auto px-4 py-4 md:py-6">{children}</main>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import type { Artikel, Aggregationen } from '@procurement/shared';
 import { ArticleCard } from '../molecules/ArticleCard';
 import { Badge } from '../atoms';
+import { Search } from 'lucide-react';
 
 interface SearchResultsProps {
   ergebnisse: Artikel[];
@@ -27,11 +28,11 @@ export function SearchResults({
 }: SearchResultsProps) {
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
         <p className="text-sm text-gray-600">
           {gesamt} Ergebnis{gesamt !== 1 ? 'se' : ''} gefunden
         </p>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {aggregationen.marktplaetze.map(({ marktplatz, anzahl }) => (
             <Badge key={marktplatz} variant="default">
               {mpLabels[marktplatz] ?? marktplatz} ({anzahl})
@@ -39,7 +40,7 @@ export function SearchResults({
           ))}
         </div>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-3 md:space-y-4">
         {ergebnisse.map((artikel) => (
           <ArticleCard
             key={artikel.id}
@@ -51,9 +52,10 @@ export function SearchResults({
         ))}
       </div>
       {ergebnisse.length === 0 && (
-        <div className="text-center py-12 text-gray-500">
-          <p className="text-lg">Keine Ergebnisse gefunden</p>
-          <p className="mt-1">Versuchen Sie einen anderen Suchbegriff</p>
+        <div className="text-center py-16">
+          <Search className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+          <p className="text-lg font-medium text-gray-900">Keine Ergebnisse gefunden</p>
+          <p className="text-sm text-gray-500 mt-1">Versuchen Sie einen anderen Suchbegriff</p>
         </div>
       )}
     </div>
