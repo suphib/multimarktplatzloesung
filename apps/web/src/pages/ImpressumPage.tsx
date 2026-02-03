@@ -21,7 +21,7 @@ export function ImpressumPage() {
   const isEn = i18n.language?.startsWith('en');
 
   return (
-    <DetailLayout title={t('footer.imprint')} backTo="/search">
+    <DetailLayout title={t('footer.imprint')}>
       <div className="space-y-6">
         {/* Header Card */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8">

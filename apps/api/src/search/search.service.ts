@@ -577,28 +577,40 @@ export class SearchService {
     }
 
     // Kategorie-basierte Suche: Suchbegriff auf Kategorie-Keywords mappen
-    const kategorieKeywords: Record<string, string[]> = {
-      labor: ['säure', 'pipette', 'schutzbrille', 'waage', 'handschuh', 'isopropanol', 'laborqualität', 'laboranwendung'],
-      laptop: ['laptop', 'notebook', 'macbook', 'surface', 'latitude', 'thinkpad', 'elitebook', 'probook'],
-      monitor: ['monitor', 'bildschirm', 'display', 'ultrasharp', 'thinkvision', 'odyssey'],
-      drucker: ['drucker', 'laser', 'mfc', 'toner'],
-      schreibtisch: ['schreibtisch', 'bekant', 'stehschreibtisch'],
-      stuhl: ['stuhl', 'aeron', 'bürostuhl'],
-      desktop: ['desktop', 'optiplex', 'thinkcentre', 'tower'],
-      peripherie: ['maus', 'tastatur', 'headset', 'webcam', 'dock', 'monitorarm', 'rally'],
-      bürobedarf: ['papier', 'ordner', 'post-it', 'haftnotiz'],
-      messtechnik: ['multimeter', 'gpu', 'raspberry', 'nas', 'nvidia', 'oszilloskop'],
-    };
+    // WICHTIG: Reihenfolge ist entscheidend - spezifischere Begriffe zuerst!
+    const kategorieKeywords: [string, string[], ((text: string) => boolean)?][] = [
+      // Spezifische Begriffe zuerst (vor allgemeineren)
+      ['monitorarm', ['monitorarm', 'monitor arm', 'ergotron', 'bildschirmarm'], (text) => text.includes('monitorarm') || text.includes('monitor arm') || (text.includes('arm') && text.includes('vesa'))],
+      ['videokonferenz', ['rally', 'videobar', 'meetup', 'videokonferenz'], (text) => text.includes('rally') || text.includes('videobar') || text.includes('videokonferenz')],
 
-    // Kategorie-Expansion: immer anwenden um verwandte Produkte zu finden
-    const katEntry = Object.entries(kategorieKeywords).find(([kat, keywords]) =>
-      suchbegriff.includes(kat) || keywords.some((kw) => suchbegriff.includes(kw)),
+      // Allgemeine Kategorien
+      ['labor', ['säure', 'pipette', 'schutzbrille', 'waage', 'handschuh', 'isopropanol', 'laborqualität', 'laboranwendung']],
+      ['laptop', ['laptop', 'notebook', 'macbook', 'surface', 'latitude', 'thinkpad', 'elitebook', 'probook']],
+      ['monitor', ['monitor', 'bildschirm', 'display', 'ultrasharp', 'thinkvision', 'odyssey'], (text) => (text.includes('monitor') || text.includes('bildschirm') || text.includes('odyssey') || text.includes('ultrasharp')) && !text.includes('monitorarm')],
+      ['drucker', ['drucker', 'laser', 'mfc', 'toner', 'laserjet']],
+      ['schreibtisch', ['schreibtisch', 'bekant', 'stehschreibtisch', 'flexispot']],
+      ['stuhl', ['stuhl', 'aeron', 'bürostuhl', 'leap', 'gesture', 'steelcase', 'interstuhl']],
+      ['desktop', ['desktop', 'optiplex', 'thinkcentre', 'tower', 'prodesk']],
+      ['peripherie', ['maus', 'tastatur', 'headset', 'webcam', 'dock', 'docking', 'mx master', 'mx keys', 'jabra', 'brio']],
+      ['bürobedarf', ['papier', 'ordner', 'post-it', 'haftnotiz', 'leitz', 'kopierpapier']],
+      ['messtechnik', ['multimeter', 'gpu', 'raspberry', 'nas', 'nvidia', 'oszilloskop', 'keysight', 'synology']],
+    ];
+
+    // Kategorie-Expansion: finde passende Kategorie
+    const katEntry = kategorieKeywords.find(([kat, keywords]) =>
+      suchbegriff === kat || keywords.some((kw) => suchbegriff.includes(kw)),
     );
+
     if (katEntry) {
-      const [, keywords] = katEntry;
+      const [, keywords, customFilter] = katEntry;
       const katErgebnisse = MOCK_ARTIKEL.filter((a) => {
         const text = (a.bezeichnung + ' ' + a.beschreibung).toLowerCase();
-        return keywords.some((kw) => text.includes(kw)) && marktplaetze.includes(a.marktplatz);
+        if (!marktplaetze.includes(a.marktplatz)) return false;
+        // Verwende custom filter wenn vorhanden, sonst standard keyword matching
+        if (customFilter) {
+          return customFilter(text);
+        }
+        return keywords.some((kw) => text.includes(kw));
       });
       // Merge: bestehende + neue, ohne Duplikate
       const existingIds = new Set(ergebnisse.map((a) => a.id));

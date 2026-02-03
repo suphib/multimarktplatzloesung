@@ -1,12 +1,16 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { AnimatePresence } from 'framer-motion';
 import { SearchLayout } from '../components/templates/SearchLayout';
 import { SearchBar } from '../components/molecules/SearchBar';
+import { AIThinkingProcess } from '../components/organisms/AIThinkingProcess';
+import { ComplianceWarning } from '../components/organisms/ComplianceWarning';
 import { useSearchStore } from '../store/useSearchStore';
 import { useSearch } from '../hooks/useSearch';
 import {
   Sparkles, Shield, BarChart3, FileText,
-  Laptop, Monitor, Armchair, Printer, Mouse, Headphones, Package,
+  Laptop, Monitor, Armchair, Printer, Mouse, Package,
   FlaskConical, Cpu, Tv,
 } from 'lucide-react';
 
@@ -31,13 +35,46 @@ const FEATURE_KEYS = [
   { icon: FileText, tLabel: 'search.features.documentation.label', tDesc: 'search.features.documentation.desc' },
 ] as const;
 
+interface AIThinkingResult {
+  query: string;
+  category: string;
+  eclassCode: string;
+  frameworkContracts: number;
+  recommendation: string;
+  isHazardous: boolean;
+}
+
 export function SearchPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { setSuchbegriff, setSearchResponse } = useSearchStore();
   const searchMutation = useSearch();
 
+  const [isThinking, setIsThinking] = useState(false);
+  const [currentQuery, setCurrentQuery] = useState('');
+  const [showHazardousWarning, setShowHazardousWarning] = useState(false);
+  const [hazardousArticleName, setHazardousArticleName] = useState('');
+
   const handleSearch = async (term: string) => {
+    setCurrentQuery(term);
+    setIsThinking(true);
+  };
+
+  const handleThinkingComplete = async (result: AIThinkingResult) => {
+    setIsThinking(false);
+
+    // Show hazardous warning for dangerous substances
+    if (result.isHazardous) {
+      setHazardousArticleName(result.query);
+      setShowHazardousWarning(true);
+      return;
+    }
+
+    // Proceed with search
+    await performSearch(result.query);
+  };
+
+  const performSearch = async (term: string) => {
     setSuchbegriff(term);
     try {
       const result = await searchMutation.mutateAsync({ suchbegriff: term });
@@ -48,60 +85,100 @@ export function SearchPage() {
     }
   };
 
+  const handleHazardousClose = () => {
+    setShowHazardousWarning(false);
+  };
+
+  const handleInitiateSpecial = () => {
+    setShowHazardousWarning(false);
+    // In a real app, this would open a special procurement workflow
+    performSearch(currentQuery);
+  };
+
   return (
     <SearchLayout title={t('search.title')}>
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-8">
-        <div className="text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-            {t('search.headline')}
-          </h1>
-          <p className="text-gray-500 text-lg">
-            {t('search.subtitle')}
-          </p>
-        </div>
-
-        <div className="w-full max-w-2xl">
-          <SearchBar onSearch={handleSearch} isLoading={searchMutation.isPending} />
-        </div>
-
-        {/* Kategorie-Chips */}
-        <div className="w-full max-w-3xl">
-          <p className="text-sm text-gray-500 mb-3 text-center">
-            {t('search.browseByCategory')}
-          </p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {KATEGORIEN.map(({ tKey, suchbegriff, icon: Icon, anzahl }) => (
-              <button
-                key={tKey}
-                onClick={() => handleSearch(suchbegriff)}
-                disabled={searchMutation.isPending}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-gray-200 bg-white text-sm text-gray-700 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700 transition-all shadow-sm disabled:opacity-50"
-              >
-                <Icon className="h-3.5 w-3.5" />
-                {t(tKey)}
-                <span className="text-xs text-gray-400 ml-0.5">({anzahl})</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Feature-Karten */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-2xl mt-2">
-          {FEATURE_KEYS.map(({ icon: Icon, tLabel, tDesc }) => (
-            <div key={tLabel} className="card text-center">
-              <Icon className="h-6 w-6 text-primary-600 mx-auto mb-2" />
-              <p className="text-sm font-medium">{t(tLabel)}</p>
-              <p className="text-xs text-gray-500 mt-0.5">{t(tDesc)}</p>
+        <AnimatePresence mode="wait">
+          {isThinking ? (
+            <div className="w-full max-w-2xl py-8" key="thinking">
+              <AIThinkingProcess
+                query={currentQuery}
+                onComplete={handleThinkingComplete}
+                isVisible={isThinking}
+              />
             </div>
-          ))}
-        </div>
+          ) : (
+            <div className="w-full flex flex-col items-center gap-8" key="search">
+              <div className="text-center">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+                  {t('search.headline')}
+                </h1>
+                <p className="text-gray-500 text-lg">
+                  {t('search.subtitle')}
+                </p>
+              </div>
 
-        {searchMutation.isError && (
-          <div className="text-red-600 text-sm">
-            {t('search.error')}
-          </div>
-        )}
+              <div className="w-full max-w-2xl">
+                <SearchBar onSearch={handleSearch} isLoading={searchMutation.isPending} />
+              </div>
+
+              {/* Kategorie-Chips */}
+              <div className="w-full max-w-3xl">
+                <p className="text-sm text-gray-500 mb-3 text-center">
+                  {t('search.browseByCategory')}
+                </p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {KATEGORIEN.map(({ tKey, suchbegriff, icon: Icon, anzahl }) => (
+                    <button
+                      key={tKey}
+                      onClick={() => handleSearch(suchbegriff)}
+                      disabled={searchMutation.isPending}
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-gray-200 bg-white text-sm text-gray-700 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700 transition-all shadow-sm disabled:opacity-50"
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                      {t(tKey)}
+                      <span className="text-xs text-gray-400 ml-0.5">({anzahl})</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Feature-Karten */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-2xl mt-2">
+                {FEATURE_KEYS.map(({ icon: Icon, tLabel, tDesc }) => (
+                  <div key={tLabel} className="card text-center">
+                    <Icon className="h-6 w-6 text-primary-600 mx-auto mb-2" />
+                    <p className="text-sm font-medium">{t(tLabel)}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{t(tDesc)}</p>
+                  </div>
+                ))}
+              </div>
+
+              {searchMutation.isError && (
+                <div className="text-red-600 text-sm">
+                  {t('search.error')}
+                </div>
+              )}
+            </div>
+          )}
+        </AnimatePresence>
       </div>
+
+      {/* Hazardous Material Warning Modal */}
+      <AnimatePresence>
+        {showHazardousWarning && (
+          <ComplianceWarning
+            type="hazardous"
+            selectedArticle={{
+              name: hazardousArticleName,
+              price: 0,
+              marketplace: '',
+            }}
+            onClose={handleHazardousClose}
+            onInitiateSpecial={handleInitiateSpecial}
+          />
+        )}
+      </AnimatePresence>
     </SearchLayout>
   );
 }

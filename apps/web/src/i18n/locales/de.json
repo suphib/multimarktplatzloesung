@@ -109,6 +109,8 @@
     "backToResults": "Zurück zu Ergebnissen",
     "possibleSavings": "Mögliche Ersparnis: {{amount}} €",
     "cheapestVsExpensive": "Günstigstes Angebot: {{min}} € vs. teuerstes: {{max}} €",
+    "mixedCategoriesWarning": "Unterschiedliche Produktkategorien im Vergleich",
+    "mixedCategoriesHint": "Sie vergleichen: {{categories}}. Ein aussagekräftiger Preisvergleich ist nur bei gleichen Produkttypen möglich.",
     "classifyingArticle": "Klassifiziere Artikel...",
     "noArticles": "Keine Artikel zum Vergleich",
     "noArticlesHint": "Wählen Sie bis zu 5 Artikel aus den Suchergebnissen.",
@@ -127,10 +129,44 @@
       "weight": "Gewicht",
       "battery": "Akkulaufzeit",
       "sustainability": "Nachhaltigkeit",
-      "deliveryTime": "Lieferzeit"
+      "deliveryTime": "Lieferzeit",
+      "connectivity": "Konnektivität",
+      "resolution": "Auflösung",
+      "panel": "Panel",
+      "ports": "Anschlüsse",
+      "features": "Eigenschaften",
+      "type": "Typ",
+      "backrest": "Rückenlehne",
+      "armrests": "Armlehnen",
+      "mechanism": "Mechanik",
+      "material": "Material",
+      "dimensions": "Maße",
+      "height": "Höhenverstellung",
+      "speed": "Geschwindigkeit",
+      "functions": "Funktionen",
+      "compatibility": "Kompatibilität",
+      "specifications": "Spezifikationen",
+      "standards": "Standards",
+      "safety": "Sicherheit",
+      "format": "Format",
+      "quantity": "Menge",
+      "size": "Größe / Maße"
     },
     "procurementNotice": "Vergaberechts-Hinweis",
-    "procurementNoticeText": "Bei Beschaffungen über 1.000 € netto ist ein dokumentierter Preisvergleich erforderlich. Nutzen Sie die Klassifizierungsfunktion, um den korrekten Beschaffungskanal zu ermitteln und die Vergabedokumentation automatisch zu erstellen."
+    "procurementNoticeText": "Bei Beschaffungen über 1.000 € netto ist ein dokumentierter Preisvergleich erforderlich. Nutzen Sie die Klassifizierungsfunktion, um den korrekten Beschaffungskanal zu ermitteln und die Vergabedokumentation automatisch zu erstellen.",
+    "exportPDF": "Als PDF",
+    "exportExcel": "Als Excel",
+    "save": "Speichern",
+    "load": "Laden",
+    "savedComparisons": "Gespeicherte Vergleiche",
+    "articles": "Artikel",
+    "saveComparison": "Vergleich speichern",
+    "comparisonName": "Name des Vergleichs",
+    "namePlaceholder": "z.B. Bürostühle für Abteilung X",
+    "willSave": "Wird gespeichert",
+    "searchTerm": "Suchbegriff",
+    "cancel": "Abbrechen",
+    "saveButton": "Speichern"
   },
   "supplier": {
     "marketplace": "Marktplatz: {{name}}",
@@ -162,5 +198,45 @@
   "organisms": {
     "noArticlesForComparison": "Keine Artikel zum Vergleich ausgewählt.",
     "selectUpTo5": "Wählen Sie bis zu 5 Artikel aus den Suchergebnissen."
+  },
+  "ai": {
+    "thinking": {
+      "analyzing": "Analysiere",
+      "category": "Kategorie erkannt",
+      "eclass": "eCl@ss Code",
+      "framework": "Prüfe Rahmenverträge",
+      "recommendation": "Empfehlung wird erstellt",
+      "recommendationLabel": "Empfehlung",
+      "checking": "Wird geprüft...",
+      "recommendationDell": "Rahmenvertrag Dell priorisieren (12% günstiger als Marktplatz)",
+      "recommendationDellMonitor": "Rahmenvertrag Dell priorisieren",
+      "recommendationSedus": "Rahmenvertrag Sedus nutzen",
+      "recommendationHazardous": "Sonderbeschaffung erforderlich (Gefahrstoff)",
+      "recommendationNoFramework": "Kein Rahmenvertrag verfügbar – Marktplatzvergleich empfohlen",
+      "recommendationMarketplace": "Marktplatzvergleich empfohlen"
+    }
+  },
+  "compliance": {
+    "warning": {
+      "title": "Compliance-Hinweis",
+      "marketplaceSelected": "Sie haben einen Artikel von {{marketplace}} gewählt.",
+      "frameworkContract": "Rahmenvertrag",
+      "recommended": "Empfohlen",
+      "cheaper": "günstiger",
+      "legalNoticeTitle": "Vergaberechtlicher Hinweis",
+      "legalNoticeText": "Bei verfügbarem Rahmenvertrag ist dieser vorrangig zu nutzen. Abweichungen erfordern eine dokumentierte Begründung.",
+      "selectFramework": "Rahmenvertrag wählen",
+      "proceedAnyway": "Trotzdem fortfahren"
+    },
+    "hazardous": {
+      "title": "Sicherheitshinweis",
+      "classified": "Dieser Artikel ist als GEFAHRSTOFF klassifiziert.",
+      "requiredActions": "Erforderliche Maßnahmen:",
+      "checkOfficer": "Gefahrstoffbeauftragter informiert",
+      "checkStorage": "Lagerkapazität geprüft",
+      "checkSDS": "Sicherheitsdatenblatt angefordert",
+      "initiateSpecial": "Sonderbeschaffung einleiten",
+      "checkAllRequired": "Bitte alle Punkte bestätigen, um fortzufahren"
+    }
   }
 }

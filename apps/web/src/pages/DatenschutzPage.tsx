@@ -36,7 +36,7 @@ export function DatenschutzPage() {
   const isEn = i18n.language?.startsWith('en');
 
   return (
-    <DetailLayout title={t('footer.privacy')} backTo="/search">
+    <DetailLayout title={t('footer.privacy')}>
       <div className="space-y-6">
         {/* Header Card */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8">

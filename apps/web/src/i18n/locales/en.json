@@ -110,6 +110,8 @@
     "backToResults": "Back to Results",
     "possibleSavings": "Potential savings: €{{amount}}",
     "cheapestVsExpensive": "Cheapest offer: €{{min}} vs. most expensive: €{{max}}",
+    "mixedCategoriesWarning": "Different product categories in comparison",
+    "mixedCategoriesHint": "You are comparing: {{categories}}. A meaningful price comparison is only possible with the same product types.",
     "classifyingArticle": "Classifying article...",
     "noArticles": "No articles to compare",
     "noArticlesHint": "Select up to 5 articles from the search results.",
@@ -128,10 +130,44 @@
       "weight": "Weight",
       "battery": "Battery Life",
       "sustainability": "Sustainability",
-      "deliveryTime": "Delivery Time"
+      "deliveryTime": "Delivery Time",
+      "connectivity": "Connectivity",
+      "resolution": "Resolution",
+      "panel": "Panel",
+      "ports": "Ports",
+      "features": "Features",
+      "type": "Type",
+      "backrest": "Backrest",
+      "armrests": "Armrests",
+      "mechanism": "Mechanism",
+      "material": "Material",
+      "dimensions": "Dimensions",
+      "height": "Height Adjustment",
+      "speed": "Speed",
+      "functions": "Functions",
+      "compatibility": "Compatibility",
+      "specifications": "Specifications",
+      "standards": "Standards",
+      "safety": "Safety",
+      "format": "Format",
+      "quantity": "Quantity",
+      "size": "Size / Dimensions"
     },
     "procurementNotice": "Procurement Law Notice",
-    "procurementNoticeText": "For purchases over €1,000 net, a documented price comparison is required. Use the classification function to determine the correct procurement channel and automatically generate the procurement documentation."
+    "procurementNoticeText": "For purchases over €1,000 net, a documented price comparison is required. Use the classification function to determine the correct procurement channel and automatically generate the procurement documentation.",
+    "exportPDF": "Export PDF",
+    "exportExcel": "Export Excel",
+    "save": "Save",
+    "load": "Load",
+    "savedComparisons": "Saved Comparisons",
+    "articles": "articles",
+    "saveComparison": "Save Comparison",
+    "comparisonName": "Comparison Name",
+    "namePlaceholder": "e.g. Office Chairs for Department X",
+    "willSave": "Will be saved",
+    "searchTerm": "Search term",
+    "cancel": "Cancel",
+    "saveButton": "Save"
   },
   "supplier": {
     "marketplace": "Marketplace: {{name}}",
@@ -163,5 +199,45 @@
   "organisms": {
     "noArticlesForComparison": "No articles selected for comparison.",
     "selectUpTo5": "Select up to 5 articles from the search results."
+  },
+  "ai": {
+    "thinking": {
+      "analyzing": "Analyzing",
+      "category": "Category identified",
+      "eclass": "eCl@ss Code",
+      "framework": "Checking framework agreements",
+      "recommendation": "Creating recommendation",
+      "recommendationLabel": "Recommendation",
+      "checking": "Checking...",
+      "recommendationDell": "Prioritise Dell framework agreement (12% cheaper than marketplace)",
+      "recommendationDellMonitor": "Prioritise Dell framework agreement",
+      "recommendationSedus": "Use Sedus framework agreement",
+      "recommendationHazardous": "Special procurement required (hazardous substance)",
+      "recommendationNoFramework": "No framework agreement available – marketplace comparison recommended",
+      "recommendationMarketplace": "Marketplace comparison recommended"
+    }
+  },
+  "compliance": {
+    "warning": {
+      "title": "Compliance Notice",
+      "marketplaceSelected": "You have selected an article from {{marketplace}}.",
+      "frameworkContract": "Framework Agreement",
+      "recommended": "Recommended",
+      "cheaper": "cheaper",
+      "legalNoticeTitle": "Procurement Law Notice",
+      "legalNoticeText": "When a framework agreement is available, it must be used as a priority. Deviations require documented justification.",
+      "selectFramework": "Select framework agreement",
+      "proceedAnyway": "Proceed anyway"
+    },
+    "hazardous": {
+      "title": "Safety Notice",
+      "classified": "This article is classified as a HAZARDOUS SUBSTANCE.",
+      "requiredActions": "Required actions:",
+      "checkOfficer": "Hazardous substances officer informed",
+      "checkStorage": "Storage capacity verified",
+      "checkSDS": "Safety data sheet requested",
+      "initiateSpecial": "Initiate special procurement",
+      "checkAllRequired": "Please confirm all items to proceed"
+    }
   }
 }
