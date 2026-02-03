@@ -566,16 +566,6 @@ export class SearchService {
       return textMatch && marktplatzMatch;
     });
 
-    if (dto.preisVon !== undefined) {
-      ergebnisse = ergebnisse.filter((a) => a.preis >= dto.preisVon!);
-    }
-    if (dto.preisBis !== undefined) {
-      ergebnisse = ergebnisse.filter((a) => a.preis <= dto.preisBis!);
-    }
-    if (dto.nurNachhaltig) {
-      ergebnisse = ergebnisse.filter((a) => a.nachhaltigkeitslabel.length > 0);
-    }
-
     // Kategorie-basierte Suche: Suchbegriff auf Kategorie-Keywords mappen
     // WICHTIG: Reihenfolge ist entscheidend - spezifischere Begriffe zuerst!
     const kategorieKeywords: [string, string[], ((text: string) => boolean)?][] = [
@@ -624,6 +614,17 @@ export class SearchService {
         const text = (a.bezeichnung + ' ' + a.beschreibung).toLowerCase();
         return worte.some((w) => text.includes(w)) && marktplaetze.includes(a.marktplatz);
       });
+    }
+
+    // Filter NACH Kategorie-Expansion anwenden
+    if (dto.preisVon !== undefined) {
+      ergebnisse = ergebnisse.filter((a) => a.preis >= dto.preisVon!);
+    }
+    if (dto.preisBis !== undefined) {
+      ergebnisse = ergebnisse.filter((a) => a.preis <= dto.preisBis!);
+    }
+    if (dto.nurNachhaltig) {
+      ergebnisse = ergebnisse.filter((a) => a.nachhaltigkeitslabel.length > 0);
     }
 
     const seite = dto.seite ?? 1;
