@@ -489,6 +489,80 @@ const MOCK_ARTIKEL: Artikel[] = [
   },
 
   // ═══════════════════════════════════════════════════════════════
+  // DIENSTLEISTUNGEN (5) — DLR-relevant
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'svc-001',
+    bezeichnung: 'IT-Support Stundenkontingent',
+    beschreibung: '10h Remote-Support für Softwareprobleme, Systemkonfiguration und technische Beratung. Reaktionszeit < 4h.',
+    preis: 850.00,
+    waehrung: 'EUR',
+    marktplatz: Marktplatz.MERCATEO,
+    lieferant: 'TechService GmbH',
+    lieferzeit: 'Nach Vereinbarung',
+    bildUrl: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400&h=300&fit=crop',
+    nachhaltigkeitslabel: [],
+    verfuegbar: true,
+    artikelnummer: 'TS-SUPPORT-10H',
+  },
+  {
+    id: 'svc-002',
+    bezeichnung: 'Netzwerk-Installation',
+    beschreibung: 'Professionelle Verkabelung und Einrichtung von Netzwerkinfrastruktur bis 20 Arbeitsplätze inkl. Switch-Konfiguration.',
+    preis: 2400.00,
+    waehrung: 'EUR',
+    marktplatz: Marktplatz.CONRAD,
+    lieferant: 'NetWorks Pro',
+    lieferzeit: '5-10 Werktage',
+    bildUrl: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=300&fit=crop',
+    nachhaltigkeitslabel: [],
+    verfuegbar: true,
+    artikelnummer: 'NWP-INSTALL-20',
+  },
+  {
+    id: 'svc-003',
+    bezeichnung: 'Software-Schulung (Gruppentraining)',
+    beschreibung: 'MS Office 365 Schulung für bis zu 12 Teilnehmer, 1 Tag, inkl. Schulungsunterlagen und Zertifikat.',
+    preis: 1200.00,
+    waehrung: 'EUR',
+    marktplatz: Marktplatz.AMAZON_BUSINESS,
+    lieferant: 'Digital Academy',
+    lieferzeit: 'Nach Terminabsprache',
+    bildUrl: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=300&fit=crop',
+    nachhaltigkeitslabel: [],
+    verfuegbar: true,
+    artikelnummer: 'DA-O365-GRUPPE',
+  },
+  {
+    id: 'svc-004',
+    bezeichnung: 'Büroreinigung (monatlich)',
+    beschreibung: 'Professionelle Reinigung für Büroflächen bis 500m², wöchentliche Grundreinigung, monatliche Intensivreinigung.',
+    preis: 450.00,
+    waehrung: 'EUR',
+    marktplatz: Marktplatz.MERCATEO,
+    lieferant: 'CleanOffice GmbH',
+    lieferzeit: 'Wöchentlich',
+    bildUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop',
+    nachhaltigkeitslabel: ['Blauer Engel'],
+    verfuegbar: true,
+    artikelnummer: 'CO-REINIGUNG-M',
+  },
+  {
+    id: 'svc-005',
+    bezeichnung: 'Gerätewartung Laborequipment',
+    beschreibung: 'Kalibrierung und Wartung von Laborgeräten (Waagen, Pipetten, Messgeräte). Inkl. Prüfprotokoll und Zertifikat.',
+    preis: 680.00,
+    waehrung: 'EUR',
+    marktplatz: Marktplatz.CONRAD,
+    lieferant: 'LabService AG',
+    lieferzeit: '2-3 Werktage',
+    bildUrl: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=400&h=300&fit=crop',
+    nachhaltigkeitslabel: [],
+    verfuegbar: true,
+    artikelnummer: 'LS-WARTUNG-LAB',
+  },
+
+  // ═══════════════════════════════════════════════════════════════
   // MESSTECHNIK & SPEZIAL-IT (4) — DLR-relevant
   // ═══════════════════════════════════════════════════════════════
   {
@@ -584,6 +658,7 @@ export class SearchService {
       ['peripherie', ['maus', 'tastatur', 'headset', 'webcam', 'dock', 'docking', 'mx master', 'mx keys', 'jabra', 'brio']],
       ['bürobedarf', ['papier', 'ordner', 'post-it', 'haftnotiz', 'leitz', 'kopierpapier']],
       ['messtechnik', ['multimeter', 'gpu', 'raspberry', 'nas', 'nvidia', 'oszilloskop', 'keysight', 'synology']],
+      ['dienstleistung', ['dienstleistung', 'service', 'support', 'schulung', 'wartung', 'reinigung', 'installation', 'kontingent', 'training']],
     ];
 
     // Kategorie-Expansion: finde passende Kategorie
@@ -674,13 +749,23 @@ export class SearchService {
       else if (lower.includes('papier') || lower.includes('ordner') || lower.includes('post-it')) kat = 'Bürobedarf';
       else if (lower.includes('säure') || lower.includes('pipette') || lower.includes('schutzbrille') || lower.includes('waage') || lower.includes('handschuh') || lower.includes('isopropanol')) kat = 'Laborbedarf';
       else if (lower.includes('multimeter') || lower.includes('gpu') || lower.includes('raspberry') || lower.includes('nas') || lower.includes('nvidia')) kat = 'Messtechnik & Spezial-IT';
+      else if (lower.includes('support') || lower.includes('schulung') || lower.includes('reinigung') || lower.includes('wartung') || lower.includes('installation') || lower.includes('kontingent')) kat = 'Dienstleistungen';
       katMap.set(kat, (katMap.get(kat) ?? 0) + 1);
+    });
+
+    // Lieferanten-Aggregation für Konzentrations-Warnung
+    const lieferantMap = new Map<string, number>();
+    ergebnisse.forEach((a) => {
+      lieferantMap.set(a.lieferant, (lieferantMap.get(a.lieferant) ?? 0) + 1);
     });
 
     return {
       marktplaetze: Array.from(marktplatzMap.entries()).map(([marktplatz, anzahl]) => ({ marktplatz, anzahl })),
       preisbereiche: preisbereiche.filter((p) => p.anzahl > 0),
       kategorien: Array.from(katMap.entries()).map(([bezeichnung, anzahl]) => ({ bezeichnung, anzahl })),
+      lieferanten: Array.from(lieferantMap.entries())
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => b.count - a.count),
     };
   }
 }

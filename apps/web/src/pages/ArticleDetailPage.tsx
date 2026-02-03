@@ -7,7 +7,7 @@ import { ClassificationBadge } from '../components/molecules/ClassificationBadge
 import { useClassify } from '../hooks/useClassify';
 import { useSearchStore } from '../store/useSearchStore';
 import type { Artikel } from '@procurement/shared';
-import { Package, Leaf, Sparkles, FileText } from 'lucide-react';
+import { Package, Leaf, Sparkles, FileText, ExternalLink, BarChart3, Check } from 'lucide-react';
 
 export function ArticleDetailPage() {
   const { id } = useParams();
@@ -15,7 +15,7 @@ export function ArticleDetailPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const classifyMutation = useClassify();
-  const { classifyResult, setClassifyResult } = useSearchStore();
+  const { classifyResult, setClassifyResult, selectedArticles, toggleArticle } = useSearchStore();
 
   const artikel: Artikel | undefined = (location.state as any)?.artikel;
 
@@ -33,6 +33,8 @@ export function ArticleDetailPage() {
       </DetailLayout>
     );
   }
+
+  const isSelected = selectedArticles.some((a) => a.id === artikel.id);
 
   const handleClassify = async () => {
     const result = await classifyMutation.mutateAsync({
@@ -84,6 +86,55 @@ export function ArticleDetailPage() {
                   ))}
                 </div>
               )}
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-2 mt-5 pt-4 border-t border-gray-100">
+                <Button
+                  onClick={() => {
+                    const urls: Record<string, string> = {
+                      AMAZON_BUSINESS: 'https://business.amazon.de',
+                      MERCATEO: 'https://www.mercateo.com',
+                      CONRAD: 'https://www.conrad.de',
+                    };
+                    window.open(urls[artikel.marktplatz] ?? '#', '_blank');
+                  }}
+                  className="flex-1 sm:flex-none"
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  {t('article.goToMarketplace')}
+                </Button>
+                {isSelected ? (
+                  <Button
+                    variant="secondary"
+                    onClick={() => toggleArticle(artikel)}
+                    className="flex-1 sm:flex-none"
+                  >
+                    <Check className="h-4 w-4 mr-2" />
+                    {t('article.removeFromCompare')}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="secondary"
+                    onClick={() => toggleArticle(artikel)}
+                    disabled={selectedArticles.length >= 3}
+                    className="flex-1 sm:flex-none"
+                  >
+                    <BarChart3 className="h-4 w-4 mr-2" />
+                    {selectedArticles.length >= 3
+                      ? t('article.maxCompareReached')
+                      : t('article.addToCompare')}
+                  </Button>
+                )}
+                {selectedArticles.length >= 2 && (
+                  <Button
+                    variant="ghost"
+                    onClick={() => navigate('/compare')}
+                    className="flex-1 sm:flex-none"
+                  >
+                    {t('article.goToCompare')} ({selectedArticles.length})
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </div>

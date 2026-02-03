@@ -31,6 +31,8 @@
     "button": "Suchen",
     "buttonLoading": "Suche...",
     "suggestionsLabel": "Vorschläge ({{count}})",
+    "specialProcurement": "Sonderbeschaffung anfragen",
+    "specialProcurementHint": "Artikel nicht im Katalog? Fordern Sie ein individuelles Angebot von spezialisierten Beschaffungsdienstleistern an.",
     "categories": {
       "laptops": "Laptops",
       "monitors": "Monitore",
@@ -41,6 +43,7 @@
       "peripherals": "Peripherie",
       "lab": "Laborbedarf",
       "measurement": "Messtechnik",
+      "services": "Dienstleistungen",
       "office": "Bürobedarf",
       "all": "Alle Artikel"
     },
@@ -83,8 +86,10 @@
     "compareButton": "Vergleichen",
     "resultCount": "{{count}} Ergebnis gefunden",
     "resultCount_other": "{{count}} Ergebnisse gefunden",
+    "maxReached": "Maximum erreicht",
     "noResults": "Keine Ergebnisse gefunden",
-    "noResultsHint": "Versuchen Sie einen anderen Suchbegriff"
+    "noResultsHint": "Versuchen Sie einen anderen Suchbegriff",
+    "supplierHint": "{{percent}}% der Ergebnisse stammen von {{supplier}}. Für eine faire Preisbildung empfehlen wir den Vergleich mehrerer Lieferanten."
   },
   "article": {
     "notFound": "Artikel nicht gefunden",
@@ -100,7 +105,12 @@
     "classifying": "Klassifiziere...",
     "classifyError": "Fehler bei der Klassifizierung. Bitte versuchen Sie es erneut.",
     "selected": "Ausgewählt ✓",
-    "compareAction": "Vergleichen"
+    "compareAction": "Vergleichen",
+    "maxCompareReached": "Max. 3 erreicht",
+    "addToCompare": "Zum Vergleich hinzufügen",
+    "removeFromCompare": "Aus Vergleich entfernen",
+    "goToMarketplace": "Zum Marktplatz",
+    "goToCompare": "Zum Vergleich"
   },
   "compare": {
     "title": "Preisvergleich",
@@ -113,7 +123,7 @@
     "mixedCategoriesHint": "Sie vergleichen: {{categories}}. Ein aussagekräftiger Preisvergleich ist nur bei gleichen Produkttypen möglich.",
     "classifyingArticle": "Klassifiziere Artikel...",
     "noArticles": "Keine Artikel zum Vergleich",
-    "noArticlesHint": "Wählen Sie bis zu 5 Artikel aus den Suchergebnissen.",
+    "noArticlesHint": "Wählen Sie bis zu 3 Artikel aus den Suchergebnissen.",
     "cheapestOffer": "Günstigstes Angebot",
     "bestPrice": "Bester Preis",
     "cheapest": "Günstigster",
@@ -166,7 +176,11 @@
     "willSave": "Wird gespeichert",
     "searchTerm": "Suchbegriff",
     "cancel": "Abbrechen",
-    "saveButton": "Speichern"
+    "saveButton": "Speichern",
+    "supplierConcentration": {
+      "title": "Lieferantenkonzentration erkannt",
+      "message": "Alle Artikel stammen von {{supplier}}. Für eine vergaberechtskonforme Beschaffung sollten Angebote mehrerer Lieferanten eingeholt werden."
+    }
   },
   "supplier": {
     "marketplace": "Marktplatz: {{name}}",
@@ -193,11 +207,12 @@
   "footer": {
     "copyright": "© 2026 WP Workers GmbH",
     "imprint": "Impressum",
-    "privacy": "Datenschutz"
+    "privacy": "Datenschutz",
+    "prototype": "Prototyp-Version · Demo-Daten"
   },
   "organisms": {
     "noArticlesForComparison": "Keine Artikel zum Vergleich ausgewählt.",
-    "selectUpTo5": "Wählen Sie bis zu 5 Artikel aus den Suchergebnissen."
+    "selectUpTo5": "Wählen Sie bis zu 3 Artikel aus den Suchergebnissen."
   },
   "ai": {
     "thinking": {
@@ -238,5 +253,52 @@
       "initiateSpecial": "Sonderbeschaffung einleiten",
       "checkAllRequired": "Bitte alle Punkte bestätigen, um fortzufahren"
     }
+  },
+  "specialProcurement": {
+    "title": "Sonderbeschaffung für Einmalbedarfe",
+    "subtitle": "Anfrage für Artikel außerhalb der Kataloge oder Rahmenverträge",
+    "info": {
+      "title": "Wann Sonderbeschaffung?",
+      "text": "Nutzen Sie dieses Formular für einmalige Bedarfe, spezialisierte Produkte oder wenn kein passender Rahmenvertrag besteht. Die Anfrage wird an einen qualifizierten Beschaffungsdienstleister weitergeleitet."
+    },
+    "form": {
+      "description": "Bedarfsbeschreibung",
+      "descriptionPlaceholder": "Beschreiben Sie den benötigten Artikel oder die Dienstleistung möglichst genau...",
+      "estimatedCost": "Geschätzte Kosten (EUR)",
+      "urgency": "Dringlichkeit",
+      "category": "Kategorie",
+      "selectCategory": "Kategorie wählen...",
+      "reason": "Begründung (warum kein Rahmenvertrag)",
+      "reasonPlaceholder": "Erklären Sie, warum die regulären Beschaffungswege nicht geeignet sind...",
+      "attachments": "Anhänge (optional)",
+      "uploadHint": "Dateien hier ablegen oder klicken zum Hochladen",
+      "provider": "Beschaffungsdienstleister",
+      "providers": "Beschaffungsdienstleister",
+      "providersHint": "Wählen Sie einen oder mehrere Dienstleister für Angebotsvergleiche",
+      "selectedCount": "{{count}} Dienstleister ausgewählt",
+      "selectedCount_one": "{{count}} Dienstleister ausgewählt",
+      "cancel": "Abbrechen",
+      "submit": "Anfrage senden"
+    },
+    "urgency": {
+      "normal": "Normal (2-4 Wochen)",
+      "urgent": "Eilig (1 Woche)",
+      "critical": "Kritisch (< 3 Tage)"
+    },
+    "errors": {
+      "descriptionRequired": "Bitte beschreiben Sie den Bedarf",
+      "costRequired": "Bitte geben Sie die geschätzten Kosten an",
+      "categoryRequired": "Bitte wählen Sie eine Kategorie",
+      "reasonRequired": "Bitte begründen Sie die Sonderbeschaffung",
+      "providerRequired": "Bitte wählen Sie einen Beschaffungsdienstleister"
+    },
+    "confirmation": {
+      "title": "Anfrage erfolgreich gesendet",
+      "message": "Ihre Sonderbeschaffungsanfrage wurde an {{count}} Dienstleister weitergeleitet: {{providers}}.",
+      "message_one": "Ihre Sonderbeschaffungsanfrage wurde an {{providers}} weitergeleitet.",
+      "summary": "Zusammenfassung",
+      "nextSteps": "Sie erhalten innerhalb von 24h Angebote zum Vergleich."
+    },
+    "files": "Dateien"
   }
 }

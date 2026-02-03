@@ -57,6 +57,8 @@ const DEMO_ARTICLES: Artikel[] = [
   },
 ];
 
+const MAX_COMPARE_ARTICLES = 3;
+
 const mpColors: Record<string, string> = {
   AMAZON_BUSINESS: 'bg-orange-100 text-orange-800',
   MERCATEO: 'bg-blue-100 text-blue-800',
@@ -481,6 +483,10 @@ export function ComparePage() {
   // Check for mixed product categories
   const { isMixed, categories } = getMixedCategoryInfo(articles);
 
+  // Check for supplier concentration (all same supplier)
+  const uniqueSuppliers = [...new Set(articles.map(a => a.lieferant))];
+  const allSameSupplier = articles.length >= 2 && uniqueSuppliers.length === 1;
+
   const minPreis = articles.length > 0 ? Math.min(...articles.map((a) => a.preis)) : 0;
   const maxPreis = articles.length > 0 ? Math.max(...articles.map((a) => a.preis)) : 0;
   const ersparnis = maxPreis - minPreis;
@@ -648,6 +654,19 @@ export function ComparePage() {
           </div>
         )}
 
+        {/* Supplier Concentration Warning */}
+        {allSameSupplier && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+            <AlertTriangle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="font-medium text-amber-800">{t('compare.supplierConcentration.title')}</p>
+              <p className="text-sm text-amber-700 mt-0.5">
+                {t('compare.supplierConcentration.message', { supplier: uniqueSuppliers[0] })}
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Ersparnis-Banner */}
         {articles.length >= 2 && !isMixed && (
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4 flex items-center gap-3">
@@ -761,6 +780,22 @@ export function ComparePage() {
                         </div>
                       </div>
 
+                      {/* Mobile: Specs inline */}
+                      {showSpecs && articles.length >= 2 && (
+                        <div className="mt-3 border-t border-gray-100 pt-3 lg:hidden">
+                          <div className="space-y-0">
+                            {specKeys.map((key, i) => (
+                              specValues[key]?.[a.id] ? (
+                                <div key={key} className={`flex justify-between py-1.5 px-2 rounded ${i % 2 === 0 ? 'bg-gray-50' : ''}`}>
+                                  <span className="text-xs text-gray-400">{t(`compare.specLabels.${key}`, { defaultValue: key })}</span>
+                                  <span className="text-xs text-gray-700 text-right ml-2">{specValues[key][a.id]}</span>
+                                </div>
+                              ) : null
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       <div className="mt-auto pt-4 flex gap-2">
                         <Button
                           variant="secondary"
@@ -785,7 +820,7 @@ export function ComparePage() {
               })}
             </div>
 
-            {/* Spezifikations-Vergleich */}
+            {/* Spezifikations-Toggle */}
             {articles.length >= 2 && (
               <div>
                 <button
@@ -802,8 +837,9 @@ export function ComparePage() {
                     <ChevronDown className="h-4 w-4 text-gray-400" />
                   )}
                 </button>
+                {/* Desktop: Specs side-by-side (hidden on mobile, shown inline in cards instead) */}
                 {showSpecs && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="hidden lg:grid grid-cols-3 gap-4">
                     {articles.map((a) => {
                       const isCheapest = a.preis === minPreis;
                       return (

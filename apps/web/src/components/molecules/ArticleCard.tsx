@@ -6,6 +6,7 @@ import { Badge, PriceTag, Button } from '../atoms';
 interface ArticleCardProps {
   artikel: Artikel;
   isSelected?: boolean;
+  maxReached?: boolean;
   onToggleSelect?: () => void;
   onViewDetail?: () => void;
 }
@@ -16,7 +17,7 @@ const mpColors: Record<string, string> = {
   CONRAD: 'bg-purple-100 text-purple-800 border-purple-200',
 };
 
-export function ArticleCard({ artikel, isSelected, onToggleSelect, onViewDetail }: ArticleCardProps) {
+export function ArticleCard({ artikel, isSelected, maxReached, onToggleSelect, onViewDetail }: ArticleCardProps) {
   const { t } = useTranslation();
   const mpLabel = t(`common.marketplace.${artikel.marktplatz}`, { defaultValue: artikel.marktplatz });
 
@@ -46,19 +47,22 @@ export function ArticleCard({ artikel, isSelected, onToggleSelect, onViewDetail 
         {/* Inhalt */}
         <div className="flex-1 min-w-0 p-4">
           <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0 flex-1">
+            <div
+              onClick={onViewDetail}
+              role={onViewDetail ? 'button' : undefined}
+              className={`min-w-0 flex-1 ${onViewDetail ? 'cursor-pointer group' : ''}`}
+            >
               <div className="hidden sm:block mb-1">
                 <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${mpColors[artikel.marktplatz] ?? 'bg-gray-100 text-gray-700'}`}>
                   {mpLabel}
                 </span>
               </div>
-              <h3
-                onClick={onViewDetail}
-                className={`font-semibold text-gray-900 line-clamp-1 ${onViewDetail ? 'cursor-pointer hover:text-primary-700 transition-colors' : ''}`}
-              >
+              <h3 className="font-semibold text-gray-900 line-clamp-1 group-hover:text-primary-700 transition-colors">
                 {artikel.bezeichnung}
               </h3>
-              <p className="text-sm text-gray-500 mt-1 line-clamp-2">{artikel.beschreibung}</p>
+              <p className="text-sm text-gray-500 mt-1 line-clamp-2 group-hover:text-gray-700 transition-colors">
+                {artikel.beschreibung}
+              </p>
             </div>
             <PriceTag preis={artikel.preis} waehrung={artikel.waehrung} className="text-xl font-bold flex-shrink-0" />
           </div>
@@ -82,8 +86,14 @@ export function ArticleCard({ artikel, isSelected, onToggleSelect, onViewDetail 
               <Button variant="secondary" size="sm" onClick={onViewDetail}>{t('common.details')}</Button>
             )}
             {onToggleSelect && (
-              <Button variant={isSelected ? 'primary' : 'ghost'} size="sm" onClick={onToggleSelect}>
-                {isSelected ? t('article.selected') : t('article.compareAction')}
+              <Button
+                variant={isSelected ? 'primary' : 'ghost'}
+                size="sm"
+                onClick={onToggleSelect}
+                disabled={!isSelected && maxReached}
+                title={!isSelected && maxReached ? t('article.maxCompareReached') : undefined}
+              >
+                {isSelected ? t('article.selected') : maxReached ? t('article.maxCompareReached') : t('article.compareAction')}
               </Button>
             )}
           </div>

@@ -6,6 +6,7 @@ import { ComparePage } from './pages/ComparePage';
 import { DocumentationPage } from './pages/DocumentationPage';
 import { ImpressumPage } from './pages/ImpressumPage';
 import { DatenschutzPage } from './pages/DatenschutzPage';
+import { SpecialProcurementPage } from './pages/SpecialProcurementPage';
 
 export function App() {
   return (
@@ -18,6 +19,7 @@ export function App() {
       <Route path="/documentation/:id" element={<DocumentationPage />} />
       <Route path="/impressum" element={<ImpressumPage />} />
       <Route path="/datenschutz" element={<DatenschutzPage />} />
+      <Route path="/special-procurement" element={<SpecialProcurementPage />} />
     </Routes>
   );
 }

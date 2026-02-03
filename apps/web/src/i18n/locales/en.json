@@ -31,6 +31,8 @@
     "button": "Search",
     "buttonLoading": "Searching...",
     "suggestionsLabel": "Suggestions ({{count}})",
+    "specialProcurement": "Request Special Procurement",
+    "specialProcurementHint": "Item not in the catalogue? Request a custom quote from specialised procurement service providers.",
     "categories": {
       "laptops": "Laptops",
       "monitors": "Monitors",
@@ -41,6 +43,7 @@
       "peripherals": "Peripherals",
       "lab": "Lab Supplies",
       "measurement": "Measurement Tech",
+      "services": "Services",
       "office": "Office Supplies",
       "all": "All Articles"
     },
@@ -84,8 +87,10 @@
     "compareButton": "Compare",
     "resultCount": "{{count}} result found",
     "resultCount_other": "{{count}} results found",
+    "maxReached": "Maximum reached",
     "noResults": "No results found",
-    "noResultsHint": "Try a different search term"
+    "noResultsHint": "Try a different search term",
+    "supplierHint": "{{percent}}% of results are from {{supplier}}. For fair pricing, we recommend comparing multiple suppliers."
   },
   "article": {
     "notFound": "Article not found",
@@ -101,7 +106,12 @@
     "classifying": "Classifying...",
     "classifyError": "Classification failed. Please try again.",
     "selected": "Selected ✓",
-    "compareAction": "Compare"
+    "compareAction": "Compare",
+    "maxCompareReached": "Max. 3 reached",
+    "addToCompare": "Add to Comparison",
+    "removeFromCompare": "Remove from Comparison",
+    "goToMarketplace": "Go to Marketplace",
+    "goToCompare": "Go to Comparison"
   },
   "compare": {
     "title": "Price Comparison",
@@ -114,7 +124,7 @@
     "mixedCategoriesHint": "You are comparing: {{categories}}. A meaningful price comparison is only possible with the same product types.",
     "classifyingArticle": "Classifying article...",
     "noArticles": "No articles to compare",
-    "noArticlesHint": "Select up to 5 articles from the search results.",
+    "noArticlesHint": "Select up to 3 articles from the search results.",
     "cheapestOffer": "Cheapest Offer",
     "bestPrice": "Best Price",
     "cheapest": "Cheapest",
@@ -167,7 +177,11 @@
     "willSave": "Will be saved",
     "searchTerm": "Search term",
     "cancel": "Cancel",
-    "saveButton": "Save"
+    "saveButton": "Save",
+    "supplierConcentration": {
+      "title": "Supplier Concentration Detected",
+      "message": "All articles are from {{supplier}}. For procurement compliance, you should obtain quotes from multiple suppliers."
+    }
   },
   "supplier": {
     "marketplace": "Marketplace: {{name}}",
@@ -194,11 +208,12 @@
   "footer": {
     "copyright": "© 2026 WP Workers GmbH",
     "imprint": "Legal Notice",
-    "privacy": "Privacy Policy"
+    "privacy": "Privacy Policy",
+    "prototype": "Prototype · Demo Data"
   },
   "organisms": {
     "noArticlesForComparison": "No articles selected for comparison.",
-    "selectUpTo5": "Select up to 5 articles from the search results."
+    "selectUpTo5": "Select up to 3 articles from the search results."
   },
   "ai": {
     "thinking": {
@@ -239,5 +254,52 @@
       "initiateSpecial": "Initiate special procurement",
       "checkAllRequired": "Please confirm all items to proceed"
     }
+  },
+  "specialProcurement": {
+    "title": "Special Procurement for One-Time Needs",
+    "subtitle": "Request for items outside catalogues or framework agreements",
+    "info": {
+      "title": "When to Use Special Procurement?",
+      "text": "Use this form for one-time needs, specialised products, or when no suitable framework agreement exists. The request will be forwarded to a qualified procurement service provider."
+    },
+    "form": {
+      "description": "Requirement Description",
+      "descriptionPlaceholder": "Describe the required article or service as precisely as possible...",
+      "estimatedCost": "Estimated Cost (EUR)",
+      "urgency": "Urgency",
+      "category": "Category",
+      "selectCategory": "Select category...",
+      "reason": "Justification (why no framework agreement)",
+      "reasonPlaceholder": "Explain why regular procurement channels are not suitable...",
+      "attachments": "Attachments (optional)",
+      "uploadHint": "Drop files here or click to upload",
+      "provider": "Procurement Service Provider",
+      "providers": "Procurement Service Providers",
+      "providersHint": "Select one or more providers to compare quotes",
+      "selectedCount": "{{count}} providers selected",
+      "selectedCount_one": "{{count}} provider selected",
+      "cancel": "Cancel",
+      "submit": "Submit Request"
+    },
+    "urgency": {
+      "normal": "Normal (2-4 weeks)",
+      "urgent": "Urgent (1 week)",
+      "critical": "Critical (< 3 days)"
+    },
+    "errors": {
+      "descriptionRequired": "Please describe the requirement",
+      "costRequired": "Please provide the estimated cost",
+      "categoryRequired": "Please select a category",
+      "reasonRequired": "Please justify the special procurement",
+      "providerRequired": "Please select a procurement service provider"
+    },
+    "confirmation": {
+      "title": "Request Successfully Submitted",
+      "message": "Your special procurement request has been forwarded to {{count}} providers: {{providers}}.",
+      "message_one": "Your special procurement request has been forwarded to {{providers}}.",
+      "summary": "Summary",
+      "nextSteps": "You will receive quotes for comparison within 24 hours."
+    },
+    "files": "files"
   }
 }

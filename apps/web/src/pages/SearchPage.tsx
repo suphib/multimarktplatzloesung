@@ -11,8 +11,9 @@ import { useSearch } from '../hooks/useSearch';
 import {
   Sparkles, Shield, BarChart3, FileText,
   Laptop, Monitor, Armchair, Printer, Mouse, Package,
-  FlaskConical, Cpu, Tv,
+  FlaskConical, Cpu, Tv, Wrench, FileQuestion,
 } from 'lucide-react';
+
 
 const KATEGORIEN = [
   { tKey: 'search.categories.laptops', suchbegriff: 'Laptop', icon: Laptop, anzahl: 5 },
@@ -24,8 +25,9 @@ const KATEGORIEN = [
   { tKey: 'search.categories.peripherals', suchbegriff: 'Peripherie', icon: Mouse, anzahl: 6 },
   { tKey: 'search.categories.lab', suchbegriff: 'Labor', icon: FlaskConical, anzahl: 6 },
   { tKey: 'search.categories.measurement', suchbegriff: 'Messtechnik', icon: Tv, anzahl: 4 },
+  { tKey: 'search.categories.services', suchbegriff: 'Dienstleistung', icon: Wrench, anzahl: 5 },
   { tKey: 'search.categories.office', suchbegriff: 'Bürobedarf', icon: Package, anzahl: 3 },
-  { tKey: 'search.categories.all', suchbegriff: 'Alle', icon: Package, anzahl: 36 },
+  { tKey: 'search.categories.all', suchbegriff: 'Alle', icon: Package, anzahl: 41 },
 ] as const;
 
 const FEATURE_KEYS = [
@@ -120,6 +122,16 @@ export function SearchPage() {
 
               <div className="w-full max-w-2xl">
                 <SearchBar onSearch={handleSearch} isLoading={searchMutation.isPending} />
+                <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-500">
+                  <FileQuestion className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                  <span>{t('search.specialProcurementHint')}</span>
+                  <button
+                    onClick={() => navigate('/special-procurement')}
+                    className="text-primary-600 hover:text-primary-800 font-medium underline underline-offset-2 whitespace-nowrap"
+                  >
+                    {t('search.specialProcurement')}
+                  </button>
+                </div>
               </div>
 
               {/* Kategorie-Chips */}

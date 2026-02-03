@@ -53,7 +53,7 @@ export const useSearchStore = create<SearchState>()(
         const exists = current.find((a) => a.id === artikel.id);
         if (exists) {
           set({ selectedArticles: current.filter((a) => a.id !== artikel.id) });
-        } else if (current.length < 5) {
+        } else if (current.length < 3) {
           set({ selectedArticles: [...current, artikel] });
         }
       },

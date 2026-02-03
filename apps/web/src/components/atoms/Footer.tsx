@@ -13,7 +13,8 @@ export function Footer() {
       ·{' '}
       <Link to="/datenschutz" className="hover:text-gray-700 underline-offset-2 hover:underline">
         {t('footer.privacy')}
-      </Link>
+      </Link>{' '}
+      · <span className="text-gray-400">{t('footer.prototype')}</span>
     </footer>
   );
 }

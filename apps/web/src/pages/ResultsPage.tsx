@@ -117,6 +117,9 @@ export function ResultsPage() {
             <BarChart3 className="h-5 w-5 text-primary-600 flex-shrink-0" />
             <span className="text-sm text-primary-800 flex-1">
               {t('results.articlesSelected', { count: selectedArticles.length })}
+              {selectedArticles.length >= 3 && (
+                <span className="text-xs text-primary-600 ml-1">({t('results.maxReached')})</span>
+              )}
             </span>
             <Button size="sm" onClick={() => navigate('/compare')}>
               {t('results.compareButton')}

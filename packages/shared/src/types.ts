@@ -93,6 +93,7 @@ export interface Aggregationen {
   marktplaetze: { marktplatz: Marktplatz; anzahl: number }[];
   preisbereiche: { von: number; bis: number; anzahl: number }[];
   kategorien: { bezeichnung: string; anzahl: number }[];
+  lieferanten?: { name: string; count: number }[];
 }
 
 // ─── Documentation ───────────────────────────────────────────────
