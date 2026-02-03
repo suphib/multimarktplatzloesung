@@ -70,7 +70,7 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/procurement-ai || exit 1
+            cd /opt/casamanager/procurement || exit 1
             echo "📥 Pulling latest changes..."
             git pull origin main
             echo "🐳 Rebuilding Docker containers..."
