@@ -63,6 +63,7 @@ const mpColors: Record<string, string> = {
   AMAZON_BUSINESS: 'bg-orange-100 text-orange-800',
   MERCATEO: 'bg-blue-100 text-blue-800',
   CONRAD: 'bg-purple-100 text-purple-800',
+  RAHMENVERTRAG: 'bg-green-100 text-green-800',
 };
 
 // Universal spec keys - same for all products

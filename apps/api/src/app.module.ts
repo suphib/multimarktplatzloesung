@@ -7,9 +7,12 @@ import { DocumentationModule } from './documentation/documentation.module';
 import { EmbeddingModule } from './embedding/embedding.module';
 import { HealthModule } from './health/health.module';
 import { AiModule } from './ai/ai.module';
+import { AdminModule } from './admin/admin.module';
 import { ClassificationEntity } from './classification/entities/classification.entity';
 import { DocumentationEntity } from './documentation/entities/documentation.entity';
 import { RahmenvertragEntity } from './embedding/entities/rahmenvertrag.entity';
+import { FrameworkContractEntity } from './search/entities/framework-contract.entity';
+import { ShopConfigEntity } from './admin/entities/shop-config.entity';
 
 @Module({
   imports: [
@@ -31,6 +34,8 @@ import { RahmenvertragEntity } from './embedding/entities/rahmenvertrag.entity';
           ClassificationEntity,
           DocumentationEntity,
           RahmenvertragEntity,
+          FrameworkContractEntity,
+          ShopConfigEntity,
         ],
         synchronize: true, // Nur für Entwicklung
         logging: config.get('NODE_ENV') === 'development',
@@ -42,6 +47,7 @@ import { RahmenvertragEntity } from './embedding/entities/rahmenvertrag.entity';
     EmbeddingModule,
     HealthModule,
     AiModule,
+    AdminModule,
   ],
 })
 export class AppModule {}

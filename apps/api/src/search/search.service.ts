@@ -1,7 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { Marktplatz, Artikel, SearchResponse, Aggregationen } from '@procurement/shared';
 import { SearchRequestDto } from './dto/search-request.dto';
+import { FrameworkContractEntity } from './entities/framework-contract.entity';
 
 const MOCK_ARTIKEL: Artikel[] = [
   // ═══════════════════════════════════════════════════════════════
@@ -627,12 +630,111 @@ const MOCK_ARTIKEL: Artikel[] = [
 export class SearchService {
   private readonly logger = new Logger(SearchService.name);
 
+  constructor(
+    @InjectRepository(FrameworkContractEntity)
+    private readonly frameworkContractRepo: Repository<FrameworkContractEntity>,
+  ) {}
+
   async search(dto: SearchRequestDto): Promise<SearchResponse> {
     const suchbegriff = dto.suchbegriff.toLowerCase();
-    const marktplaetze = dto.marktplaetze ?? [Marktplatz.AMAZON_BUSINESS, Marktplatz.MERCATEO, Marktplatz.CONRAD];
+    const marktplaetze = dto.marktplaetze ?? [
+      Marktplatz.AMAZON_BUSINESS,
+      Marktplatz.MERCATEO,
+      Marktplatz.CONRAD,
+      Marktplatz.RAHMENVERTRAG,
+    ];
+
+    const [localResults, marketplaceResults] = await Promise.all([
+      this.searchLocalContracts(suchbegriff, marktplaetze),
+      this.searchExternalMarketplaces(suchbegriff, marktplaetze),
+    ]);
+
+    // Framework contracts first (procurement compliance priority)
+    let ergebnisse = [...localResults, ...marketplaceResults];
+
+    // Filter NACH Zusammenführung anwenden
+    if (dto.preisVon !== undefined) {
+      ergebnisse = ergebnisse.filter((a) => a.preis >= dto.preisVon!);
+    }
+    if (dto.preisBis !== undefined) {
+      ergebnisse = ergebnisse.filter((a) => a.preis <= dto.preisBis!);
+    }
+    if (dto.nurNachhaltig) {
+      ergebnisse = ergebnisse.filter((a) => a.nachhaltigkeitslabel.length > 0);
+    }
+
+    const seite = dto.seite ?? 1;
+    const proSeite = dto.proSeite ?? 50;
+    const gesamt = ergebnisse.length;
+    const paginiert = ergebnisse.slice((seite - 1) * proSeite, seite * proSeite);
+
+    return {
+      ergebnisse: paginiert,
+      gesamt,
+      seite,
+      proSeite,
+      aggregationen: this.berechneAggregationen(ergebnisse),
+    };
+  }
+
+  private mapFrameworkContractToArtikel(fc: FrameworkContractEntity): Artikel {
+    return {
+      id: fc.id,
+      bezeichnung: fc.titel,
+      beschreibung: fc.beschreibung ?? '',
+      preis: Number(fc.preis),
+      waehrung: fc.waehrung ?? 'EUR',
+      marktplatz: Marktplatz.RAHMENVERTRAG,
+      lieferant: fc.lieferant,
+      lieferzeit: fc.lieferzeit ?? 'Laut Rahmenvertrag',
+      bildUrl: fc.bildUrl ?? undefined,
+      nachhaltigkeitslabel: fc.nachhaltigkeitslabel
+        ? fc.nachhaltigkeitslabel.split(',').map((s) => s.trim()).filter(Boolean)
+        : [],
+      verfuegbar: fc.verfuegbar ?? true,
+      artikelnummer: fc.artikelnummer ?? fc.rahmenvertragsNummer,
+    };
+  }
+
+  private async searchLocalContracts(
+    suchbegriff: string,
+    marktplaetze: Marktplatz[],
+  ): Promise<Artikel[]> {
+    if (!marktplaetze.includes(Marktplatz.RAHMENVERTRAG)) {
+      return [];
+    }
+
+    try {
+      const term = `%${suchbegriff}%`;
+      const entities = await this.frameworkContractRepo
+        .createQueryBuilder('fc')
+        .where(
+          'LOWER(fc.titel) LIKE :term OR LOWER(fc.beschreibung) LIKE :term OR LOWER(fc.lieferant) LIKE :term',
+          { term },
+        )
+        .getMany();
+
+      return entities.map((fc) => this.mapFrameworkContractToArtikel(fc));
+    } catch (error) {
+      this.logger.warn(
+        'Fehler beim Abfragen der Rahmenvertrags-Artikel, fahre ohne lokale Ergebnisse fort',
+        error,
+      );
+      return [];
+    }
+  }
+
+  private searchExternalMarketplaces(
+    suchbegriff: string,
+    marktplaetze: Marktplatz[],
+  ): Artikel[] {
+    // Filter out RAHMENVERTRAG — not an external marketplace
+    const externalMarktplaetze: Marktplatz[] = marktplaetze.filter(
+      (m) => m !== Marktplatz.RAHMENVERTRAG,
+    );
 
     let ergebnisse = MOCK_ARTIKEL.filter((a) => {
-      const marktplatzMatch = marktplaetze.includes(a.marktplatz);
+      const marktplatzMatch = externalMarktplaetze.includes(a.marktplatz);
       if (suchbegriff === 'alle') return marktplatzMatch;
       const textMatch =
         a.bezeichnung.toLowerCase().includes(suchbegriff) ||
@@ -670,7 +772,7 @@ export class SearchService {
       const [, keywords, customFilter] = katEntry;
       const katErgebnisse = MOCK_ARTIKEL.filter((a) => {
         const text = (a.bezeichnung + ' ' + a.beschreibung).toLowerCase();
-        if (!marktplaetze.includes(a.marktplatz)) return false;
+        if (!externalMarktplaetze.includes(a.marktplatz)) return false;
         // Verwende custom filter wenn vorhanden, sonst standard keyword matching
         if (customFilter) {
           return customFilter(text);
@@ -687,33 +789,11 @@ export class SearchService {
       const worte = suchbegriff.split(/\s+/);
       ergebnisse = MOCK_ARTIKEL.filter((a) => {
         const text = (a.bezeichnung + ' ' + a.beschreibung).toLowerCase();
-        return worte.some((w) => text.includes(w)) && marktplaetze.includes(a.marktplatz);
+        return worte.some((w) => text.includes(w)) && externalMarktplaetze.includes(a.marktplatz);
       });
     }
 
-    // Filter NACH Kategorie-Expansion anwenden
-    if (dto.preisVon !== undefined) {
-      ergebnisse = ergebnisse.filter((a) => a.preis >= dto.preisVon!);
-    }
-    if (dto.preisBis !== undefined) {
-      ergebnisse = ergebnisse.filter((a) => a.preis <= dto.preisBis!);
-    }
-    if (dto.nurNachhaltig) {
-      ergebnisse = ergebnisse.filter((a) => a.nachhaltigkeitslabel.length > 0);
-    }
-
-    const seite = dto.seite ?? 1;
-    const proSeite = dto.proSeite ?? 50;
-    const gesamt = ergebnisse.length;
-    const paginiert = ergebnisse.slice((seite - 1) * proSeite, seite * proSeite);
-
-    return {
-      ergebnisse: paginiert,
-      gesamt,
-      seite,
-      proSeite,
-      aggregationen: this.berechneAggregationen(ergebnisse),
-    };
+    return ergebnisse;
   }
 
   private berechneAggregationen(ergebnisse: Artikel[]): Aggregationen {

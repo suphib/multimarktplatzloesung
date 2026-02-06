@@ -1,13 +1,34 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { SearchService } from './search.service';
+import { FrameworkContractEntity } from './entities/framework-contract.entity';
 import { Marktplatz } from '@procurement/shared';
+
+const mockQueryBuilder = {
+  where: jest.fn().mockReturnThis(),
+  getMany: jest.fn().mockResolvedValue([]),
+};
+
+const mockRepository = {
+  createQueryBuilder: jest.fn().mockReturnValue(mockQueryBuilder),
+};
 
 describe('SearchService', () => {
   let service: SearchService;
 
   beforeEach(async () => {
+    mockQueryBuilder.getMany.mockResolvedValue([]);
+    mockQueryBuilder.where.mockReturnThis();
+    mockRepository.createQueryBuilder.mockReturnValue(mockQueryBuilder);
+
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SearchService],
+      providers: [
+        SearchService,
+        {
+          provide: getRepositoryToken(FrameworkContractEntity),
+          useValue: mockRepository,
+        },
+      ],
     }).compile();
 
     service = module.get(SearchService);
@@ -94,5 +115,48 @@ describe('SearchService', () => {
     );
     expect(dienstleistungsKategorie).toBeDefined();
     expect(dienstleistungsKategorie!.anzahl).toBeGreaterThan(0);
+  });
+
+  // ═══════════════════════════════════════════════════════════════
+  // Tests für Rahmenvertrags-Artikel (Framework Contracts)
+  // ═══════════════════════════════════════════════════════════════
+
+  it('sollte Rahmenvertrags-Artikel in Aggregationen aufnehmen', async () => {
+    mockQueryBuilder.getMany.mockResolvedValueOnce([
+      {
+        id: 'fc-test-1',
+        titel: 'Dell Latitude 5550 Laptop (Rahmenvertrag)',
+        beschreibung: '15.6 Zoll Business Laptop',
+        lieferant: 'Bechtle AG',
+        preis: 1049,
+        waehrung: 'EUR',
+        rahmenvertragsNummer: 'RV-2024-IT-001',
+        artikelnummer: 'RV-DELL-5550',
+        nachhaltigkeitslabel: 'Energy Star',
+        lieferzeit: 'Laut Rahmenvertrag',
+        bildUrl: null,
+        verfuegbar: true,
+        erstelltAm: new Date(),
+        cpvCodes: '30213100',
+      },
+    ]);
+
+    const result = await service.search({ suchbegriff: 'Laptop' });
+    const rvAgg = result.aggregationen.marktplaetze.find(
+      (m) => m.marktplatz === Marktplatz.RAHMENVERTRAG,
+    );
+    expect(rvAgg).toBeDefined();
+    expect(rvAgg!.anzahl).toBeGreaterThan(0);
+    // Framework contract item should appear first
+    expect(result.ergebnisse[0].marktplatz).toBe(Marktplatz.RAHMENVERTRAG);
+  });
+
+  it('sollte bei DB-Fehler dennoch Marktplatz-Ergebnisse liefern', async () => {
+    mockQueryBuilder.getMany.mockRejectedValueOnce(new Error('DB connection failed'));
+
+    const result = await service.search({ suchbegriff: 'Laptop' });
+    // Should still return marketplace results despite DB error
+    expect(result.ergebnisse.length).toBeGreaterThan(0);
+    expect(result.ergebnisse.every((a) => a.marktplatz !== Marktplatz.RAHMENVERTRAG)).toBe(true);
   });
 });

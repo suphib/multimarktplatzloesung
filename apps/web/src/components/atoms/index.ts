@@ -5,3 +5,5 @@ export { PriceTag } from './PriceTag';
 export { Spinner } from './Spinner';
 export { LanguageSwitcher } from './LanguageSwitcher';
 export { Footer } from './Footer';
+export { DataTable } from './DataTable';
+export { StatusDot } from './StatusDot';

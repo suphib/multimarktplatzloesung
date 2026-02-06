@@ -11,6 +11,7 @@ export enum Marktplatz {
   AMAZON_BUSINESS = 'AMAZON_BUSINESS',
   MERCATEO = 'MERCATEO',
   CONRAD = 'CONRAD',
+  RAHMENVERTRAG = 'RAHMENVERTRAG',
 }
 
 /** Compliance-Status */
@@ -54,6 +55,13 @@ export const CPV_KATEGORIEN = {
   '30190000': 'Verschiedene Bürogeräte und -materialien',
   '30192000': 'Bürobedarf',
 } as const;
+
+/** Shop-Verbindungsstatus */
+export enum ShopStatus {
+  VERBUNDEN = 'VERBUNDEN',
+  GETRENNT = 'GETRENNT',
+  FEHLER = 'FEHLER',
+}
 
 /** Nachhaltigkeitslabel */
 export const NACHHALTIGKEITSLABEL = [

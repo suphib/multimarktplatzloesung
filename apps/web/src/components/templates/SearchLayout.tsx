@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, BarChart3 } from 'lucide-react';
+import { Search, BarChart3, Settings } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher, Footer } from '../atoms';
 
@@ -12,6 +12,7 @@ interface SearchLayoutProps {
 const navKeys = [
   { to: '/search', icon: Search, tKey: 'common.search' },
   { to: '/compare', icon: BarChart3, tKey: 'common.compare' },
+  { to: '/admin', icon: Settings, tKey: 'admin.title' },
 ] as const;
 
 export function SearchLayout({ children, title }: SearchLayoutProps) {

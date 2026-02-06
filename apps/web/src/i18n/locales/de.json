@@ -11,7 +11,8 @@
     "marketplace": {
       "AMAZON_BUSINESS": "Amazon Business",
       "MERCATEO": "Mercateo",
-      "CONRAD": "Conrad"
+      "CONRAD": "Conrad",
+      "RAHMENVERTRAG": "Rahmenvertrag"
     },
     "kanal": {
       "RAHMENVERTRAG": "Rahmenvertrag",
@@ -252,6 +253,112 @@
       "checkSDS": "Sicherheitsdatenblatt angefordert",
       "initiateSpecial": "Sonderbeschaffung einleiten",
       "checkAllRequired": "Bitte alle Punkte bestätigen, um fortzufahren"
+    }
+  },
+  "admin": {
+    "title": "Administration",
+    "nav": {
+      "dashboard": "Dashboard",
+      "dashboardShort": "Dashboard",
+      "rahmenvertraege": "Rahmenverträge",
+      "rahmenvertraegeShort": "Verträge",
+      "shopConfig": "Shop-Konfiguration",
+      "shopConfigShort": "Shops",
+      "katalog": "Katalog-Datenbank",
+      "katalogShort": "Katalog",
+      "verbindungen": "Verbindungen",
+      "verbindungenShort": "Verbind.",
+      "backToApp": "Zurück zur App"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "rahmenvertraegeGesamt": "Rahmenverträge gesamt",
+      "rahmenvertraegeAktiv": "Rahmenverträge aktiv",
+      "katalogArtikel": "Katalog-Artikel",
+      "shopKonfigurationen": "Shop-Konfigurationen",
+      "shopKonfigurationenAktiv": "Shops aktiv",
+      "schnellzugriff": "Schnellzugriff",
+      "neuerRahmenvertrag": "Neuer Rahmenvertrag",
+      "katalogDurchsuchen": "Katalog durchsuchen",
+      "systemStatus": "System-Status",
+      "online": "Online",
+      "offline": "Offline",
+      "shopVerbindungen": "Shop-Verbindungsstatus",
+      "verbunden": "Verbunden",
+      "getrennt": "Getrennt"
+    },
+    "rahmenvertraege": {
+      "title": "Rahmenverträge",
+      "bezeichnung": "Bezeichnung",
+      "beschreibung": "Beschreibung",
+      "lieferant": "Lieferant",
+      "vertragsnummer": "Vertragsnummer",
+      "gueltigBis": "Gültig bis",
+      "maxVolumen": "Max. Volumen",
+      "cpvCodes": "CPV-Codes",
+      "aktiv": "Aktiv",
+      "abgelaufen": "Abgelaufen",
+      "neu": "Neuer Rahmenvertrag",
+      "bearbeiten": "Rahmenvertrag bearbeiten",
+      "keine": "Keine Rahmenverträge vorhanden",
+      "loeschenBestaetigung": "Rahmenvertrag löschen",
+      "loeschenHinweis": "Möchten Sie diesen Rahmenvertrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
+    },
+    "shopConfig": {
+      "title": "Shop-Konfiguration",
+      "aktiv": "Aktiv",
+      "inaktiv": "Inaktiv",
+      "baseUrl": "Base-URL",
+      "apiKey": "API-Schlüssel",
+      "nichtGesetzt": "Nicht gesetzt",
+      "letzteSync": "Letzte Synchronisation",
+      "aktivieren": "Aktiv",
+      "apiKeySetzen": "API-Schlüssel setzen",
+      "synchronisieren": "Synchronisieren"
+    },
+    "katalog": {
+      "title": "Katalog-Datenbank",
+      "titel": "Titel",
+      "beschreibung": "Beschreibung",
+      "lieferant": "Lieferant",
+      "artikelnummer": "Artikelnummer",
+      "rvNummer": "RV-Nummer",
+      "preis": "Preis",
+      "verfuegbar": "Verfügbar",
+      "lieferzeit": "Lieferzeit",
+      "ja": "Ja",
+      "nein": "Nein",
+      "suchen": "Artikel suchen...",
+      "alleLieferanten": "Alle Lieferanten",
+      "alleRahmenvertraege": "Alle Rahmenverträge",
+      "nurVerfuegbar": "Nur verfügbar",
+      "neu": "Neuer Artikel",
+      "bearbeiten": "Artikel bearbeiten",
+      "keine": "Keine Katalog-Artikel vorhanden",
+      "loeschenBestaetigung": "Artikel löschen",
+      "loeschenHinweis": "Möchten Sie diesen Artikel wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
+    },
+    "verbindungen": {
+      "title": "Verbindungen",
+      "statusPruefen": "Status prüfen",
+      "infrastruktur": "Infrastruktur",
+      "marktplaetze": "Marktplatz-Verbindungen",
+      "verbunden": "Verbunden",
+      "getrennt": "Getrennt",
+      "apiKeyStatus": "API-Key",
+      "gesetzt": "Gesetzt",
+      "nichtGesetzt": "Nicht gesetzt",
+      "letztePruefung": "Letzte Prüfung"
+    },
+    "common": {
+      "speichern": "Speichern",
+      "abbrechen": "Abbrechen",
+      "loeschen": "Löschen",
+      "bearbeiten": "Bearbeiten",
+      "pagination": "{{von}}–{{bis}} von {{gesamt}}",
+      "seiteVon": "Seite {{seite}} von {{gesamt}}",
+      "vorherigeSeite": "Vorherige Seite",
+      "naechsteSeite": "Nächste Seite"
     }
   },
   "specialProcurement": {

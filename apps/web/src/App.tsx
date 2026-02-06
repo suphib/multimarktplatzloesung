@@ -7,6 +7,11 @@ import { DocumentationPage } from './pages/DocumentationPage';
 import { ImpressumPage } from './pages/ImpressumPage';
 import { DatenschutzPage } from './pages/DatenschutzPage';
 import { SpecialProcurementPage } from './pages/SpecialProcurementPage';
+import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
+import { RahmenvertraegePage } from './pages/admin/RahmenvertraegePage';
+import { ShopConfigPage } from './pages/admin/ShopConfigPage';
+import { KatalogPage } from './pages/admin/KatalogPage';
+import { ConnectionsPage } from './pages/admin/ConnectionsPage';
 
 export function App() {
   return (
@@ -20,6 +25,12 @@ export function App() {
       <Route path="/impressum" element={<ImpressumPage />} />
       <Route path="/datenschutz" element={<DatenschutzPage />} />
       <Route path="/special-procurement" element={<SpecialProcurementPage />} />
+      <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+      <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+      <Route path="/admin/rahmenvertraege" element={<RahmenvertraegePage />} />
+      <Route path="/admin/shop-config" element={<ShopConfigPage />} />
+      <Route path="/admin/katalog" element={<KatalogPage />} />
+      <Route path="/admin/verbindungen" element={<ConnectionsPage />} />
     </Routes>
   );
 }

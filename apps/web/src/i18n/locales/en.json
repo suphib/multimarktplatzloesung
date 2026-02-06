@@ -11,7 +11,8 @@
     "marketplace": {
       "AMAZON_BUSINESS": "Amazon Business",
       "MERCATEO": "Mercateo",
-      "CONRAD": "Conrad"
+      "CONRAD": "Conrad",
+      "RAHMENVERTRAG": "Framework Agreement"
     },
     "kanal": {
       "RAHMENVERTRAG": "Framework Agreement",
@@ -253,6 +254,112 @@
       "checkSDS": "Safety data sheet requested",
       "initiateSpecial": "Initiate special procurement",
       "checkAllRequired": "Please confirm all items to proceed"
+    }
+  },
+  "admin": {
+    "title": "Administration",
+    "nav": {
+      "dashboard": "Dashboard",
+      "dashboardShort": "Dashboard",
+      "rahmenvertraege": "Framework Agreements",
+      "rahmenvertraegeShort": "Contracts",
+      "shopConfig": "Shop Configuration",
+      "shopConfigShort": "Shops",
+      "katalog": "Catalogue Database",
+      "katalogShort": "Catalogue",
+      "verbindungen": "Connections",
+      "verbindungenShort": "Connections",
+      "backToApp": "Back to App"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "rahmenvertraegeGesamt": "Total framework agreements",
+      "rahmenvertraegeAktiv": "Active framework agreements",
+      "katalogArtikel": "Catalogue articles",
+      "shopKonfigurationen": "Shop configurations",
+      "shopKonfigurationenAktiv": "Active shops",
+      "schnellzugriff": "Quick access",
+      "neuerRahmenvertrag": "New framework agreement",
+      "katalogDurchsuchen": "Browse catalogue",
+      "systemStatus": "System status",
+      "online": "Online",
+      "offline": "Offline",
+      "shopVerbindungen": "Shop connection status",
+      "verbunden": "Connected",
+      "getrennt": "Disconnected"
+    },
+    "rahmenvertraege": {
+      "title": "Framework Agreements",
+      "bezeichnung": "Name",
+      "beschreibung": "Description",
+      "lieferant": "Supplier",
+      "vertragsnummer": "Contract No.",
+      "gueltigBis": "Valid until",
+      "maxVolumen": "Max. Volume",
+      "cpvCodes": "CPV Codes",
+      "aktiv": "Active",
+      "abgelaufen": "Expired",
+      "neu": "New framework agreement",
+      "bearbeiten": "Edit framework agreement",
+      "keine": "No framework agreements found",
+      "loeschenBestaetigung": "Delete framework agreement",
+      "loeschenHinweis": "Are you sure you want to delete this framework agreement? This action cannot be undone."
+    },
+    "shopConfig": {
+      "title": "Shop Configuration",
+      "aktiv": "Active",
+      "inaktiv": "Inactive",
+      "baseUrl": "Base URL",
+      "apiKey": "API Key",
+      "nichtGesetzt": "Not set",
+      "letzteSync": "Last synchronisation",
+      "aktivieren": "Active",
+      "apiKeySetzen": "Set API key",
+      "synchronisieren": "Synchronise"
+    },
+    "katalog": {
+      "title": "Catalogue Database",
+      "titel": "Title",
+      "beschreibung": "Description",
+      "lieferant": "Supplier",
+      "artikelnummer": "Article No.",
+      "rvNummer": "Contract No.",
+      "preis": "Price",
+      "verfuegbar": "Available",
+      "lieferzeit": "Delivery time",
+      "ja": "Yes",
+      "nein": "No",
+      "suchen": "Search articles...",
+      "alleLieferanten": "All suppliers",
+      "alleRahmenvertraege": "All framework agreements",
+      "nurVerfuegbar": "Available only",
+      "neu": "New article",
+      "bearbeiten": "Edit article",
+      "keine": "No catalogue articles found",
+      "loeschenBestaetigung": "Delete article",
+      "loeschenHinweis": "Are you sure you want to delete this article? This action cannot be undone."
+    },
+    "verbindungen": {
+      "title": "Connections",
+      "statusPruefen": "Check status",
+      "infrastruktur": "Infrastructure",
+      "marktplaetze": "Marketplace connections",
+      "verbunden": "Connected",
+      "getrennt": "Disconnected",
+      "apiKeyStatus": "API Key",
+      "gesetzt": "Set",
+      "nichtGesetzt": "Not set",
+      "letztePruefung": "Last check"
+    },
+    "common": {
+      "speichern": "Save",
+      "abbrechen": "Cancel",
+      "loeschen": "Delete",
+      "bearbeiten": "Edit",
+      "pagination": "{{von}}–{{bis}} of {{gesamt}}",
+      "seiteVon": "Page {{seite}} of {{gesamt}}",
+      "vorherigeSeite": "Previous page",
+      "naechsteSeite": "Next page"
     }
   },
   "specialProcurement": {

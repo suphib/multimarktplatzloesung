@@ -129,6 +129,80 @@ export interface ServiceStatus {
   latenzMs?: number;
 }
 
+// ─── Admin ───────────────────────────────────────────────────────
+
+export interface Rahmenvertrag {
+  id: string;
+  bezeichnung: string;
+  beschreibung: string;
+  lieferant: string;
+  vertragsnummer: string;
+  gueltigBis: string;
+  cpvCodes: string;
+  maxVolumen: number;
+  erstelltAm: string;
+}
+
+export interface RahmenvertragCreateRequest {
+  bezeichnung: string;
+  beschreibung: string;
+  lieferant: string;
+  vertragsnummer: string;
+  gueltigBis: string;
+  cpvCodes?: string;
+  maxVolumen?: number;
+}
+
+export interface FrameworkContractItem {
+  id: string;
+  titel: string;
+  beschreibung: string;
+  lieferant: string;
+  cpvCodes: string;
+  preis: number;
+  waehrung: string;
+  rahmenvertragsNummer: string;
+  artikelnummer: string;
+  nachhaltigkeitslabel: string;
+  lieferzeit: string;
+  bildUrl: string;
+  verfuegbar: boolean;
+  erstelltAm: string;
+}
+
+export interface ShopConfig {
+  id: string;
+  name: string;
+  typ: Marktplatz;
+  aktiv: boolean;
+  apiKeyGesetzt: boolean;
+  baseUrl: string;
+  letzteSynchronisation: string | null;
+  artikelAnzahl: number;
+  erstelltAm: string;
+}
+
+export interface ShopConfigUpdateRequest {
+  aktiv?: boolean;
+  apiKey?: string;
+  baseUrl?: string;
+}
+
+export interface PaginatedResponse<T> {
+  daten: T[];
+  gesamt: number;
+  seite: number;
+  proSeite: number;
+}
+
+export interface AdminDashboardStats {
+  rahmenvertraegeGesamt: number;
+  rahmenvertraegeAktiv: number;
+  katalogArtikelGesamt: number;
+  shopKonfigurationen: number;
+  shopKonfigurationenAktiv: number;
+}
+
 // ─── API Error ───────────────────────────────────────────────────
 
 export interface ApiError {
