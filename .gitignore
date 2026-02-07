@@ -10,9 +10,11 @@ Claude.md
 *.tsbuildinfo
 
 # Uploaded files
-uploads/rahmenvertraege/
+uploads/
+apps/api/uploads/
 
 # Shared package build artifacts
 packages/shared/src/*.js
 packages/shared/src/*.js.map
 packages/shared/src/*.d.ts
+test-results/*
