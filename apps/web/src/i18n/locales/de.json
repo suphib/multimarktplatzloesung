@@ -1,4 +1,10 @@
 {
+  "theme": {
+    "title": "Erscheinungsbild",
+    "schlicht": "Schlicht",
+    "dunkel": "Dunkel",
+    "modern": "Modern"
+  },
   "common": {
     "appName": "eProcurement KI",
     "search": "Suche",
@@ -255,6 +261,28 @@
       "checkAllRequired": "Bitte alle Punkte bestätigen, um fortzufahren"
     }
   },
+  "order": {
+    "bestellen": "Bestellen",
+    "bestellungAufgeben": "Bestellung aufgeben",
+    "einzelpreis": "Einzelpreis",
+    "menge": "Menge",
+    "gesamtpreis": "Gesamtpreis",
+    "skonto": "Skonto",
+    "endpreis": "Endpreis",
+    "mindestBestellwertNichtErreicht": "Mindestbestellwert nicht erreicht",
+    "mindestBestellwertKurz": "Min. {{wert}} €",
+    "mindestBestellwertLabel": "Mindestbestellwert",
+    "genehmigungErforderlich": "Genehmigung erforderlich",
+    "genehmigungHinweis": "Diese Bestellung wird zur Genehmigung weitergeleitet.",
+    "begruendung": "Begründung",
+    "begruendungPlaceholder": "Optional: Begründung für die Bestellung...",
+    "volumenWarnung": "Vertragsvolumen: {{prozent}}% ausgeschöpft",
+    "volumenUeberschritten": "Rahmenvertrags-Volumen würde überschritten!",
+    "rvKonditionen": "Rahmenvertrag-Konditionen",
+    "zahlung": "Zahlung",
+    "gueltigBis": "Gültig bis",
+    "bestellungErfolgreich": "Bestellung erfolgreich aufgegeben"
+  },
   "admin": {
     "title": "Administration",
     "nav": {
@@ -262,13 +290,16 @@
       "dashboardShort": "Dashboard",
       "rahmenvertraege": "Rahmenverträge",
       "rahmenvertraegeShort": "Verträge",
+      "bestellungen": "Bestellungen",
+      "bestellungenShort": "Bestell.",
       "shopConfig": "Shop-Konfiguration",
       "shopConfigShort": "Shops",
       "katalog": "Katalog-Datenbank",
       "katalogShort": "Katalog",
       "verbindungen": "Verbindungen",
       "verbindungenShort": "Verbind.",
-      "backToApp": "Zurück zur App"
+      "backToApp": "Zurück zur App",
+      "backToSearch": "Zur Suche"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -293,6 +324,7 @@
       "beschreibung": "Beschreibung",
       "lieferant": "Lieferant",
       "vertragsnummer": "Vertragsnummer",
+      "gueltigAb": "Gültig ab",
       "gueltigBis": "Gültig bis",
       "maxVolumen": "Max. Volumen",
       "cpvCodes": "CPV-Codes",
@@ -302,7 +334,38 @@
       "bearbeiten": "Rahmenvertrag bearbeiten",
       "keine": "Keine Rahmenverträge vorhanden",
       "loeschenBestaetigung": "Rahmenvertrag löschen",
-      "loeschenHinweis": "Möchten Sie diesen Rahmenvertrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
+      "loeschenHinweis": "Möchten Sie diesen Rahmenvertrag wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "detail": "Rahmenvertrag-Details",
+      "zurueck": "Zurück zur Übersicht",
+      "tab_uebersicht": "Übersicht",
+      "tab_konditionen": "Konditionen",
+      "tab_dokumente": "Dokumente",
+      "tab_verlauf": "Verlauf",
+      "laufzeit": "Laufzeit",
+      "status": "Status",
+      "status_entwurf": "Entwurf",
+      "status_aktiv": "Aktiv",
+      "status_gekuendigt": "Gekündigt",
+      "status_abgelaufen": "Abgelaufen",
+      "ansprechpartner": "Ansprechpartner",
+      "email": "E-Mail",
+      "telefon": "Telefon",
+      "zahlungsbedingungen": "Zahlungsbedingungen",
+      "skonto": "Skonto",
+      "kuendigungsfrist": "Kündigungsfrist",
+      "produktkategorien": "Produktkategorien",
+      "abrufVolumen": "Abgerufenes Volumen",
+      "mindestBestellwert": "Mindestbestellwert",
+      "dokumente_hochladen": "Datei hochladen",
+      "dokumente_keine": "Keine Dokumente vorhanden",
+      "dokumente_herunterladen": "Herunterladen",
+      "dokumente_loeschen": "Dokument löschen",
+      "verlaengerungen": "Verlängerungen",
+      "verlaengerungen_keine": "Keine Verlängerungen",
+      "notizen": "Notizen",
+      "notizen_placeholder": "Notizen zum Rahmenvertrag...",
+      "volumen_ausgeschoepft": "Volumen ausgeschöpft",
+      "volumen_prozent": "{{prozent}}% abgerufen"
     },
     "shopConfig": {
       "title": "Shop-Konfiguration",
@@ -337,6 +400,19 @@
       "keine": "Keine Katalog-Artikel vorhanden",
       "loeschenBestaetigung": "Artikel löschen",
       "loeschenHinweis": "Möchten Sie diesen Artikel wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
+    },
+    "bestellungen": {
+      "title": "Bestellungen",
+      "alle": "Alle",
+      "ausstehend": "Genehmigung ausstehend",
+      "genehmigt": "Genehmigt",
+      "bestellt": "Bestellt",
+      "abgelehnt": "Abgelehnt",
+      "entwurf": "Entwurf",
+      "genehmigen": "Genehmigen",
+      "ablehnen": "Ablehnen",
+      "ablehnungsgrund": "Ablehnungsgrund",
+      "keine": "Keine Bestellungen vorhanden"
     },
     "verbindungen": {
       "title": "Verbindungen",

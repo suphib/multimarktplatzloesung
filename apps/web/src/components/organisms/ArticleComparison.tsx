@@ -14,7 +14,7 @@ export function ArticleComparison({ articles, onRemove, onClassify }: ArticleCom
 
   if (articles.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-500">
+      <div className="text-center py-12 text-gray-500 dark:text-gray-400">
         {t('organisms.noArticlesForComparison')}
         <br />
         {t('organisms.selectUpTo5')}
@@ -34,7 +34,7 @@ export function ArticleComparison({ articles, onRemove, onClassify }: ArticleCom
           >
             <div className="flex justify-between items-start mb-3">
               <Badge variant="info">{t(`common.marketplace.${a.marktplatz}`, { defaultValue: a.marktplatz })}</Badge>
-              <button onClick={() => onRemove(a.id)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => onRemove(a.id)} className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
                 <X className="h-4 w-4" />
               </button>
             </div>
@@ -48,7 +48,7 @@ export function ArticleComparison({ articles, onRemove, onClassify }: ArticleCom
                 {t('compare.cheapest')}
               </Badge>
             )}
-            <div className="mt-3 space-y-1 text-sm text-gray-600">
+            <div className="mt-3 space-y-1 text-sm text-gray-600 dark:text-gray-400">
               <p className="flex items-center gap-1">
                 <Truck className="h-3.5 w-3.5" />
                 {a.lieferzeit}

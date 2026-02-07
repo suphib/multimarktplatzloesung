@@ -4,7 +4,26 @@
 
 @layer base {
   body {
-    @apply bg-gray-50 text-gray-900 antialiased;
+    @apply bg-gray-50 text-gray-900 antialiased transition-colors duration-200;
+  }
+
+  /* Only dark theme gets dark base */
+  .dark body {
+    @apply bg-gray-900 text-gray-100;
+  }
+
+  /* Modern: warm orange/amber primary color palette */
+  .modern {
+    --color-primary-50: #fff7ed;
+    --color-primary-100: #ffedd5;
+    --color-primary-200: #fed7aa;
+    --color-primary-300: #fdba74;
+    --color-primary-400: #fb923c;
+    --color-primary-500: #f97316;
+    --color-primary-600: #ea580c;
+    --color-primary-700: #c2410c;
+    --color-primary-800: #9a3412;
+    --color-primary-900: #7c2d12;
   }
 }
 
@@ -12,22 +31,151 @@
   .btn-primary {
     @apply bg-primary-600 text-white px-4 py-2 rounded-lg font-medium
            hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
-           transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+           transition-colors disabled:opacity-50 disabled:cursor-not-allowed
+           dark:focus:ring-offset-gray-900;
   }
 
   .btn-secondary {
     @apply bg-white text-gray-700 px-4 py-2 rounded-lg font-medium border border-gray-300
            hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
-           transition-colors;
+           transition-colors
+           dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700
+           dark:focus:ring-offset-gray-900;
   }
 
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6;
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6
+           dark:bg-gray-800 dark:border-gray-700;
   }
 
   .input-field {
     @apply w-full px-4 py-3 rounded-lg border border-gray-300 bg-white
            focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500
-           placeholder-gray-400 text-base;
+           placeholder-gray-400 text-base
+           dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-500;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Modern Theme – clean white base with orange/amber accents
+   Unlayered styles to override Tailwind utility classes.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Body: clean white ── */
+.modern body {
+  background: #fff;
+}
+
+/* ── Header: amber/orange gradient (main accent) ── */
+.modern header {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border-bottom: 1px solid #b45309;
+}
+
+.modern header a,
+.modern header button,
+.modern header span,
+.modern header h1,
+.modern header p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.modern header a:hover,
+.modern header button:hover {
+  color: #fff;
+}
+
+.modern header a[class*="font-bold"] {
+  color: #fff;
+}
+
+/* Active links & buttons on amber header */
+.modern header a[class*="bg-primary"],
+.modern header button[class*="bg-primary"] {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 0.5rem;
+}
+
+.modern header nav a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+}
+
+/* ── Cards: white, subtle gray border ── */
+.modern .card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.modern .card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Primary button: amber gradient ── */
+.modern .btn-primary {
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.25);
+}
+
+.modern .btn-primary:hover {
+  background: linear-gradient(135deg, #d97706, #c2410c);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
+}
+
+/* ── Secondary button: subtle with orange text ── */
+.modern .btn-secondary {
+  background: #fff;
+  color: #9a3412;
+  border-color: #d1d5db;
+}
+
+.modern .btn-secondary:hover {
+  background: #f9fafb;
+  border-color: #f97316;
+}
+
+/* ── Input: clean with orange focus ring ── */
+.modern .input-field {
+  background: #fff;
+  border-color: #d1d5db;
+}
+
+.modern .input-field:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+/* ── Sidebar (Admin): white ── */
+.modern aside {
+  background: #fff;
+  border-color: #e5e7eb;
+}
+
+.modern aside a[class*="bg-primary"] {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.modern aside a:hover {
+  background: #f9fafb;
+}
+
+/* ── Footer ── */
+.modern footer {
+  border-color: #e5e7eb;
+}
+
+/* ── Mobile bottom nav ── */
+.modern nav.fixed,
+.modern nav[class*="fixed"] {
+  background: #fff;
+  border-color: #e5e7eb;
+}
+
+/* ── Background containers: standard white/gray ── */
+.modern .bg-gray-50 {
+  background-color: #f9fafb;
 }

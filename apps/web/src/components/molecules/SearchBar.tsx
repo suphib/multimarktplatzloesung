@@ -90,25 +90,25 @@ export function SearchBar({ onSearch, isLoading, initialValue = '' }: SearchBarP
           autoComplete="off"
         />
         {showSuggestions && filtered.length > 0 && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-20 max-h-72 overflow-y-auto">
-            <div className="px-3 py-1.5 text-xs text-gray-400 border-b border-gray-100">
+          <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-20 max-h-72 overflow-y-auto">
+            <div className="px-3 py-1.5 text-xs text-gray-400 dark:text-gray-500 border-b border-gray-100 dark:border-gray-700">
               {t('search.suggestionsLabel', { count: filtered.length })}
             </div>
             {filtered.map((s, i) => (
               <button
                 key={s.text}
                 type="button"
-                className={`w-full text-left px-3 py-2.5 flex items-center justify-between gap-2 hover:bg-primary-50 transition-colors ${
-                  i === selectedIdx ? 'bg-primary-50' : ''
+                className={`w-full text-left px-3 py-2.5 flex items-center justify-between gap-2 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-colors ${
+                  i === selectedIdx ? 'bg-primary-50 dark:bg-primary-900/30' : ''
                 }`}
                 onClick={() => handleSelect(s)}
                 onMouseEnter={() => setSelectedIdx(i)}
               >
                 <div className="flex items-center gap-2 min-w-0">
-                  <Search className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
-                  <span className="font-medium text-sm text-gray-900">{s.text}</span>
+                  <Search className="h-3.5 w-3.5 text-gray-400 dark:text-gray-500 flex-shrink-0" />
+                  <span className="font-medium text-sm text-gray-900 dark:text-gray-100">{s.text}</span>
                 </div>
-                <span className="text-xs text-gray-400 truncate">{s.hint}</span>
+                <span className="text-xs text-gray-400 dark:text-gray-500 truncate">{s.hint}</span>
               </button>
             ))}
           </div>

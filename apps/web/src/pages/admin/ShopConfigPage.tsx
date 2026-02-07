@@ -52,19 +52,19 @@ export function ShopConfigPage() {
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <Store className="h-6 w-6 text-primary-600" />
-          <h1 className="text-xl font-bold text-gray-900">{t('admin.shopConfig.title')}</h1>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('admin.shopConfig.title')}</h1>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {configs?.map((shop) => (
             <div
               key={shop.id}
-              className={`bg-white rounded-xl border border-gray-200 border-l-4 ${
+              className={`bg-white rounded-xl border border-gray-200 dark:bg-gray-800 dark:border-gray-700 border-l-4 ${
                 mpColors[shop.typ] || 'border-l-gray-400'
               } p-5 space-y-4`}
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-gray-900">{shop.name}</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100">{shop.name}</h3>
                 <StatusDot
                   status={shop.aktiv ? 'online' : 'offline'}
                   label={shop.aktiv ? t('admin.shopConfig.aktiv') : t('admin.shopConfig.inaktiv')}
@@ -73,18 +73,18 @@ export function ShopConfigPage() {
 
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-500">{t('admin.shopConfig.baseUrl')}</span>
-                  <span className="text-gray-700 truncate ml-2 max-w-[180px]">{shop.baseUrl || '—'}</span>
+                  <span className="text-gray-500 dark:text-gray-400">{t('admin.shopConfig.baseUrl')}</span>
+                  <span className="text-gray-700 dark:text-gray-300 truncate ml-2 max-w-[180px]">{shop.baseUrl || '—'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">{t('admin.shopConfig.apiKey')}</span>
-                  <span className="text-gray-700">
+                  <span className="text-gray-500 dark:text-gray-400">{t('admin.shopConfig.apiKey')}</span>
+                  <span className="text-gray-700 dark:text-gray-300">
                     {shop.apiKeyGesetzt ? '••••••••' : t('admin.shopConfig.nichtGesetzt')}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">{t('admin.shopConfig.letzteSync')}</span>
-                  <span className="text-gray-700">
+                  <span className="text-gray-500 dark:text-gray-400">{t('admin.shopConfig.letzteSync')}</span>
+                  <span className="text-gray-700 dark:text-gray-300">
                     {shop.letzteSynchronisation
                       ? new Date(shop.letzteSynchronisation).toLocaleString('de-DE')
                       : '—'}
@@ -92,7 +92,7 @@ export function ShopConfigPage() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
+              <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100 dark:border-gray-700">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
@@ -100,7 +100,7 @@ export function ShopConfigPage() {
                     onChange={() => handleToggle(shop.id, shop.aktiv)}
                     className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                   />
-                  <span className="text-sm text-gray-600">{t('admin.shopConfig.aktivieren')}</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">{t('admin.shopConfig.aktivieren')}</span>
                 </label>
                 <button
                   onClick={() => {

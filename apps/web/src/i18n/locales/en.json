@@ -1,4 +1,10 @@
 {
+  "theme": {
+    "title": "Appearance",
+    "schlicht": "Light",
+    "dunkel": "Dark",
+    "modern": "Modern"
+  },
   "common": {
     "appName": "eProcurement AI",
     "search": "Search",
@@ -256,6 +262,28 @@
       "checkAllRequired": "Please confirm all items to proceed"
     }
   },
+  "order": {
+    "bestellen": "Order",
+    "bestellungAufgeben": "Place Order",
+    "einzelpreis": "Unit Price",
+    "menge": "Quantity",
+    "gesamtpreis": "Total Price",
+    "skonto": "Early Payment Discount",
+    "endpreis": "Final Price",
+    "mindestBestellwertNichtErreicht": "Minimum order value not reached",
+    "mindestBestellwertKurz": "Min. {{wert}} €",
+    "mindestBestellwertLabel": "Minimum Order Value",
+    "genehmigungErforderlich": "Approval required",
+    "genehmigungHinweis": "This order will be forwarded for approval.",
+    "begruendung": "Justification",
+    "begruendungPlaceholder": "Optional: Justification for the order...",
+    "volumenWarnung": "Contract volume: {{prozent}}% utilised",
+    "volumenUeberschritten": "Framework agreement volume would be exceeded!",
+    "rvKonditionen": "Framework Agreement Terms",
+    "zahlung": "Payment",
+    "gueltigBis": "Valid until",
+    "bestellungErfolgreich": "Order placed successfully"
+  },
   "admin": {
     "title": "Administration",
     "nav": {
@@ -263,13 +291,16 @@
       "dashboardShort": "Dashboard",
       "rahmenvertraege": "Framework Agreements",
       "rahmenvertraegeShort": "Contracts",
+      "bestellungen": "Orders",
+      "bestellungenShort": "Orders",
       "shopConfig": "Shop Configuration",
       "shopConfigShort": "Shops",
       "katalog": "Catalogue Database",
       "katalogShort": "Catalogue",
       "verbindungen": "Connections",
       "verbindungenShort": "Connections",
-      "backToApp": "Back to App"
+      "backToApp": "Back to App",
+      "backToSearch": "Go to Search"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -294,6 +325,7 @@
       "beschreibung": "Description",
       "lieferant": "Supplier",
       "vertragsnummer": "Contract No.",
+      "gueltigAb": "Valid from",
       "gueltigBis": "Valid until",
       "maxVolumen": "Max. Volume",
       "cpvCodes": "CPV Codes",
@@ -303,7 +335,38 @@
       "bearbeiten": "Edit framework agreement",
       "keine": "No framework agreements found",
       "loeschenBestaetigung": "Delete framework agreement",
-      "loeschenHinweis": "Are you sure you want to delete this framework agreement? This action cannot be undone."
+      "loeschenHinweis": "Are you sure you want to delete this framework agreement? This action cannot be undone.",
+      "detail": "Framework Agreement Details",
+      "zurueck": "Back to overview",
+      "tab_uebersicht": "Overview",
+      "tab_konditionen": "Terms",
+      "tab_dokumente": "Documents",
+      "tab_verlauf": "History",
+      "laufzeit": "Duration",
+      "status": "Status",
+      "status_entwurf": "Draft",
+      "status_aktiv": "Active",
+      "status_gekuendigt": "Terminated",
+      "status_abgelaufen": "Expired",
+      "ansprechpartner": "Contact Person",
+      "email": "Email",
+      "telefon": "Phone",
+      "zahlungsbedingungen": "Payment Terms",
+      "skonto": "Early Payment Discount",
+      "kuendigungsfrist": "Notice Period",
+      "produktkategorien": "Product Categories",
+      "abrufVolumen": "Called Volume",
+      "mindestBestellwert": "Minimum Order Value",
+      "dokumente_hochladen": "Upload file",
+      "dokumente_keine": "No documents available",
+      "dokumente_herunterladen": "Download",
+      "dokumente_loeschen": "Delete document",
+      "verlaengerungen": "Extensions",
+      "verlaengerungen_keine": "No extensions",
+      "notizen": "Notes",
+      "notizen_placeholder": "Notes about the framework agreement...",
+      "volumen_ausgeschoepft": "Volume exhausted",
+      "volumen_prozent": "{{prozent}}% called"
     },
     "shopConfig": {
       "title": "Shop Configuration",
@@ -338,6 +401,19 @@
       "keine": "No catalogue articles found",
       "loeschenBestaetigung": "Delete article",
       "loeschenHinweis": "Are you sure you want to delete this article? This action cannot be undone."
+    },
+    "bestellungen": {
+      "title": "Orders",
+      "alle": "All",
+      "ausstehend": "Approval pending",
+      "genehmigt": "Approved",
+      "bestellt": "Ordered",
+      "abgelehnt": "Rejected",
+      "entwurf": "Draft",
+      "genehmigen": "Approve",
+      "ablehnen": "Reject",
+      "ablehnungsgrund": "Reason for rejection",
+      "keine": "No orders found"
     },
     "verbindungen": {
       "title": "Connections",

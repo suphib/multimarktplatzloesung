@@ -7,3 +7,4 @@ export { LanguageSwitcher } from './LanguageSwitcher';
 export { Footer } from './Footer';
 export { DataTable } from './DataTable';
 export { StatusDot } from './StatusDot';
+export { ThemeSelector } from './ThemeSelector';

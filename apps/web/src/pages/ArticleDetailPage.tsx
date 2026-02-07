@@ -7,7 +7,9 @@ import { ClassificationBadge } from '../components/molecules/ClassificationBadge
 import { useClassify } from '../hooks/useClassify';
 import { useSearchStore } from '../store/useSearchStore';
 import type { Artikel } from '@procurement/shared';
-import { Package, Leaf, Sparkles, FileText, ExternalLink, BarChart3, Check } from 'lucide-react';
+import { Package, Leaf, Sparkles, FileText, ExternalLink, BarChart3, Check, ShoppingCart } from 'lucide-react';
+import { useState } from 'react';
+import { BestellModal } from '../components/organisms/BestellModal';
 
 export function ArticleDetailPage() {
   const { id } = useParams();
@@ -16,6 +18,7 @@ export function ArticleDetailPage() {
   const { t } = useTranslation();
   const classifyMutation = useClassify();
   const { classifyResult, setClassifyResult, selectedArticles, toggleArticle } = useSearchStore();
+  const [bestellModalOpen, setBestellModalOpen] = useState(false);
 
   const artikel: Artikel | undefined = (location.state as any)?.artikel;
 
@@ -138,6 +141,68 @@ export function ArticleDetailPage() {
             </div>
           </div>
         </div>
+
+        {/* RV-Konditionen */}
+        {artikel.rahmenvertragInfo && artikel.marktplatz === 'RAHMENVERTRAG' && (
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 md:p-6">
+            <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
+              <FileText className="h-5 w-5 text-green-600" />
+              {t('order.rvKonditionen')}
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-500">{t('admin.rahmenvertraege.vertragsnummer')}</p>
+                <p className="font-medium mt-0.5">{artikel.rahmenvertragInfo.vertragsnummer}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">{t('admin.rahmenvertraege.zahlungsbedingungen')}</p>
+                <p className="font-medium mt-0.5">{artikel.rahmenvertragInfo.zahlungsbedingungen || '–'}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">{t('admin.rahmenvertraege.skonto')}</p>
+                <p className="font-medium mt-0.5">{artikel.rahmenvertragInfo.skonto || '–'}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">{t('admin.rahmenvertraege.mindestBestellwert')}</p>
+                <p className="font-medium mt-0.5">{artikel.rahmenvertragInfo.mindestBestellwert.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">{t('admin.rahmenvertraege.maxVolumen')}</p>
+                <p className="font-medium mt-0.5">
+                  {artikel.rahmenvertragInfo.abrufVolumen.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}
+                  {' / '}
+                  {artikel.rahmenvertragInfo.maxVolumen.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}
+                  {' '}
+                  ({artikel.rahmenvertragInfo.maxVolumen > 0
+                    ? Math.round((artikel.rahmenvertragInfo.abrufVolumen / artikel.rahmenvertragInfo.maxVolumen) * 100)
+                    : 0}%)
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">{t('order.gueltigBis')}</p>
+                <p className="font-medium mt-0.5">
+                  {artikel.rahmenvertragInfo.gueltigBis
+                    ? new Date(artikel.rahmenvertragInfo.gueltigBis).toLocaleDateString('de-DE')
+                    : '–'}
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 pt-4 border-t border-gray-100">
+              <Button onClick={() => setBestellModalOpen(true)}>
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                {t('order.bestellen')}
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Bestell-Modal */}
+        {bestellModalOpen && artikel && (
+          <BestellModal
+            artikel={artikel}
+            onClose={() => setBestellModalOpen(false)}
+          />
+        )}
 
         {/* KI-Klassifizierung */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 md:p-6">

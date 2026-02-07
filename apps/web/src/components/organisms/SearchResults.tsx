@@ -11,6 +11,7 @@ interface SearchResultsProps {
   selectedIds: string[];
   onToggleSelect: (artikel: Artikel) => void;
   onViewDetail: (artikel: Artikel) => void;
+  onBestellen?: (artikel: Artikel) => void;
 }
 
 export function SearchResults({
@@ -20,6 +21,7 @@ export function SearchResults({
   selectedIds,
   onToggleSelect,
   onViewDetail,
+  onBestellen,
 }: SearchResultsProps) {
   const { t } = useTranslation();
 
@@ -32,7 +34,7 @@ export function SearchResults({
   return (
     <div>
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           {t('results.resultCount', { count: gesamt })}
         </p>
         <div className="flex flex-wrap gap-2">
@@ -46,7 +48,7 @@ export function SearchResults({
 
       {/* Supplier concentration hint */}
       {dominantSupplier && (
-        <div className="mb-4 text-sm text-gray-600 flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2">
+        <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2 bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2">
           <Info className="h-4 w-4 flex-shrink-0" />
           <span>
             {t('results.supplierHint', { supplier: dominantSupplier.name, percent: dominantPercent })}
@@ -62,14 +64,15 @@ export function SearchResults({
             maxReached={selectedIds.length >= 3}
             onToggleSelect={() => onToggleSelect(artikel)}
             onViewDetail={() => onViewDetail(artikel)}
+            onBestellen={onBestellen ? () => onBestellen(artikel) : undefined}
           />
         ))}
       </div>
       {ergebnisse.length === 0 && (
         <div className="text-center py-16">
-          <Search className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-lg font-medium text-gray-900">{t('results.noResults')}</p>
-          <p className="text-sm text-gray-500 mt-1">{t('results.noResultsHint')}</p>
+          <Search className="h-16 w-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+          <p className="text-lg font-medium text-gray-900 dark:text-gray-100">{t('results.noResults')}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('results.noResultsHint')}</p>
         </div>
       )}
     </div>

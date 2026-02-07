@@ -74,6 +74,18 @@ export interface SearchResponse {
   aggregationen: Aggregationen;
 }
 
+export interface RahmenvertragInfo {
+  vertragsnummer: string;
+  bezeichnung: string;
+  zahlungsbedingungen: string;
+  skonto: string;
+  mindestBestellwert: number;
+  maxVolumen: number;
+  abrufVolumen: number;
+  status: RahmenvertragStatus;
+  gueltigBis: string;
+}
+
 export interface Artikel {
   id: string;
   bezeichnung: string;
@@ -87,6 +99,7 @@ export interface Artikel {
   nachhaltigkeitslabel: string[];
   verfuegbar: boolean;
   artikelnummer: string;
+  rahmenvertragInfo?: RahmenvertragInfo;
 }
 
 export interface Aggregationen {
@@ -131,15 +144,45 @@ export interface ServiceStatus {
 
 // ─── Admin ───────────────────────────────────────────────────────
 
+export type RahmenvertragStatus = 'ENTWURF' | 'AKTIV' | 'GEKUENDIGT' | 'ABGELAUFEN';
+
+export interface RahmenvertragVerlaengerung {
+  datum: string;
+  bisNeuesDatum: string;
+  bemerkung?: string;
+}
+
+export interface RahmenvertragDokument {
+  id: string;
+  dateiname: string;
+  dateityp: string;
+  groesse: number;
+  hochgeladenAm: string;
+}
+
 export interface Rahmenvertrag {
   id: string;
   bezeichnung: string;
   beschreibung: string;
   lieferant: string;
   vertragsnummer: string;
+  gueltigAb: string;
   gueltigBis: string;
   cpvCodes: string;
   maxVolumen: number;
+  status: RahmenvertragStatus;
+  ansprechpartner: string;
+  ansprechpartnerEmail: string;
+  ansprechpartnerTelefon: string;
+  zahlungsbedingungen: string;
+  skonto: string;
+  kuendigungsfrist: string;
+  produktkategorien: string;
+  abrufVolumen: number;
+  mindestBestellwert: number;
+  dokumente: RahmenvertragDokument[];
+  verlaengerungen: RahmenvertragVerlaengerung[];
+  notizen: string;
   erstelltAm: string;
 }
 
@@ -148,9 +191,21 @@ export interface RahmenvertragCreateRequest {
   beschreibung: string;
   lieferant: string;
   vertragsnummer: string;
+  gueltigAb?: string;
   gueltigBis: string;
   cpvCodes?: string;
   maxVolumen?: number;
+  status?: RahmenvertragStatus;
+  ansprechpartner?: string;
+  ansprechpartnerEmail?: string;
+  ansprechpartnerTelefon?: string;
+  zahlungsbedingungen?: string;
+  skonto?: string;
+  kuendigungsfrist?: string;
+  produktkategorien?: string;
+  abrufVolumen?: number;
+  mindestBestellwert?: number;
+  notizen?: string;
 }
 
 export interface FrameworkContractItem {
@@ -201,6 +256,45 @@ export interface AdminDashboardStats {
   katalogArtikelGesamt: number;
   shopKonfigurationen: number;
   shopKonfigurationenAktiv: number;
+}
+
+// ─── Bestellung ─────────────────────────────────────────────────
+
+export type BestellStatus = 'ENTWURF' | 'GENEHMIGUNG_ANGEFORDERT' | 'GENEHMIGT' | 'BESTELLT' | 'ABGELEHNT';
+
+export interface Bestellung {
+  id: string;
+  artikelId: string;
+  artikelBezeichnung: string;
+  marktplatz: Marktplatz;
+  lieferant: string;
+  einzelpreis: number;
+  menge: number;
+  gesamtpreis: number;
+  skontoAbzug: number;
+  endpreis: number;
+  waehrung: string;
+  status: BestellStatus;
+  rahmenvertragNr?: string;
+  genehmigungErforderlich: boolean;
+  genehmigungVon?: string;
+  genehmigungAm?: string;
+  ablehnungsgrund?: string;
+  begruendung?: string;
+  bestelltAm: string;
+  erstelltAm: string;
+}
+
+export interface BestellungCreateRequest {
+  artikelId: string;
+  artikelBezeichnung: string;
+  marktplatz: Marktplatz;
+  lieferant: string;
+  einzelpreis: number;
+  menge: number;
+  waehrung?: string;
+  rahmenvertragNr?: string;
+  begruendung?: string;
 }
 
 // ─── API Error ───────────────────────────────────────────────────

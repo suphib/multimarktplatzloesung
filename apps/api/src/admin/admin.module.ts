@@ -3,21 +3,24 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RahmenvertragEntity } from '../embedding/entities/rahmenvertrag.entity';
 import { FrameworkContractEntity } from '../search/entities/framework-contract.entity';
 import { ShopConfigEntity } from './entities/shop-config.entity';
+import { BestellungEntity } from './entities/bestellung.entity';
 import { AdminService } from './admin.service';
 import { DashboardAdminController } from './controllers/dashboard-admin.controller';
 import { RahmenvertragAdminController } from './controllers/rahmenvertrag-admin.controller';
 import { ShopConfigAdminController } from './controllers/shop-config-admin.controller';
 import { KatalogAdminController } from './controllers/katalog-admin.controller';
+import { BestellungAdminController } from './controllers/bestellung-admin.controller';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([RahmenvertragEntity, FrameworkContractEntity, ShopConfigEntity]),
+    TypeOrmModule.forFeature([RahmenvertragEntity, FrameworkContractEntity, ShopConfigEntity, BestellungEntity]),
   ],
   controllers: [
     DashboardAdminController,
     RahmenvertragAdminController,
     ShopConfigAdminController,
     KatalogAdminController,
+    BestellungAdminController,
   ],
   providers: [AdminService],
 })

@@ -1,4 +1,4 @@
-import { IsString, MinLength, IsDateString, IsOptional, IsNumber, Min } from 'class-validator';
+import { IsString, MinLength, IsDateString, IsOptional, IsNumber, Min, IsEmail, IsIn } from 'class-validator';
 
 export class CreateRahmenvertragDto {
   @IsString()
@@ -16,6 +16,10 @@ export class CreateRahmenvertragDto {
   @MinLength(3)
   vertragsnummer: string;
 
+  @IsOptional()
+  @IsDateString()
+  gueltigAb?: string;
+
   @IsDateString()
   gueltigBis: string;
 
@@ -27,4 +31,51 @@ export class CreateRahmenvertragDto {
   @IsNumber()
   @Min(0)
   maxVolumen?: number;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['ENTWURF', 'AKTIV', 'GEKUENDIGT', 'ABGELAUFEN'])
+  status?: string;
+
+  @IsOptional()
+  @IsString()
+  ansprechpartner?: string;
+
+  @IsOptional()
+  @IsEmail()
+  ansprechpartnerEmail?: string;
+
+  @IsOptional()
+  @IsString()
+  ansprechpartnerTelefon?: string;
+
+  @IsOptional()
+  @IsString()
+  zahlungsbedingungen?: string;
+
+  @IsOptional()
+  @IsString()
+  skonto?: string;
+
+  @IsOptional()
+  @IsString()
+  kuendigungsfrist?: string;
+
+  @IsOptional()
+  @IsString()
+  produktkategorien?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  abrufVolumen?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  mindestBestellwert?: number;
+
+  @IsOptional()
+  @IsString()
+  notizen?: string;
 }

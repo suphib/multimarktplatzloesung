@@ -162,7 +162,7 @@ export function KatalogPage() {
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
             <Database className="h-6 w-6 text-primary-600" />
-            <h1 className="text-xl font-bold text-gray-900">{t('admin.katalog.title')}</h1>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('admin.katalog.title')}</h1>
           </div>
           <Button onClick={openCreate} size="sm">
             <Plus className="h-4 w-4 mr-1" />
@@ -171,7 +171,7 @@ export function KatalogPage() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4">
+        <div className="bg-white rounded-xl border border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -191,7 +191,7 @@ export function KatalogPage() {
                 setLieferant(e.target.value);
                 setSeite(1);
               }}
-              className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              className="rounded-lg border border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 px-3 py-2 text-sm"
             >
               <option value="">{t('admin.katalog.alleLieferanten')}</option>
               {lieferanten.map((l) => (
@@ -204,14 +204,14 @@ export function KatalogPage() {
                 setRvNummer(e.target.value);
                 setSeite(1);
               }}
-              className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              className="rounded-lg border border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 px-3 py-2 text-sm"
             >
               <option value="">{t('admin.katalog.alleRahmenvertraege')}</option>
               {rvNummern.map((n) => (
                 <option key={n} value={n}>{n}</option>
               ))}
             </select>
-            <label className="flex items-center gap-2 text-sm text-gray-600">
+            <label className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
               <input
                 type="checkbox"
                 checked={nurVerfuegbar}
@@ -295,7 +295,7 @@ export function KatalogPage() {
                 onChange={(e) => setForm({ ...form, lieferzeit: (e.target as HTMLInputElement).value })}
               />
             </div>
-            <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+            <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
               <Button variant="secondary" onClick={() => setModalOpen(false)}>
                 {t('admin.common.abbrechen')}
               </Button>
@@ -316,7 +316,7 @@ export function KatalogPage() {
           title={t('admin.katalog.loeschenBestaetigung')}
           size="sm"
         >
-          <p className="text-sm text-gray-600 mb-4">{t('admin.katalog.loeschenHinweis')}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{t('admin.katalog.loeschenHinweis')}</p>
           <div className="flex justify-end gap-3">
             <Button variant="secondary" onClick={() => setDeleteConfirmId(null)}>
               {t('admin.common.abbrechen')}

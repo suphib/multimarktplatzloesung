@@ -9,9 +9,11 @@ import { DatenschutzPage } from './pages/DatenschutzPage';
 import { SpecialProcurementPage } from './pages/SpecialProcurementPage';
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
 import { RahmenvertraegePage } from './pages/admin/RahmenvertraegePage';
+import { RahmenvertragDetailPage } from './pages/admin/RahmenvertragDetailPage';
 import { ShopConfigPage } from './pages/admin/ShopConfigPage';
 import { KatalogPage } from './pages/admin/KatalogPage';
 import { ConnectionsPage } from './pages/admin/ConnectionsPage';
+import { BestellungenPage } from './pages/admin/BestellungenPage';
 
 export function App() {
   return (
@@ -28,6 +30,8 @@ export function App() {
       <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
       <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
       <Route path="/admin/rahmenvertraege" element={<RahmenvertraegePage />} />
+      <Route path="/admin/rahmenvertraege/:id" element={<RahmenvertragDetailPage />} />
+      <Route path="/admin/bestellungen" element={<BestellungenPage />} />
       <Route path="/admin/shop-config" element={<ShopConfigPage />} />
       <Route path="/admin/katalog" element={<KatalogPage />} />
       <Route path="/admin/verbindungen" element={<ConnectionsPage />} />

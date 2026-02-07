@@ -12,6 +12,8 @@ import type {
   ShopConfigUpdateRequest,
   FrameworkContractItem,
   PaginatedResponse,
+  Bestellung,
+  BestellungCreateRequest,
 } from '@procurement/shared';
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api/v1';
@@ -85,6 +87,32 @@ export const api = {
     return request(`/admin/rahmenvertraege/${id}`, { method: 'DELETE' });
   },
 
+  getRahmenvertrag(id: string): Promise<Rahmenvertrag> {
+    return request(`/admin/rahmenvertraege/${id}`);
+  },
+
+  async uploadDokument(rvId: string, file: File): Promise<Rahmenvertrag> {
+    const formData = new FormData();
+    formData.append('datei', file);
+    const response = await fetch(`${API_BASE}/admin/rahmenvertraege/${rvId}/dokumente`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ nachricht: 'Upload fehlgeschlagen' }));
+      throw new Error(error.nachricht || `HTTP ${response.status}`);
+    }
+    return response.json();
+  },
+
+  deleteDokument(rvId: string, dokId: string): Promise<Rahmenvertrag> {
+    return request(`/admin/rahmenvertraege/${rvId}/dokumente/${dokId}`, { method: 'DELETE' });
+  },
+
+  getDokumentUrl(rvId: string, dokId: string): string {
+    return `${API_BASE}/admin/rahmenvertraege/${rvId}/dokumente/${dokId}`;
+  },
+
   getShopConfigs(): Promise<ShopConfig[]> {
     return request('/admin/shop-configs');
   },
@@ -124,5 +152,29 @@ export const api = {
 
   deleteKatalogArtikel(id: string): Promise<void> {
     return request(`/admin/katalog/${id}`, { method: 'DELETE' });
+  },
+
+  // ─── Bestellungen ─────────────────────────────────────────────────
+
+  createBestellung(data: BestellungCreateRequest): Promise<Bestellung> {
+    return request('/admin/bestellungen', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  getBestellungen(): Promise<Bestellung[]> {
+    return request('/admin/bestellungen');
+  },
+
+  approveBestellung(id: string): Promise<Bestellung> {
+    return request(`/admin/bestellungen/${id}/approve`, { method: 'PATCH' });
+  },
+
+  rejectBestellung(id: string, grund: string): Promise<Bestellung> {
+    return request(`/admin/bestellungen/${id}/reject`, {
+      method: 'PATCH',
+      body: JSON.stringify({ grund }),
+    });
   },
 };

@@ -15,5 +15,5 @@ export function PriceTag({ preis, waehrung = 'EUR', className = '' }: PriceTagPr
     style: 'currency',
     currency: waehrung,
   }).format(preis);
-  return <span className={`font-bold text-gray-900 ${className}`}>{formatted}</span>;
+  return <span className={`font-bold text-gray-900 dark:text-gray-100 ${className}`}>{formatted}</span>;
 }

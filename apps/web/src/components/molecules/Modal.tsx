@@ -41,16 +41,16 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
     >
       <div className="absolute inset-0 bg-black/50" />
       <div
-        className={`relative bg-white w-full ${sizeClasses[size]}
+        className={`relative bg-white dark:bg-gray-800 w-full ${sizeClasses[size]}
           md:rounded-xl md:mx-4 md:max-h-[85vh]
           max-md:inset-0 max-md:fixed max-md:h-full
           flex flex-col overflow-hidden`}
       >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h2>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500"
+            className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"
             aria-label="Schließen"
           >
             <X className="h-5 w-5" />

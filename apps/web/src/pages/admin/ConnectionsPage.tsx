@@ -30,7 +30,7 @@ export function ConnectionsPage() {
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
             <Plug className="h-6 w-6 text-primary-600" />
-            <h1 className="text-xl font-bold text-gray-900">{t('admin.verbindungen.title')}</h1>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('admin.verbindungen.title')}</h1>
           </div>
           <Button variant="secondary" size="sm" onClick={() => refetchHealth()}>
             <RefreshCw className="h-4 w-4 mr-1" />
@@ -39,15 +39,15 @@ export function ConnectionsPage() {
         </div>
 
         {/* Infrastructure */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="text-sm font-semibold text-gray-700 mb-4">{t('admin.verbindungen.infrastruktur')}</h2>
+        <div className="bg-white rounded-xl border border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-5">
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">{t('admin.verbindungen.infrastruktur')}</h2>
           <div className="space-y-3">
             {health?.services && Object.entries(health.services).map(([key, service]) => (
-              <div key={key} className="flex items-center justify-between p-3 rounded-lg bg-gray-50">
+              <div key={key} className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-900">
                 <div>
-                  <span className="text-sm font-medium text-gray-900 capitalize">{key}</span>
+                  <span className="text-sm font-medium text-gray-900 dark:text-gray-100 capitalize">{key}</span>
                   {service.latenzMs !== undefined && (
-                    <span className="ml-2 text-xs text-gray-500">{service.latenzMs}ms</span>
+                    <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">{service.latenzMs}ms</span>
                   )}
                 </div>
                 <StatusDot
@@ -60,14 +60,14 @@ export function ConnectionsPage() {
         </div>
 
         {/* Marketplace Connections */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="text-sm font-semibold text-gray-700 mb-4">{t('admin.verbindungen.marktplaetze')}</h2>
+        <div className="bg-white rounded-xl border border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-5">
+          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">{t('admin.verbindungen.marktplaetze')}</h2>
           <div className="space-y-3">
             {shopConfigs?.map((shop) => (
-              <div key={shop.id} className="flex items-center justify-between p-3 rounded-lg bg-gray-50">
+              <div key={shop.id} className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-900">
                 <div className="space-y-1">
-                  <span className="text-sm font-medium text-gray-900">{shop.name}</span>
-                  <div className="flex gap-4 text-xs text-gray-500">
+                  <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{shop.name}</span>
+                  <div className="flex gap-4 text-xs text-gray-500 dark:text-gray-400">
                     <span>
                       {t('admin.verbindungen.apiKeyStatus')}:{' '}
                       {shop.apiKeyGesetzt ? t('admin.verbindungen.gesetzt') : t('admin.verbindungen.nichtGesetzt')}

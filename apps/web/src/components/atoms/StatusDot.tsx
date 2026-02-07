@@ -17,7 +17,7 @@ export function StatusDot({ status, label }: StatusDotProps) {
           status === 'online' ? 'animate-pulse' : ''
         }`}
       />
-      {label && <span className="text-sm text-gray-700">{label}</span>}
+      {label && <span className="text-sm text-gray-700 dark:text-gray-300">{label}</span>}
     </span>
   );
 }

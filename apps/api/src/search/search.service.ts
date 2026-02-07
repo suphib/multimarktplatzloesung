@@ -1,10 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-import { Marktplatz, Artikel, SearchResponse, Aggregationen } from '@procurement/shared';
+import { Marktplatz, Artikel, SearchResponse, Aggregationen, RahmenvertragInfo, RahmenvertragStatus } from '@procurement/shared';
 import { SearchRequestDto } from './dto/search-request.dto';
 import { FrameworkContractEntity } from './entities/framework-contract.entity';
+import { RahmenvertragEntity } from '../embedding/entities/rahmenvertrag.entity';
 
 const MOCK_ARTIKEL: Artikel[] = [
   // ═══════════════════════════════════════════════════════════════
@@ -633,6 +634,8 @@ export class SearchService {
   constructor(
     @InjectRepository(FrameworkContractEntity)
     private readonly frameworkContractRepo: Repository<FrameworkContractEntity>,
+    @InjectRepository(RahmenvertragEntity)
+    private readonly rvRepo: Repository<RahmenvertragEntity>,
   ) {}
 
   async search(dto: SearchRequestDto): Promise<SearchResponse> {
@@ -677,8 +680,8 @@ export class SearchService {
     };
   }
 
-  private mapFrameworkContractToArtikel(fc: FrameworkContractEntity): Artikel {
-    return {
+  private mapFrameworkContractToArtikel(fc: FrameworkContractEntity, rv?: RahmenvertragEntity): Artikel {
+    const artikel: Artikel = {
       id: fc.id,
       bezeichnung: fc.titel,
       beschreibung: fc.beschreibung ?? '',
@@ -694,6 +697,22 @@ export class SearchService {
       verfuegbar: fc.verfuegbar ?? true,
       artikelnummer: fc.artikelnummer ?? fc.rahmenvertragsNummer,
     };
+
+    if (rv) {
+      artikel.rahmenvertragInfo = {
+        vertragsnummer: rv.vertragsnummer,
+        bezeichnung: rv.bezeichnung,
+        zahlungsbedingungen: rv.zahlungsbedingungen || '',
+        skonto: rv.skonto || '',
+        mindestBestellwert: Number(rv.mindestBestellwert) || 0,
+        maxVolumen: Number(rv.maxVolumen) || 0,
+        abrufVolumen: Number(rv.abrufVolumen) || 0,
+        status: (rv.status as RahmenvertragStatus) || 'AKTIV',
+        gueltigBis: rv.gueltigBis instanceof Date ? rv.gueltigBis.toISOString() : String(rv.gueltigBis),
+      };
+    }
+
+    return artikel;
   }
 
   private async searchLocalContracts(
@@ -714,7 +733,14 @@ export class SearchService {
         )
         .getMany();
 
-      return entities.map((fc) => this.mapFrameworkContractToArtikel(fc));
+      // RV-Konditionen laden
+      const rvNummern = [...new Set(entities.map((e) => e.rahmenvertragsNummer))];
+      const rvEntities = rvNummern.length > 0
+        ? await this.rvRepo.find({ where: { vertragsnummer: In(rvNummern) } })
+        : [];
+      const rvMap = new Map(rvEntities.map((rv) => [rv.vertragsnummer, rv]));
+
+      return entities.map((fc) => this.mapFrameworkContractToArtikel(fc, rvMap.get(fc.rahmenvertragsNummer)));
     } catch (error) {
       this.logger.warn(
         'Fehler beim Abfragen der Rahmenvertrags-Artikel, fahre ohne lokale Ergebnisse fort',

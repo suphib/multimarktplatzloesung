@@ -4,6 +4,7 @@ import { RahmenvertragEntity } from '../embedding/entities/rahmenvertrag.entity'
 import { ClassificationEntity } from '../classification/entities/classification.entity';
 import { FrameworkContractEntity } from '../search/entities/framework-contract.entity';
 import { ShopConfigEntity } from '../admin/entities/shop-config.entity';
+import { BestellungEntity } from '../admin/entities/bestellung.entity';
 import { Kanal, Konfidenz, Marktplatz } from '@procurement/shared';
 
 const dataSource = new DataSource({
@@ -13,7 +14,7 @@ const dataSource = new DataSource({
   username: process.env.DATABASE_USERNAME || 'procurement',
   password: process.env.DATABASE_PASSWORD || 'procurement_secret',
   database: process.env.DATABASE_NAME || 'procurement_ai',
-  entities: [RahmenvertragEntity, ClassificationEntity, FrameworkContractEntity, ShopConfigEntity],
+  entities: [RahmenvertragEntity, ClassificationEntity, FrameworkContractEntity, ShopConfigEntity, BestellungEntity],
   synchronize: true,
 });
 
@@ -31,9 +32,23 @@ async function seed() {
         'Rahmenvertrag für die Beschaffung von IT-Endgeräten inkl. Laptops, Desktop-PCs, Monitore und Zubehör. Hersteller: Dell, Lenovo, HP.',
       lieferant: 'Bechtle AG',
       vertragsnummer: 'RV-2024-IT-001',
+      gueltigAb: new Date('2024-01-01'),
       gueltigBis: new Date('2026-12-31'),
       cpvCodes: '30213100,30213300,30231000',
       maxVolumen: 500000,
+      status: 'AKTIV',
+      ansprechpartner: 'Thomas Schmidt',
+      ansprechpartnerEmail: 't.schmidt@bechtle.de',
+      ansprechpartnerTelefon: '+49 711 94670-100',
+      zahlungsbedingungen: '30 Tage netto',
+      skonto: '2% bei Zahlung innerhalb 14 Tagen',
+      kuendigungsfrist: '3 Monate zum Quartalsende',
+      produktkategorien: 'Laptops,Desktop-PCs,Monitore,Zubehör',
+      abrufVolumen: 120000,
+      mindestBestellwert: 100,
+      dokumente: '[]',
+      verlaengerungen: '[]',
+      notizen: '',
     },
     {
       id: uuidv4(),
@@ -42,9 +57,23 @@ async function seed() {
         'Rahmenvertrag für Büromöbel inkl. Schreibtische, Bürostühle, Regale und ergonomisches Zubehör.',
       lieferant: 'Steelcase Deutschland GmbH',
       vertragsnummer: 'RV-2024-MOE-002',
+      gueltigAb: new Date('2024-01-01'),
       gueltigBis: new Date('2025-06-30'),
       cpvCodes: '39130000,39110000',
       maxVolumen: 200000,
+      status: 'ABGELAUFEN',
+      ansprechpartner: 'Marina Weber',
+      ansprechpartnerEmail: 'm.weber@steelcase.de',
+      ansprechpartnerTelefon: '+49 89 35805-200',
+      zahlungsbedingungen: '14 Tage netto',
+      skonto: '',
+      kuendigungsfrist: '6 Monate zum Jahresende',
+      produktkategorien: 'Schreibtische,Bürostühle,Regale,Ergonomie-Zubehör',
+      abrufVolumen: 185000,
+      mindestBestellwert: 200,
+      dokumente: '[]',
+      verlaengerungen: '[]',
+      notizen: 'Vertrag ausgelaufen. Nachfolgeverhandlungen laufen.',
     },
     {
       id: uuidv4(),
@@ -53,9 +82,23 @@ async function seed() {
         'Rahmenvertrag für Bürobedarf: Papier, Stifte, Ordner, Druckerpatronen, Toner und allgemeines Verbrauchsmaterial.',
       lieferant: 'Lyreco Deutschland GmbH',
       vertragsnummer: 'RV-2024-BUE-003',
+      gueltigAb: new Date('2024-03-01'),
       gueltigBis: new Date('2025-12-31'),
       cpvCodes: '30192000,22800000,30190000',
       maxVolumen: 100000,
+      status: 'GEKUENDIGT',
+      ansprechpartner: 'Stefan Meier',
+      ansprechpartnerEmail: 's.meier@lyreco.de',
+      ansprechpartnerTelefon: '+49 2102 7003-50',
+      zahlungsbedingungen: '45 Tage netto',
+      skonto: '3% bei Zahlung innerhalb 10 Tagen',
+      kuendigungsfrist: '3 Monate zum Quartalsende',
+      produktkategorien: 'Papier,Stifte,Ordner,Druckerpatronen,Toner',
+      abrufVolumen: 67000,
+      mindestBestellwert: 50,
+      dokumente: '[]',
+      verlaengerungen: '[]',
+      notizen: 'Gekündigt wegen Lieferproblemen. Übergang zu neuem Anbieter.',
     },
     {
       id: uuidv4(),
@@ -64,9 +107,23 @@ async function seed() {
         'Rahmenvertrag für Drucker, Scanner, Multifunktionsgeräte und zugehöriges Verbrauchsmaterial.',
       lieferant: 'Ricoh Deutschland GmbH',
       vertragsnummer: 'RV-2024-DRU-004',
+      gueltigAb: new Date('2024-04-01'),
       gueltigBis: new Date('2026-03-31'),
       cpvCodes: '30232000',
       maxVolumen: 150000,
+      status: 'AKTIV',
+      ansprechpartner: 'Klaus Richter',
+      ansprechpartnerEmail: 'k.richter@ricoh.de',
+      ansprechpartnerTelefon: '+49 511 6742-300',
+      zahlungsbedingungen: '30 Tage netto',
+      skonto: '2% bei Zahlung innerhalb 10 Tagen',
+      kuendigungsfrist: '3 Monate zum Quartalsende',
+      produktkategorien: 'Drucker,Scanner,Multifunktionsgeräte,Toner',
+      abrufVolumen: 45000,
+      mindestBestellwert: 150,
+      dokumente: '[]',
+      verlaengerungen: '[]',
+      notizen: '',
     },
     {
       id: uuidv4(),
@@ -75,9 +132,23 @@ async function seed() {
         'Rahmenvertrag für Laborchemikalien (Säuren, Lösungsmittel, Reagenzien), Einwegmaterial (Handschuhe, Pipettenspitzen) und Laborglas. Gefahrstofflagerung inklusive.',
       lieferant: 'Carl Roth GmbH + Co. KG',
       vertragsnummer: 'RV-2024-LAB-005',
+      gueltigAb: new Date('2024-02-01'),
       gueltigBis: new Date('2026-06-30'),
       cpvCodes: '24300000,33140000,38437000',
       maxVolumen: 250000,
+      status: 'AKTIV',
+      ansprechpartner: 'Dr. Anna Fischer',
+      ansprechpartnerEmail: 'a.fischer@carlroth.de',
+      ansprechpartnerTelefon: '+49 721 5606-400',
+      zahlungsbedingungen: '30 Tage netto',
+      skonto: '2% bei Zahlung innerhalb 14 Tagen',
+      kuendigungsfrist: '6 Monate zum Jahresende',
+      produktkategorien: 'Chemikalien,Einwegmaterial,Laborglas,Pipettenspitzen',
+      abrufVolumen: 98000,
+      mindestBestellwert: 75,
+      dokumente: '[]',
+      verlaengerungen: '[]',
+      notizen: 'Gefahrstoffbeauftragter muss bei jeder Bestellung informiert werden.',
     },
     {
       id: uuidv4(),
@@ -86,17 +157,36 @@ async function seed() {
         'Rahmenvertrag für Videokonferenzsysteme, Beamer, interaktive Displays und Audio-/Videozubehör für Besprechungsräume.',
       lieferant: 'Logitech Europe S.A.',
       vertragsnummer: 'RV-2024-AV-006',
+      gueltigAb: new Date('2024-06-01'),
       gueltigBis: new Date('2026-09-30'),
       cpvCodes: '32232000,32321200,38652000',
       maxVolumen: 180000,
+      status: 'AKTIV',
+      ansprechpartner: 'Patrick Braun',
+      ansprechpartnerEmail: 'p.braun@logitech.com',
+      ansprechpartnerTelefon: '+41 21 863-5100',
+      zahlungsbedingungen: '60 Tage netto',
+      skonto: '1.5% bei Zahlung innerhalb 14 Tagen',
+      kuendigungsfrist: '3 Monate zum Quartalsende',
+      produktkategorien: 'Videokonferenz,Beamer,Displays,Audio-Zubehör',
+      abrufVolumen: 52000,
+      mindestBestellwert: 250,
+      dokumente: '[]',
+      verlaengerungen: '[]',
+      notizen: '',
     },
   ];
 
   for (const rv of rahmenvertraege) {
-    const exists = await rvRepo.findOne({
+    const existing = await rvRepo.findOne({
       where: { vertragsnummer: rv.vertragsnummer },
     });
-    if (!exists) {
+    if (existing) {
+      const { id, ...updateData } = rv;
+      Object.assign(existing, updateData);
+      await rvRepo.save(existing);
+      console.log(`Rahmenvertrag aktualisiert: ${rv.bezeichnung}`);
+    } else {
       await rvRepo.save(rvRepo.create(rv));
       console.log(`Rahmenvertrag angelegt: ${rv.bezeichnung}`);
     }

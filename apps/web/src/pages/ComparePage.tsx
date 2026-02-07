@@ -781,6 +781,16 @@ export function ComparePage() {
                         </div>
                       </div>
 
+                      {/* RV-Konditionen im Vergleich */}
+                      {a.rahmenvertragInfo && (
+                        <div className="mt-3 bg-green-50 border border-green-200 rounded-lg p-2.5 text-xs text-green-800 space-y-1">
+                          <div className="font-medium">{a.rahmenvertragInfo.vertragsnummer}</div>
+                          <div>{t('order.zahlung')}: {a.rahmenvertragInfo.zahlungsbedingungen}</div>
+                          {a.rahmenvertragInfo.skonto && <div>{t('order.skonto')}: {a.rahmenvertragInfo.skonto}</div>}
+                          <div>{t('order.mindestBestellwertLabel')}: {a.rahmenvertragInfo.mindestBestellwert.toFixed(0)} €</div>
+                        </div>
+                      )}
+
                       {/* Mobile: Specs inline */}
                       {showSpecs && articles.length >= 2 && (
                         <div className="mt-3 border-t border-gray-100 pt-3 lg:hidden">

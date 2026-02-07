@@ -1,4 +1,4 @@
-import { Package, Truck, Leaf } from 'lucide-react';
+import { Package, Truck, Leaf, ShoppingCart, FileText } from 'lucide-react';
 import type { Artikel } from '@procurement/shared';
 import { useTranslation } from 'react-i18next';
 import { Badge, PriceTag, Button } from '../atoms';
@@ -9,6 +9,7 @@ interface ArticleCardProps {
   maxReached?: boolean;
   onToggleSelect?: () => void;
   onViewDetail?: () => void;
+  onBestellen?: () => void;
 }
 
 const mpColors: Record<string, string> = {
@@ -18,20 +19,20 @@ const mpColors: Record<string, string> = {
   RAHMENVERTRAG: 'bg-green-100 text-green-800 border-green-200',
 };
 
-export function ArticleCard({ artikel, isSelected, maxReached, onToggleSelect, onViewDetail }: ArticleCardProps) {
+export function ArticleCard({ artikel, isSelected, maxReached, onToggleSelect, onViewDetail, onBestellen }: ArticleCardProps) {
   const { t } = useTranslation();
   const mpLabel = t(`common.marketplace.${artikel.marktplatz}`, { defaultValue: artikel.marktplatz });
 
   return (
-    <div className={`bg-white rounded-xl border-2 shadow-sm hover:shadow-md transition-all ${
-      isSelected ? 'border-primary-400 ring-1 ring-primary-200' : 'border-gray-100'
+    <div className={`bg-white dark:bg-gray-800 rounded-xl border-2 shadow-sm hover:shadow-md transition-all ${
+      isSelected ? 'border-primary-400 ring-1 ring-primary-200' : 'border-gray-100 dark:border-gray-700'
     }`}>
       <div className="flex flex-col sm:flex-row">
         {/* Bild */}
         <div
           onClick={onViewDetail}
           role={onViewDetail ? 'button' : undefined}
-          className={`w-full sm:w-36 md:w-44 h-40 sm:h-auto bg-gray-50 flex items-center justify-center flex-shrink-0 rounded-t-xl sm:rounded-t-none sm:rounded-l-xl overflow-hidden relative ${onViewDetail ? 'cursor-pointer' : ''}`}
+          className={`w-full sm:w-36 md:w-44 h-40 sm:h-auto bg-gray-50 dark:bg-gray-700 flex items-center justify-center flex-shrink-0 rounded-t-xl sm:rounded-t-none sm:rounded-l-xl overflow-hidden relative ${onViewDetail ? 'cursor-pointer' : ''}`}
         >
           {artikel.bildUrl ? (
             <img src={artikel.bildUrl} alt={artikel.bezeichnung} className="w-full h-full object-cover" />
@@ -58,17 +59,17 @@ export function ArticleCard({ artikel, isSelected, maxReached, onToggleSelect, o
                   {mpLabel}
                 </span>
               </div>
-              <h3 className="font-semibold text-gray-900 line-clamp-1 group-hover:text-primary-700 transition-colors">
+              <h3 className="font-semibold text-gray-900 dark:text-gray-100 line-clamp-1 group-hover:text-primary-700 transition-colors">
                 {artikel.bezeichnung}
               </h3>
-              <p className="text-sm text-gray-500 mt-1 line-clamp-2 group-hover:text-gray-700 transition-colors">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 group-hover:text-gray-700 transition-colors">
                 {artikel.beschreibung}
               </p>
             </div>
             <PriceTag preis={artikel.preis} waehrung={artikel.waehrung} className="text-xl font-bold flex-shrink-0" />
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-sm text-gray-500">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-sm text-gray-500 dark:text-gray-400">
             <span className="flex items-center gap-1">
               <Truck className="h-3.5 w-3.5" />
               {artikel.lieferzeit}
@@ -86,6 +87,12 @@ export function ArticleCard({ artikel, isSelected, maxReached, onToggleSelect, o
             {onViewDetail && (
               <Button variant="secondary" size="sm" onClick={onViewDetail}>{t('common.details')}</Button>
             )}
+            {onBestellen && artikel.marktplatz === 'RAHMENVERTRAG' && (
+              <Button size="sm" onClick={onBestellen}>
+                <ShoppingCart className="h-3.5 w-3.5 mr-1" />
+                {t('order.bestellen')}
+              </Button>
+            )}
             {onToggleSelect && (
               <Button
                 variant={isSelected ? 'primary' : 'ghost'}
@@ -98,6 +105,37 @@ export function ArticleCard({ artikel, isSelected, maxReached, onToggleSelect, o
               </Button>
             )}
           </div>
+
+          {/* RV-Konditionen Info-Leiste */}
+          {artikel.rahmenvertragInfo && artikel.marktplatz === 'RAHMENVERTRAG' && (
+            <div className="mt-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-2.5 text-xs text-green-800 dark:text-green-300">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                <span className="flex items-center gap-1 font-medium">
+                  <FileText className="h-3 w-3" />
+                  {artikel.rahmenvertragInfo.vertragsnummer}
+                </span>
+                <span className="text-green-600 dark:text-green-400">·</span>
+                <span>{artikel.rahmenvertragInfo.zahlungsbedingungen}</span>
+                {artikel.rahmenvertragInfo.skonto && (
+                  <>
+                    <span className="text-green-600 dark:text-green-400">·</span>
+                    <span>{artikel.rahmenvertragInfo.skonto}</span>
+                  </>
+                )}
+              </div>
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-0.5">
+                <span>{t('order.mindestBestellwertKurz', { wert: artikel.rahmenvertragInfo.mindestBestellwert.toFixed(0) })}</span>
+                <span className="text-green-600 dark:text-green-400">·</span>
+                <span>
+                  {t('admin.rahmenvertraege.volumen_prozent', {
+                    prozent: artikel.rahmenvertragInfo.maxVolumen > 0
+                      ? Math.round((artikel.rahmenvertragInfo.abrufVolumen / artikel.rahmenvertragInfo.maxVolumen) * 100)
+                      : 0,
+                  })}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

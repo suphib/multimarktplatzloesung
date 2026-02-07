@@ -98,7 +98,7 @@ export function AIThinkingProcess({ query, onComplete, isVisible }: AIThinkingPr
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 max-w-xl mx-auto"
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 max-w-xl mx-auto"
     >
       <div className="flex items-center gap-2 mb-6">
         <div className="relative">
@@ -109,7 +109,7 @@ export function AIThinkingProcess({ query, onComplete, isVisible }: AIThinkingPr
             transition={{ duration: 1.5, repeat: Infinity }}
           />
         </div>
-        <span className="font-medium text-gray-700">
+        <span className="font-medium text-gray-700 dark:text-gray-300">
           {t('ai.thinking.analyzing')}: "<span className="text-primary-600">{query}</span>"
         </span>
       </div>

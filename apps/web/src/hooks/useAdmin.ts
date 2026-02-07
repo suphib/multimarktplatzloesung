@@ -4,6 +4,7 @@ import type {
   RahmenvertragCreateRequest,
   ShopConfigUpdateRequest,
   FrameworkContractItem,
+  BestellungCreateRequest,
 } from '@procurement/shared';
 
 // ─── Query Keys ─────────────────────────────────────────────────
@@ -11,8 +12,10 @@ import type {
 const keys = {
   stats: ['admin', 'stats'] as const,
   rahmenvertraege: ['admin', 'rahmenvertraege'] as const,
+  rahmenvertrag: (id: string) => ['admin', 'rahmenvertrag', id] as const,
   shopConfigs: ['admin', 'shop-configs'] as const,
   katalog: (params: Record<string, any>) => ['admin', 'katalog', params] as const,
+  bestellungen: ['admin', 'bestellungen'] as const,
 };
 
 // ─── Queries ────────────────────────────────────────────────────
@@ -28,6 +31,14 @@ export function useRahmenvertraege() {
   return useQuery({
     queryKey: keys.rahmenvertraege,
     queryFn: () => api.getRahmenvertraege(),
+  });
+}
+
+export function useRahmenvertrag(id: string) {
+  return useQuery({
+    queryKey: keys.rahmenvertrag(id),
+    queryFn: () => api.getRahmenvertrag(id),
+    enabled: !!id,
   });
 }
 
@@ -77,6 +88,30 @@ export function useDeleteRahmenvertrag() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: keys.rahmenvertraege });
       qc.invalidateQueries({ queryKey: keys.stats });
+    },
+  });
+}
+
+export function useUploadDokument() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ rvId, file }: { rvId: string; file: File }) =>
+      api.uploadDokument(rvId, file),
+    onSuccess: (_data, vars) => {
+      qc.invalidateQueries({ queryKey: keys.rahmenvertrag(vars.rvId) });
+      qc.invalidateQueries({ queryKey: keys.rahmenvertraege });
+    },
+  });
+}
+
+export function useDeleteDokument() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ rvId, dokId }: { rvId: string; dokId: string }) =>
+      api.deleteDokument(rvId, dokId),
+    onSuccess: (_data, vars) => {
+      qc.invalidateQueries({ queryKey: keys.rahmenvertrag(vars.rvId) });
+      qc.invalidateQueries({ queryKey: keys.rahmenvertraege });
     },
   });
 }
@@ -132,6 +167,45 @@ export function useDeleteKatalogArtikel() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['admin', 'katalog'] });
       qc.invalidateQueries({ queryKey: keys.stats });
+    },
+  });
+}
+
+// ─── Bestellungen ────────────────────────────────────────────────
+
+export function useBestellungen() {
+  return useQuery({
+    queryKey: keys.bestellungen,
+    queryFn: () => api.getBestellungen(),
+  });
+}
+
+export function useCreateBestellung() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (data: BestellungCreateRequest) => api.createBestellung(data),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: keys.bestellungen });
+    },
+  });
+}
+
+export function useApproveBestellung() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => api.approveBestellung(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: keys.bestellungen });
+    },
+  });
+}
+
+export function useRejectBestellung() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, grund }: { id: string; grund: string }) => api.rejectBestellung(id, grund),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: keys.bestellungen });
     },
   });
 }

@@ -26,12 +26,12 @@ export function FormField(props: FormFieldProps) {
   const fieldId = id || label.toLowerCase().replace(/\s+/g, '-');
 
   const baseClasses =
-    'w-full rounded-lg border px-3 py-2 text-sm outline-none transition-colors focus:border-primary-500 focus:ring-1 focus:ring-primary-500';
-  const errorClasses = error ? 'border-red-300' : 'border-gray-300';
+    'w-full rounded-lg border px-3 py-2 text-sm outline-none transition-colors focus:border-primary-500 focus:ring-1 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100';
+  const errorClasses = error ? 'border-red-300' : 'border-gray-300 dark:border-gray-600';
 
   return (
     <div className="space-y-1">
-      <label htmlFor={fieldId} className="block text-sm font-medium text-gray-700">
+      <label htmlFor={fieldId} className="block text-sm font-medium text-gray-700 dark:text-gray-300">
         {label}
       </label>
       {type === 'textarea' ? (
@@ -60,7 +60,7 @@ export function FormField(props: FormFieldProps) {
           {...(rest as InputHTMLAttributes<HTMLInputElement>)}
         />
       )}
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {error && <p className="text-xs text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 }

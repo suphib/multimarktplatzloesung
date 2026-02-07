@@ -6,6 +6,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 import './index.css';
 
+// FOUC Prevention: Apply theme class before React renders
+const storedTheme = localStorage.getItem('theme');
+if (storedTheme === 'dunkel') document.documentElement.classList.add('dark');
+else if (storedTheme === 'modern') document.documentElement.classList.add('modern');
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

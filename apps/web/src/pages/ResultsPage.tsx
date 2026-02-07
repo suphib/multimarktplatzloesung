@@ -7,10 +7,12 @@ import { SearchBar } from '../components/molecules/SearchBar';
 import { SearchResults } from '../components/organisms/SearchResults';
 import { AIThinkingProcess } from '../components/organisms/AIThinkingProcess';
 import { ComplianceWarning } from '../components/organisms/ComplianceWarning';
+import { BestellModal } from '../components/organisms/BestellModal';
 import { Spinner, Button } from '../components/atoms';
 import { useSearchStore } from '../store/useSearchStore';
 import { useSearch } from '../hooks/useSearch';
 import { ArrowLeft, BarChart3, Search } from 'lucide-react';
+import type { Artikel } from '@procurement/shared';
 
 interface AIThinkingResult {
   query: string;
@@ -40,6 +42,7 @@ export function ResultsPage() {
   const [currentQuery, setCurrentQuery] = useState('');
   const [showHazardousWarning, setShowHazardousWarning] = useState(false);
   const [hazardousArticleName, setHazardousArticleName] = useState('');
+  const [bestellArtikel, setBestellArtikel] = useState<Artikel | null>(null);
 
   const queryParam = searchParams.get('q') ?? '';
 
@@ -147,6 +150,7 @@ export function ResultsPage() {
               selectedIds={selectedArticles.map((a) => a.id)}
               onToggleSelect={toggleArticle}
               onViewDetail={(artikel) => navigate(`/article/${artikel.id}`, { state: { artikel } })}
+              onBestellen={(artikel) => setBestellArtikel(artikel)}
             />
           ) : !queryParam ? (
             <div className="text-center py-16" key="empty">
@@ -173,6 +177,14 @@ export function ResultsPage() {
           />
         )}
       </AnimatePresence>
+
+      {/* Bestell-Modal */}
+      {bestellArtikel && (
+        <BestellModal
+          artikel={bestellArtikel}
+          onClose={() => setBestellArtikel(null)}
+        />
+      )}
     </SearchLayout>
   );
 }
