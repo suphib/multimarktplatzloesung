@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { SearchService } from './search.service';
 import { FrameworkContractEntity } from './entities/framework-contract.entity';
+import { RahmenvertragEntity } from '../embedding/entities/rahmenvertrag.entity';
 import { Marktplatz } from '@procurement/shared';
 
 const mockQueryBuilder = {
@@ -11,6 +12,10 @@ const mockQueryBuilder = {
 
 const mockRepository = {
   createQueryBuilder: jest.fn().mockReturnValue(mockQueryBuilder),
+};
+
+const mockRvRepository = {
+  find: jest.fn().mockResolvedValue([]),
 };
 
 describe('SearchService', () => {
@@ -27,6 +32,10 @@ describe('SearchService', () => {
         {
           provide: getRepositoryToken(FrameworkContractEntity),
           useValue: mockRepository,
+        },
+        {
+          provide: getRepositoryToken(RahmenvertragEntity),
+          useValue: mockRvRepository,
         },
       ],
     }).compile();

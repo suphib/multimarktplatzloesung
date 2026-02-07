@@ -5,6 +5,7 @@ import { AdminService } from './admin.service';
 import { RahmenvertragEntity } from '../embedding/entities/rahmenvertrag.entity';
 import { FrameworkContractEntity } from '../search/entities/framework-contract.entity';
 import { ShopConfigEntity } from './entities/shop-config.entity';
+import { BestellungEntity } from './entities/bestellung.entity';
 import { Marktplatz } from '@procurement/shared';
 
 const mockRvRepo = () => ({
@@ -44,16 +45,26 @@ const mockScRepo = () => ({
   count: jest.fn(),
 });
 
+const mockBestellungRepo = () => ({
+  find: jest.fn(),
+  findOne: jest.fn(),
+  create: jest.fn((dto) => dto),
+  save: jest.fn((entity) => ({ ...entity, erstelltAm: new Date() })),
+  count: jest.fn(),
+});
+
 describe('AdminService', () => {
   let service: AdminService;
   let rvRepo: ReturnType<typeof mockRvRepo>;
   let fcRepo: ReturnType<typeof mockFcRepo>;
   let scRepo: ReturnType<typeof mockScRepo>;
+  let bestellungRepo: ReturnType<typeof mockBestellungRepo>;
 
   beforeEach(async () => {
     rvRepo = mockRvRepo();
     fcRepo = mockFcRepo();
     scRepo = mockScRepo();
+    bestellungRepo = mockBestellungRepo();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -61,6 +72,7 @@ describe('AdminService', () => {
         { provide: getRepositoryToken(RahmenvertragEntity), useValue: rvRepo },
         { provide: getRepositoryToken(FrameworkContractEntity), useValue: fcRepo },
         { provide: getRepositoryToken(ShopConfigEntity), useValue: scRepo },
+        { provide: getRepositoryToken(BestellungEntity), useValue: bestellungRepo },
       ],
     }).compile();
 
