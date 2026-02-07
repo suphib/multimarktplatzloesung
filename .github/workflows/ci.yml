@@ -77,6 +77,9 @@ jobs:
             docker compose -f docker-compose.prod.yml build --no-cache
             echo "🔄 Restarting services..."
             docker compose -f docker-compose.prod.yml up -d
+            echo "🌱 Seeding database..."
+            sleep 10
+            docker compose -f docker-compose.prod.yml exec -T api node dist/config/seed.js || echo "⚠️ Seed skipped (non-critical)"
             echo "🧹 Cleaning up old images..."
             docker image prune -f
             echo "✅ Deployment complete!"
