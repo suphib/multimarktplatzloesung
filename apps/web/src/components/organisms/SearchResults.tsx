@@ -12,6 +12,8 @@ interface SearchResultsProps {
   onToggleSelect: (artikel: Artikel) => void;
   onViewDetail: (artikel: Artikel) => void;
   onBestellen?: (artikel: Artikel) => void;
+  ociMode?: boolean;
+  onAddToOciCart?: (artikel: Artikel) => void;
 }
 
 export function SearchResults({
@@ -22,6 +24,8 @@ export function SearchResults({
   onToggleSelect,
   onViewDetail,
   onBestellen,
+  ociMode,
+  onAddToOciCart,
 }: SearchResultsProps) {
   const { t } = useTranslation();
 
@@ -65,6 +69,8 @@ export function SearchResults({
             onToggleSelect={() => onToggleSelect(artikel)}
             onViewDetail={() => onViewDetail(artikel)}
             onBestellen={onBestellen ? () => onBestellen(artikel) : undefined}
+            ociMode={ociMode}
+            onAddToOciCart={onAddToOciCart ? () => onAddToOciCart(artikel) : undefined}
           />
         ))}
       </div>

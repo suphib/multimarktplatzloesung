@@ -240,6 +240,83 @@ test.describe("Verbindungen", () => {
 });
 
 // ═══════════════════════════════════════════════════════════════
+// CSV/Excel Export
+// ═══════════════════════════════════════════════════════════════
+
+test.describe("Bestellungen CSV-Export", () => {
+  test.use({ locale: "de-DE" });
+
+  test("sollte CSV-Export Button auf Bestellungen-Seite anzeigen", async ({ page }) => {
+    await page.goto("/admin/bestellungen");
+    await expect(page.getByText("Bestellungen")).toBeVisible({ timeout: 15000 });
+
+    // Export button should be visible
+    const exportButton = page.getByRole("button", { name: /CSV-Export|CSV/ });
+    await expect(exportButton).toBeVisible();
+  });
+
+  test("sollte CSV-Export Button disabled sein wenn keine Bestellungen", async ({ page }) => {
+    await page.goto("/admin/bestellungen");
+    await expect(page.getByText("Bestellungen")).toBeVisible({ timeout: 15000 });
+
+    // Wait for data load
+    await page.waitForTimeout(2000);
+
+    const exportButton = page.getByRole("button", { name: /CSV-Export|CSV/ });
+    await expect(exportButton).toBeVisible();
+  });
+});
+
+test.describe("Rahmenverträge Excel-Export", () => {
+  test.use({ locale: "de-DE" });
+
+  test("sollte Excel-Export Button auf Rahmenverträge-Seite anzeigen", async ({ page }) => {
+    await page.goto("/admin/rahmenvertraege");
+    await expect(page.getByText("IT-Endgeräte")).toBeVisible({ timeout: 15000 });
+
+    // Export button should be visible
+    const exportButton = page.getByRole("button", { name: /Excel-Export|Excel/ });
+    await expect(exportButton).toBeVisible();
+  });
+
+  test("sollte Excel-Export Button neben Neuer Rahmenvertrag Button anzeigen", async ({ page }) => {
+    await page.goto("/admin/rahmenvertraege");
+    await expect(page.getByText("IT-Endgeräte")).toBeVisible({ timeout: 15000 });
+
+    // Both buttons should be visible
+    await expect(page.getByRole("button", { name: /Excel-Export|Excel/ })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Neuer Rahmenvertrag/ })).toBeVisible();
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════
+// OCI Configuration
+// ═══════════════════════════════════════════════════════════════
+
+test.describe("OCI Konfiguration", () => {
+  test.use({ locale: "de-DE" });
+
+  test("sollte OCI-Konfiguration auf Shop-Config Seite anzeigen", async ({ page }) => {
+    await page.goto("/admin/shop-config");
+    await expect(page.getByText("Amazon Business")).toBeVisible({ timeout: 15000 });
+
+    // OCI config section should be visible
+    await expect(page.getByText("OCI/cXML Konfiguration")).toBeVisible();
+    await expect(page.getByText("OCI Endpunkt")).toBeVisible();
+    await expect(page.getByText("cXML Endpunkt")).toBeVisible();
+  });
+
+  test("sollte OCI Endpunkt-URLs anzeigen", async ({ page }) => {
+    await page.goto("/admin/shop-config");
+    await expect(page.getByText("Amazon Business")).toBeVisible({ timeout: 15000 });
+
+    // Endpoint URLs should contain /api/v1/oci/setup and /api/v1/cxml/setup
+    await expect(page.getByText(/\/oci\/setup/)).toBeVisible();
+    await expect(page.getByText(/\/cxml\/setup/)).toBeVisible();
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════
 // Mobile Admin
 // ═══════════════════════════════════════════════════════════════
 

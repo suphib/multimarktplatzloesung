@@ -11,6 +11,7 @@ import {
   X,
   ShoppingCart,
   Search,
+  Link2,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher, Footer } from '../atoms';
@@ -25,6 +26,7 @@ const navItems = [
   { to: '/admin/rahmenvertraege', icon: FileText, tKey: 'admin.nav.rahmenvertraege' },
   { to: '/admin/bestellungen', icon: ShoppingCart, tKey: 'admin.nav.bestellungen' },
   { to: '/admin/shop-config', icon: Store, tKey: 'admin.nav.shopConfig' },
+  { to: '/admin/oci-config', icon: Link2, tKey: 'admin.nav.ociConfig' },
   { to: '/admin/katalog', icon: Database, tKey: 'admin.nav.katalog' },
   { to: '/admin/verbindungen', icon: Plug, tKey: 'admin.nav.verbindungen' },
 ] as const;

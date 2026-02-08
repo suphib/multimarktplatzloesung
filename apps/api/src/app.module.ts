@@ -8,6 +8,7 @@ import { EmbeddingModule } from './embedding/embedding.module';
 import { HealthModule } from './health/health.module';
 import { AiModule } from './ai/ai.module';
 import { AdminModule } from './admin/admin.module';
+import { OciModule } from './oci/oci.module';
 import { ClassificationEntity } from './classification/entities/classification.entity';
 import { DocumentationEntity } from './documentation/entities/documentation.entity';
 import { RahmenvertragEntity } from './embedding/entities/rahmenvertrag.entity';
@@ -48,6 +49,7 @@ import { ShopConfigEntity } from './admin/entities/shop-config.entity';
     HealthModule,
     AiModule,
     AdminModule,
+    OciModule,
   ],
 })
 export class AppModule {}

@@ -5,7 +5,6 @@ import { AdminLayout } from '../../components/templates/AdminLayout';
 import { StatusDot, Button, Spinner } from '../../components/atoms';
 import { Modal, FormField } from '../../components/molecules';
 import { useShopConfigs, useUpdateShopConfig, useTriggerShopSync } from '../../hooks/useAdmin';
-import type { Marktplatz } from '@procurement/shared';
 
 const mpColors: Record<string, string> = {
   AMAZON_BUSINESS: 'border-l-orange-400',

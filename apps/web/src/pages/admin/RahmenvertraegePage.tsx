@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FileText, Plus } from 'lucide-react';
+import { FileText, Plus, Download } from 'lucide-react';
 import { AdminLayout } from '../../components/templates/AdminLayout';
 import { DataTable, Badge, Button } from '../../components/atoms';
 import { Modal, FormField } from '../../components/molecules';
@@ -12,6 +12,7 @@ import {
   useCreateRahmenvertrag,
   useDeleteRahmenvertrag,
 } from '../../hooks/useAdmin';
+import { useExportRahmenvertraege } from '../../hooks/useExportRahmenvertraege';
 
 const emptyForm: RahmenvertragCreateRequest = {
   bezeichnung: '',
@@ -36,6 +37,7 @@ export function RahmenvertraegePage() {
   const { data: rahmenvertraege, isLoading } = useRahmenvertraege();
   const createMutation = useCreateRahmenvertrag();
   const deleteMutation = useDeleteRahmenvertrag();
+  const { exportRahmenvertraegeExcel } = useExportRahmenvertraege();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState<RahmenvertragCreateRequest>(emptyForm);
@@ -129,10 +131,21 @@ export function RahmenvertraegePage() {
             <FileText className="h-6 w-6 text-primary-600" />
             <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('admin.rahmenvertraege.title')}</h1>
           </div>
-          <Button onClick={openCreate} size="sm">
-            <Plus className="h-4 w-4 mr-1" />
-            {t('admin.rahmenvertraege.neu')}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={() => exportRahmenvertraegeExcel(rahmenvertraege || [])}
+              disabled={!rahmenvertraege?.length}
+            >
+              <Download className="h-4 w-4 sm:mr-1" />
+              <span className="hidden sm:inline">{t('admin.export.excel', { defaultValue: 'Excel-Export' })}</span>
+            </Button>
+            <Button onClick={openCreate} size="sm">
+              <Plus className="h-4 w-4 mr-1" />
+              {t('admin.rahmenvertraege.neu')}
+            </Button>
+          </div>
         </div>
 
         <DataTable

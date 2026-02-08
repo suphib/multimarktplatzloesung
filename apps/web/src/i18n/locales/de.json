@@ -215,6 +215,7 @@
     "copyright": "© 2026 WP Workers GmbH",
     "imprint": "Impressum",
     "privacy": "Datenschutz",
+    "handbook": "Handbuch",
     "prototype": "Prototyp-Version · Demo-Daten"
   },
   "organisms": {
@@ -298,6 +299,8 @@
       "katalogShort": "Katalog",
       "verbindungen": "Verbindungen",
       "verbindungenShort": "Verbind.",
+      "ociConfig": "OCI/cXML",
+      "ociConfigShort": "OCI",
       "backToApp": "Zurück zur App",
       "backToSearch": "Zur Suche"
     },
@@ -401,6 +404,11 @@
       "loeschenBestaetigung": "Artikel löschen",
       "loeschenHinweis": "Möchten Sie diesen Artikel wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
     },
+    "export": {
+      "csv": "CSV-Export",
+      "excel": "Excel-Export",
+      "exportieren": "Exportieren"
+    },
     "bestellungen": {
       "title": "Bestellungen",
       "alle": "Alle",
@@ -413,6 +421,78 @@
       "ablehnen": "Ablehnen",
       "ablehnungsgrund": "Ablehnungsgrund",
       "keine": "Keine Bestellungen vorhanden"
+    },
+    "oci": {
+      "banner": "OCI Punch-Out Sitzung aktiv",
+      "sendCart": "Warenkorb senden",
+      "addToCart": "In Warenkorb",
+      "removeFromCart": "Aus Warenkorb",
+      "cartEmpty": "Warenkorb ist leer",
+      "cartItems": "{{count}} Artikel im Warenkorb",
+      "sessionExpired": "OCI-Sitzung abgelaufen",
+      "sessionInvalid": "Ungültige OCI-Sitzung",
+      "sending": "Wird gesendet...",
+      "configTitle": "OCI/cXML Konfiguration",
+      "configTitleShort": "OCI/cXML",
+      "ociEndpoint": "OCI Endpunkt",
+      "cxmlEndpoint": "cXML Endpunkt",
+      "activeSessions": "Aktive Sitzungen",
+      "testSession": "OCI-Session testen",
+      "desc": "Konfiguration und Überwachung der OCI/cXML-Schnittstellen für SAP und andere ERP-Systeme.",
+      "endpoints": "Endpunkte",
+      "endpointsDesc": "Diese URLs werden im ERP-System (z.B. SAP) als Punch-Out-Katalog hinterlegt.",
+      "ociSetupUrl": "OCI Setup-URL",
+      "ociSetupDesc": "POST-Anfrage mit HOOK_URL, USERNAME (optional), PASSWORD (optional)",
+      "cxmlSetupUrl": "cXML PunchOut Setup-URL",
+      "cxmlSetupDesc": "POST mit PunchOutSetupRequest XML (application/xml)",
+      "cxmlOrderUrl": "cXML Order-URL",
+      "cxmlOrderDesc": "POST mit OrderRequest XML — für eingehende Bestellungen",
+      "copied": "Kopiert!",
+      "copyUrl": "URL kopieren",
+      "sessions": "Sitzungsverwaltung",
+      "sessionsDesc": "Aktive OCI Punch-Out-Sitzungen. Sitzungen laufen nach 30 Minuten automatisch ab.",
+      "noSessions": "Keine aktiven Sitzungen",
+      "sessionTtl": "Sitzungsdauer: 30 Minuten",
+      "refresh": "Aktualisieren",
+      "protocol": "Protokoll",
+      "protocolDesc": "Unterstützte Standards und deren Funktionsweise.",
+      "ociProtocol": "OCI 5.0 (Open Catalog Interface)",
+      "ociProtocolDesc": "SAP-Standard für Punch-Out-Kataloge. Das ERP sendet eine POST-Anfrage mit HOOK_URL, der Benutzer wählt Artikel und der Warenkorb wird per HTML-Formular zurückgesendet.",
+      "cxmlProtocol": "cXML 1.2 (Commerce XML)",
+      "cxmlProtocolDesc": "XML-basierter Standard für Beschaffungsnachrichten. Unterstützt PunchOutSetupRequest, PunchOutOrderMessage und OrderRequest.",
+      "fieldMapping": "Feld-Zuordnung",
+      "fieldMappingDesc": "Zuordnung der OCI-Felder zu den internen Artikeldaten.",
+      "ociField": "OCI-Feld",
+      "internalField": "Internes Feld",
+      "fields": {
+        "DESCRIPTION": "Artikelbezeichnung",
+        "QUANTITY": "Bestellmenge",
+        "UNIT": "Mengeneinheit (ISO)",
+        "PRICE": "Einzelpreis",
+        "CURRENCY": "Währung (EUR)",
+        "VENDORMAT": "Artikelnummer Lieferant",
+        "VENDOR": "Lieferantenname",
+        "CONTRACT": "Rahmenvertragsnummer",
+        "MATGROUP": "Materialgruppe / CPV-Code",
+        "LEADTIME": "Lieferzeit (Tage)",
+        "LONGTEXT": "Langbeschreibung"
+      },
+      "unitMapping": "Einheiten-Zuordnung",
+      "unitMappingDesc": "Automatische Umrechnung deutscher Einheiten in ISO-Einheiten.",
+      "germanUnit": "Deutsche Einheit",
+      "isoUnit": "ISO-Code",
+      "testing": "Test & Integration",
+      "testingDesc": "Testen Sie die OCI-Integration direkt aus dieser Oberfläche.",
+      "testOciDesc": "Startet eine Test-OCI-Session. Sie werden zur Artikelsuche weitergeleitet und können einen Warenkorb zusammenstellen.",
+      "testCxmlDesc": "cXML-Endpunkte können mit Tools wie cURL oder Postman getestet werden.",
+      "curlExample": "cURL-Beispiel",
+      "sapSetup": "SAP-Einrichtung",
+      "sapSetupDesc": "Schritte zur Einrichtung in SAP SRM oder SAP Ariba:",
+      "sapStep1": "Neuen externen Katalog anlegen (Transaktion: ME_NEW_CAT oder Ariba Catalog)",
+      "sapStep2": "Katalogtyp: OCI / Punch-Out wählen",
+      "sapStep3": "OCI Setup-URL als Punch-Out-URL hinterlegen",
+      "sapStep4": "Übergabeparameter: HOOK_URL = SAP-Rückkehr-URL",
+      "sapStep5": "Einheitenzuordnung prüfen und testen"
     },
     "verbindungen": {
       "title": "Verbindungen",
@@ -436,6 +516,41 @@
       "vorherigeSeite": "Vorherige Seite",
       "naechsteSeite": "Nächste Seite"
     }
+  },
+  "magicRequest": {
+    "title": "Magic Request",
+    "subtitle": "Wandeln Sie E-Mails, Notizen oder Besprechungsprotokolle automatisch in Bestellpositionen um",
+    "textareaPlaceholder": "Fügen Sie hier Ihren Text ein (E-Mail, Notiz, Besprechungsprotokoll)...",
+    "analyzeButton": "Analysieren",
+    "analyzing": "Wird analysiert...",
+    "results": "Erkannte Positionen",
+    "noResults": "Keine Positionen erkannt",
+    "noResultsHint": "Versuchen Sie einen Text mit konkreten Produktbezeichnungen und Mengenangaben",
+    "addAllToCart": "Alle in Warenkorb",
+    "addToCart": "In Warenkorb",
+    "addToSearch": "Suchen",
+    "removeItem": "Entfernen",
+    "confidence": "Konfidenz",
+    "estimatedPrice": "Geschätzter Preis",
+    "noPrice": "Kein Preis erkannt",
+    "method": {
+      "ki": "KI-Analyse",
+      "regelbasiert": "Regelbasierte Analyse"
+    },
+    "summary": "Zusammenfassung",
+    "processingTime": "Verarbeitungszeit: {{ms}} ms",
+    "quantity": "Menge",
+    "unit": "Einheit",
+    "vendor": "Lieferant",
+    "category": "Kategorie",
+    "description": "Beschreibung",
+    "examples": {
+      "title": "Beispieltexte",
+      "email": "Bitte bestellen Sie 5 Dell Latitude Laptops und 3 Monitore 27 Zoll für die neue Abteilung.",
+      "note": "Bürobedarf auffüllen: 10 Pakete Kopierpapier A4, 5 Ordner, 20 Kugelschreiber",
+      "protocol": "IT-Ausstattung für 3 neue Mitarbeiter: je 1 Laptop, 1 Monitor, 1 Dockingstation"
+    },
+    "hint": "Tipp: Je detaillierter der Text, desto besser die Erkennung."
   },
   "specialProcurement": {
     "title": "Sonderbeschaffung für Einmalbedarfe",
@@ -483,5 +598,127 @@
       "nextSteps": "Sie erhalten innerhalb von 24h Angebote zum Vergleich."
     },
     "files": "Dateien"
+  },
+  "handbook": {
+    "title": "Benutzerhandbuch",
+    "welcome": "Willkommen beim eProcurement KI Handbuch",
+    "welcomeDesc": "Dieses Handbuch erklärt alle Funktionen der Anwendung Schritt für Schritt.",
+    "toc": "Inhaltsverzeichnis",
+    "backToTop": "Nach oben",
+    "search": {
+      "title": "Artikelsuche",
+      "desc": "Durchsuchen Sie 3 Marktplätze (Amazon Business, Mercateo, Conrad) und Ihre Rahmenverträge gleichzeitig.",
+      "step1": "Suchbegriff eingeben (z.B. \"Laptop\")",
+      "step2": "KI analysiert automatisch Kategorie und Rahmenverträge",
+      "step3": "Ergebnisse werden sortiert angezeigt — Rahmenverträge zuerst",
+      "tip": "Nutzen Sie die Kategorie-Chips unter der Suche für schnellen Zugriff.",
+      "categories": "Unterstützte Kategorien: Laptops, Monitore, Drucker, Bürostühle, Laborbedarf und mehr."
+    },
+    "magicRequest": {
+      "title": "Magic Request",
+      "desc": "Wandeln Sie E-Mails, Notizen oder Besprechungsprotokolle automatisch in Bestellpositionen um.",
+      "step1": "Klicken Sie auf \"Magic Request\" unter der Suchleiste",
+      "step2": "Fügen Sie Ihren Text ein (oder wählen Sie ein Beispiel)",
+      "step3": "Klicken Sie auf \"Analysieren\"",
+      "step4": "Prüfen und bearbeiten Sie die erkannten Positionen",
+      "tip": "Je detaillierter der Text, desto besser die Erkennung. Mengen und Markennamen helfen der KI.",
+      "example": "Beispiel: \"Bitte bestellen Sie 5 Dell Latitude Laptops und 3 Monitore 27 Zoll\""
+    },
+    "compare": {
+      "title": "Preisvergleich",
+      "desc": "Vergleichen Sie bis zu 3 Artikel Seite an Seite mit technischen Daten und Preisen.",
+      "step1": "Suchen Sie nach Artikeln",
+      "step2": "Wählen Sie bis zu 3 Artikel mit dem Vergleichs-Button",
+      "step3": "Sehen Sie Preise, technische Daten und Lieferzeiten im direkten Vergleich",
+      "tip": "Vergleichen Sie nur Artikel derselben Kategorie für aussagekräftige Ergebnisse.",
+      "export": "Exportieren Sie den Vergleich als PDF oder Excel über die Buttons oben rechts."
+    },
+    "classification": {
+      "title": "KI-Klassifizierung",
+      "desc": "Die KI ordnet jeden Artikel automatisch einem CPV-Code zu und empfiehlt den optimalen Beschaffungskanal.",
+      "step1": "Artikel auswählen und \"Klassifizieren\" klicken",
+      "step2": "KI erkennt Kategorie, eCl@ss-Code und prüft Rahmenverträge",
+      "step3": "Sie erhalten eine Empfehlung für den Beschaffungskanal",
+      "channels": "Beschaffungskanäle: Katalogbestellung (≤1.000€), Freie Vergabe (≤25.000€), Öffentliche Ausschreibung (>143.000€)",
+      "tip": "Die KI funktioniert auch ohne Internetverbindung — dann wird regelbasiert klassifiziert."
+    },
+    "compliance": {
+      "title": "Compliance & Vergaberecht",
+      "desc": "Automatische Prüfung der Vergaberechts-Konformität basierend auf Bestellwert.",
+      "thresholds": "Schwellenwerte: Direktauftrag ≤1.000€ · Freie Vergabe ≤25.000€ · Unterschwellenvergabe ≤143.000€ · Oberschwellenvergabe >143.000€",
+      "checks": "Geprüft werden: Wirtschaftlichkeit, Vergleichsangebote, Dokumentationspflicht, EU-weite Ausschreibungspflicht",
+      "hazardous": "Gefahrstoffe werden automatisch erkannt und erfordern eine Sonderbeschaffung mit Sicherheitsprüfung."
+    },
+    "documentation": {
+      "title": "Vergabedokumentation",
+      "desc": "Revisionssichere Dokumentation jeder Beschaffungsentscheidung mit SHA-256 Integritätsnachweis.",
+      "includes": "Die Dokumentation enthält: Klassifizierung, Compliance-Prüfung, Begründung und Integritäts-Hash.",
+      "tip": "Klassifizieren Sie einen Artikel, um automatisch eine Vergabedokumentation zu erzeugen."
+    },
+    "oci": {
+      "title": "OCI Punch-Out & SAP-Anbindung",
+      "desc": "OCI (Open Catalog Interface) ermöglicht die direkte Integration mit SAP und anderen ERP-Systemen.",
+      "what": "Was ist OCI? Ein Standardprotokoll, mit dem Artikel aus externen Katalogen direkt in den SAP-Warenkorb übernommen werden.",
+      "step1": "ERP-System startet OCI-Session (automatisch per URL-Parameter)",
+      "step2": "Sie suchen und wählen Artikel in der Anwendung",
+      "step3": "Klicken Sie auf \"In Warenkorb\" bei jedem gewünschten Artikel",
+      "step4": "Überprüfen Sie den Warenkorb im blauen Banner oben",
+      "step5": "Klicken Sie \"Warenkorb senden\" — Artikel werden automatisch an SAP übertragen",
+      "warning": "Die OCI-Sitzung hat eine begrenzte Gültigkeitsdauer. Bei Ablauf müssen Sie die Session im ERP neu starten.",
+      "cxml": "cXML (Commerce XML) wird zusätzlich unterstützt für Systeme die dieses Format bevorzugen.",
+      "sapConnection": "Die Verbindung zu SAP wird unter Administration → Verbindungen angezeigt und überwacht."
+    },
+    "admin": {
+      "title": "Administration",
+      "desc": "Der Admin-Bereich ist über das Zahnrad-Symbol in der Navigation erreichbar.",
+      "dashboard": {
+        "title": "Dashboard",
+        "desc": "Übersicht über Rahmenverträge, Katalog-Artikel, Shop-Konfigurationen und System-Status."
+      },
+      "rahmenvertraege": {
+        "title": "Rahmenverträge",
+        "desc": "Erstellen, bearbeiten und verwalten Sie Rahmenverträge mit Laufzeiten, Konditionen, Dokumenten und Verlängerungen."
+      },
+      "bestellungen": {
+        "title": "Bestellungen & Genehmigungen",
+        "desc": "Übersicht aller Bestellungen. Bestellungen über 1.000€ erfordern eine Genehmigung.",
+        "csvExport": "Exportieren Sie Bestellungen als CSV über den Download-Button oben rechts."
+      },
+      "shopConfig": {
+        "title": "Shop-Konfiguration",
+        "desc": "Aktivieren oder deaktivieren Sie Marktplätze und hinterlegen Sie API-Schlüssel."
+      },
+      "katalog": {
+        "title": "Katalog-Datenbank",
+        "desc": "Verwalten Sie Rahmenvertrags-Artikel mit Preisen, Lieferzeiten und Verfügbarkeit."
+      },
+      "verbindungen": {
+        "title": "Verbindungen & SAP-Status",
+        "desc": "Überwachen Sie den Status der Infrastruktur (Datenbank, Redis, Azure OpenAI) und aller Marktplatz-Verbindungen.",
+        "sapNote": "Hier sehen Sie ob die SAP-Verbindung aktiv ist und wann die letzte Prüfung stattfand."
+      }
+    },
+    "export": {
+      "title": "CSV & Excel-Export",
+      "desc": "Exportfunktionen sind an mehreren Stellen in der Anwendung verfügbar.",
+      "locations": "Verfügbar bei: Bestellungen (CSV), Preisvergleich (PDF/Excel)",
+      "step1": "Navigieren Sie zur gewünschten Seite (z.B. Bestellungen)",
+      "step2": "Klicken Sie auf den Export-Button (Download-Symbol oben rechts)",
+      "step3": "Die Datei wird automatisch heruntergeladen",
+      "tip": "Filtern Sie die Daten zuerst, um nur relevante Einträge zu exportieren."
+    },
+    "faq": {
+      "title": "Häufige Fragen",
+      "q1": "Was passiert, wenn die KI nicht verfügbar ist?",
+      "a1": "Die Anwendung wechselt automatisch auf regelbasierte Klassifizierung. Alle Funktionen bleiben nutzbar.",
+      "q2": "Wie gelange ich zum Admin-Bereich?",
+      "a2": "Klicken Sie auf \"Administration\" in der oberen Navigation oder navigieren Sie direkt zu /admin.",
+      "q3": "Kann ich Artikel aus verschiedenen Marktplätzen vergleichen?",
+      "a3": "Ja! Wählen Sie bis zu 3 Artikel aus verschiedenen Quellen und nutzen Sie den Preisvergleich.",
+      "q4": "Wie funktioniert die SAP-Anbindung?",
+      "a4": "Über das OCI-Protokoll. Ihr SAP-System startet eine Punch-Out-Session, Sie wählen Artikel, und diese werden automatisch zurück an SAP übertragen.",
+      "q5": "Wo finde ich den CSV-Export?",
+      "a5": "Im Admin-Bereich unter Bestellungen (Download-Button oben rechts) und im Preisvergleich."
+    }
   }
 }

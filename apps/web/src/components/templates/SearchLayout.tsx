@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, BarChart3, Settings } from 'lucide-react';
+import { Search, BarChart3, Settings, HelpCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher, Footer } from '../atoms';
 import { ThemeSelector } from '../atoms/ThemeSelector';
@@ -47,6 +47,13 @@ export function SearchLayout({ children, title }: SearchLayoutProps) {
                 </Link>
               ))}
             </nav>
+            <Link
+              to="/handbuch"
+              className="text-gray-500 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400 transition-colors"
+              title={t('footer.handbook')}
+            >
+              <HelpCircle className="h-5 w-5" />
+            </Link>
             <ThemeSelector />
             <LanguageSwitcher />
           </div>

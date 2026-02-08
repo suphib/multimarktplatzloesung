@@ -297,6 +297,77 @@ export interface BestellungCreateRequest {
   begruendung?: string;
 }
 
+// ─── OCI / cXML ─────────────────────────────────────────────────
+
+export interface OciSession {
+  token: string;
+  hookUrl: string;
+  username?: string;
+  createdAt: string;
+  expiresAt: string;
+}
+
+export interface OciCartItem {
+  description: string;
+  quantity: number;
+  unit: string;
+  price: number;
+  currency: string;
+  vendorMat: string;
+  vendor: string;
+  contract?: string;
+  matgroup?: string;
+  leadtime?: number;
+  longtext?: string;
+}
+
+export interface CxmlCredential {
+  domain: string;
+  identity: string;
+  sharedSecret: string;
+}
+
+export interface OciSetupRequest {
+  HOOK_URL: string;
+  USERNAME?: string;
+  PASSWORD?: string;
+  CALLER?: string;
+}
+
+export interface CxmlOrderItem {
+  quantity: number;
+  description: string;
+  unitPrice: number;
+  currency: string;
+  supplierPartId: string;
+  uom: string;
+}
+
+// ─── Magic Request ──────────────────────────────────────────
+
+export interface MagicRequestInput {
+  freitext: string;
+}
+
+export interface MagicRequestItem {
+  beschreibung: string;
+  menge: number;
+  einheit: string;
+  geschaetzterPreis: number | null;
+  waehrung: string;
+  lieferantHinweis: string;
+  artikelnummerHinweis: string;
+  kategorie: string;
+  konfidenz: number; // 0.0–1.0
+}
+
+export interface MagicRequestResponse {
+  positionen: MagicRequestItem[];
+  zusammenfassung: string;
+  verarbeitungszeit: number;
+  methode: 'ki' | 'regelbasiert';
+}
+
 // ─── API Error ───────────────────────────────────────────────────
 
 export interface ApiError {

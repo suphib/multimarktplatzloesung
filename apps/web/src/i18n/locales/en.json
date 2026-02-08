@@ -216,6 +216,7 @@
     "copyright": "© 2026 WP Workers GmbH",
     "imprint": "Legal Notice",
     "privacy": "Privacy Policy",
+    "handbook": "Handbook",
     "prototype": "Prototype · Demo Data"
   },
   "organisms": {
@@ -299,6 +300,8 @@
       "katalogShort": "Catalogue",
       "verbindungen": "Connections",
       "verbindungenShort": "Connections",
+      "ociConfig": "OCI/cXML",
+      "ociConfigShort": "OCI",
       "backToApp": "Back to App",
       "backToSearch": "Go to Search"
     },
@@ -402,6 +405,11 @@
       "loeschenBestaetigung": "Delete article",
       "loeschenHinweis": "Are you sure you want to delete this article? This action cannot be undone."
     },
+    "export": {
+      "csv": "CSV Export",
+      "excel": "Excel Export",
+      "exportieren": "Export"
+    },
     "bestellungen": {
       "title": "Orders",
       "alle": "All",
@@ -414,6 +422,78 @@
       "ablehnen": "Reject",
       "ablehnungsgrund": "Reason for rejection",
       "keine": "No orders found"
+    },
+    "oci": {
+      "banner": "OCI Punch-Out Session Active",
+      "sendCart": "Send Cart",
+      "addToCart": "Add to Cart",
+      "removeFromCart": "Remove from Cart",
+      "cartEmpty": "Cart is empty",
+      "cartItems": "{{count}} items in cart",
+      "sessionExpired": "OCI session expired",
+      "sessionInvalid": "Invalid OCI session",
+      "sending": "Sending...",
+      "configTitle": "OCI/cXML Configuration",
+      "configTitleShort": "OCI/cXML",
+      "ociEndpoint": "OCI Endpoint",
+      "cxmlEndpoint": "cXML Endpoint",
+      "activeSessions": "Active Sessions",
+      "testSession": "Test OCI Session",
+      "desc": "Configuration and monitoring of OCI/cXML interfaces for SAP and other ERP systems.",
+      "endpoints": "Endpoints",
+      "endpointsDesc": "These URLs are configured in the ERP system (e.g. SAP) as punch-out catalogue.",
+      "ociSetupUrl": "OCI Setup URL",
+      "ociSetupDesc": "POST request with HOOK_URL, USERNAME (optional), PASSWORD (optional)",
+      "cxmlSetupUrl": "cXML PunchOut Setup URL",
+      "cxmlSetupDesc": "POST with PunchOutSetupRequest XML (application/xml)",
+      "cxmlOrderUrl": "cXML Order URL",
+      "cxmlOrderDesc": "POST with OrderRequest XML — for incoming orders",
+      "copied": "Copied!",
+      "copyUrl": "Copy URL",
+      "sessions": "Session Management",
+      "sessionsDesc": "Active OCI punch-out sessions. Sessions expire automatically after 30 minutes.",
+      "noSessions": "No active sessions",
+      "sessionTtl": "Session duration: 30 minutes",
+      "refresh": "Refresh",
+      "protocol": "Protocol",
+      "protocolDesc": "Supported standards and how they work.",
+      "ociProtocol": "OCI 5.0 (Open Catalog Interface)",
+      "ociProtocolDesc": "SAP standard for punch-out catalogues. The ERP sends a POST request with HOOK_URL, the user selects articles and the cart is returned via HTML form.",
+      "cxmlProtocol": "cXML 1.2 (Commerce XML)",
+      "cxmlProtocolDesc": "XML-based standard for procurement messages. Supports PunchOutSetupRequest, PunchOutOrderMessage and OrderRequest.",
+      "fieldMapping": "Field Mapping",
+      "fieldMappingDesc": "Mapping of OCI fields to internal article data.",
+      "ociField": "OCI Field",
+      "internalField": "Internal Field",
+      "fields": {
+        "DESCRIPTION": "Article description",
+        "QUANTITY": "Order quantity",
+        "UNIT": "Unit of measure (ISO)",
+        "PRICE": "Unit price",
+        "CURRENCY": "Currency (EUR)",
+        "VENDORMAT": "Supplier article number",
+        "VENDOR": "Supplier name",
+        "CONTRACT": "Framework agreement number",
+        "MATGROUP": "Material group / CPV code",
+        "LEADTIME": "Delivery time (days)",
+        "LONGTEXT": "Long description"
+      },
+      "unitMapping": "Unit Mapping",
+      "unitMappingDesc": "Automatic conversion of German units to ISO units.",
+      "germanUnit": "German Unit",
+      "isoUnit": "ISO Code",
+      "testing": "Test & Integration",
+      "testingDesc": "Test the OCI integration directly from this interface.",
+      "testOciDesc": "Starts a test OCI session. You will be redirected to the article search where you can build a cart.",
+      "testCxmlDesc": "cXML endpoints can be tested with tools like cURL or Postman.",
+      "curlExample": "cURL Example",
+      "sapSetup": "SAP Setup",
+      "sapSetupDesc": "Steps for setup in SAP SRM or SAP Ariba:",
+      "sapStep1": "Create a new external catalogue (Transaction: ME_NEW_CAT or Ariba Catalog)",
+      "sapStep2": "Select catalogue type: OCI / Punch-Out",
+      "sapStep3": "Enter OCI Setup URL as punch-out URL",
+      "sapStep4": "Transfer parameters: HOOK_URL = SAP return URL",
+      "sapStep5": "Verify unit mapping and test"
     },
     "verbindungen": {
       "title": "Connections",
@@ -437,6 +517,41 @@
       "vorherigeSeite": "Previous page",
       "naechsteSeite": "Next page"
     }
+  },
+  "magicRequest": {
+    "title": "Magic Request",
+    "subtitle": "Automatically convert emails, notes, or meeting minutes into order items",
+    "textareaPlaceholder": "Paste your text here (email, note, meeting minutes)...",
+    "analyzeButton": "Analyze",
+    "analyzing": "Analyzing...",
+    "results": "Detected Items",
+    "noResults": "No items detected",
+    "noResultsHint": "Try a text with specific product names and quantities",
+    "addAllToCart": "Add All to Cart",
+    "addToCart": "Add to Cart",
+    "addToSearch": "Search",
+    "removeItem": "Remove",
+    "confidence": "Confidence",
+    "estimatedPrice": "Estimated Price",
+    "noPrice": "No price detected",
+    "method": {
+      "ki": "AI Analysis",
+      "regelbasiert": "Rule-based Analysis"
+    },
+    "summary": "Summary",
+    "processingTime": "Processing time: {{ms}} ms",
+    "quantity": "Quantity",
+    "unit": "Unit",
+    "vendor": "Vendor",
+    "category": "Category",
+    "description": "Description",
+    "examples": {
+      "title": "Example Texts",
+      "email": "Please order 5 Dell Latitude Laptops and 3 Monitors 27 inch for the new department.",
+      "note": "Restock office supplies: 10 packs of A4 copy paper, 5 binders, 20 ballpoint pens",
+      "protocol": "IT equipment for 3 new employees: 1 laptop, 1 monitor, 1 docking station each"
+    },
+    "hint": "Tip: The more detailed the text, the better the detection."
   },
   "specialProcurement": {
     "title": "Special Procurement for One-Time Needs",
@@ -484,5 +599,127 @@
       "nextSteps": "You will receive quotes for comparison within 24 hours."
     },
     "files": "files"
+  },
+  "handbook": {
+    "title": "User Handbook",
+    "welcome": "Welcome to the eProcurement AI Handbook",
+    "welcomeDesc": "This handbook explains all features of the application step by step.",
+    "toc": "Table of Contents",
+    "backToTop": "Back to top",
+    "search": {
+      "title": "Article Search",
+      "desc": "Search 3 marketplaces (Amazon Business, Mercateo, Conrad) and your framework agreements simultaneously.",
+      "step1": "Enter a search term (e.g. \"Laptop\")",
+      "step2": "AI automatically analyses category and framework agreements",
+      "step3": "Results are displayed sorted — framework agreements first",
+      "tip": "Use the category chips below the search bar for quick access.",
+      "categories": "Supported categories: Laptops, Monitors, Printers, Office Chairs, Lab Supplies and more."
+    },
+    "magicRequest": {
+      "title": "Magic Request",
+      "desc": "Automatically convert emails, notes or meeting minutes into order items.",
+      "step1": "Click \"Magic Request\" below the search bar",
+      "step2": "Paste your text (or select an example)",
+      "step3": "Click \"Analyze\"",
+      "step4": "Review and edit the detected items",
+      "tip": "The more detailed the text, the better the detection. Quantities and brand names help the AI.",
+      "example": "Example: \"Please order 5 Dell Latitude Laptops and 3 Monitors 27 inch\""
+    },
+    "compare": {
+      "title": "Price Comparison",
+      "desc": "Compare up to 3 articles side by side with technical specifications and prices.",
+      "step1": "Search for articles",
+      "step2": "Select up to 3 articles with the compare button",
+      "step3": "View prices, specifications and delivery times in a direct comparison",
+      "tip": "Only compare articles of the same category for meaningful results.",
+      "export": "Export the comparison as PDF or Excel via the buttons in the top right."
+    },
+    "classification": {
+      "title": "AI Classification",
+      "desc": "The AI automatically assigns a CPV code to each article and recommends the optimal procurement channel.",
+      "step1": "Select an article and click \"Classify\"",
+      "step2": "AI detects category, eCl@ss code and checks framework agreements",
+      "step3": "You receive a recommendation for the procurement channel",
+      "channels": "Procurement channels: Catalogue order (≤1,000€), Direct award (≤25,000€), Public tender (>143,000€)",
+      "tip": "The AI also works without an internet connection — it then uses rule-based classification."
+    },
+    "compliance": {
+      "title": "Compliance & Procurement Law",
+      "desc": "Automatic check of procurement law compliance based on order value.",
+      "thresholds": "Thresholds: Direct order ≤1,000€ · Direct award ≤25,000€ · Below-threshold ≤143,000€ · Above-threshold >143,000€",
+      "checks": "Checked: Cost-effectiveness, comparative offers, documentation requirements, EU-wide tendering obligations",
+      "hazardous": "Hazardous substances are automatically detected and require special procurement with safety review."
+    },
+    "documentation": {
+      "title": "Procurement Documentation",
+      "desc": "Audit-proof documentation of every procurement decision with SHA-256 integrity proof.",
+      "includes": "The documentation includes: Classification, compliance check, reasoning and integrity hash.",
+      "tip": "Classify an article to automatically generate procurement documentation."
+    },
+    "oci": {
+      "title": "OCI Punch-Out & SAP Integration",
+      "desc": "OCI (Open Catalog Interface) enables direct integration with SAP and other ERP systems.",
+      "what": "What is OCI? A standard protocol that transfers articles from external catalogues directly into the SAP shopping cart.",
+      "step1": "ERP system starts OCI session (automatically via URL parameter)",
+      "step2": "You search and select articles in the application",
+      "step3": "Click \"Add to Cart\" for each desired article",
+      "step4": "Review the cart in the blue banner at the top",
+      "step5": "Click \"Send Cart\" — articles are automatically transferred to SAP",
+      "warning": "The OCI session has a limited validity period. When expired, you must restart the session in your ERP system.",
+      "cxml": "cXML (Commerce XML) is additionally supported for systems that prefer this format.",
+      "sapConnection": "The SAP connection is displayed and monitored under Administration → Connections."
+    },
+    "admin": {
+      "title": "Administration",
+      "desc": "The admin area is accessible via the gear icon in the navigation.",
+      "dashboard": {
+        "title": "Dashboard",
+        "desc": "Overview of framework agreements, catalogue articles, shop configurations and system status."
+      },
+      "rahmenvertraege": {
+        "title": "Framework Agreements",
+        "desc": "Create, edit and manage framework agreements with durations, terms, documents and extensions."
+      },
+      "bestellungen": {
+        "title": "Orders & Approvals",
+        "desc": "Overview of all orders. Orders over 1,000€ require approval.",
+        "csvExport": "Export orders as CSV via the download button in the top right."
+      },
+      "shopConfig": {
+        "title": "Shop Configuration",
+        "desc": "Enable or disable marketplaces and enter API keys."
+      },
+      "katalog": {
+        "title": "Catalogue Database",
+        "desc": "Manage framework agreement articles with prices, delivery times and availability."
+      },
+      "verbindungen": {
+        "title": "Connections & SAP Status",
+        "desc": "Monitor the status of infrastructure (database, Redis, Azure OpenAI) and all marketplace connections.",
+        "sapNote": "Here you can see whether the SAP connection is active and when the last check was performed."
+      }
+    },
+    "export": {
+      "title": "CSV & Excel Export",
+      "desc": "Export functions are available in several places throughout the application.",
+      "locations": "Available at: Orders (CSV), Price Comparison (PDF/Excel)",
+      "step1": "Navigate to the desired page (e.g. Orders)",
+      "step2": "Click the export button (download icon in the top right)",
+      "step3": "The file is downloaded automatically",
+      "tip": "Filter the data first to export only relevant entries."
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "q1": "What happens when the AI is unavailable?",
+      "a1": "The application automatically switches to rule-based classification. All features remain usable.",
+      "q2": "How do I access the admin area?",
+      "a2": "Click \"Administration\" in the top navigation or navigate directly to /admin.",
+      "q3": "Can I compare articles from different marketplaces?",
+      "a3": "Yes! Select up to 3 articles from different sources and use the price comparison.",
+      "q4": "How does the SAP integration work?",
+      "a4": "Via the OCI protocol. Your SAP system starts a punch-out session, you select articles, and they are automatically transferred back to SAP.",
+      "q5": "Where can I find the CSV export?",
+      "a5": "In the admin area under Orders (download button in the top right) and in the price comparison."
+    }
   }
 }

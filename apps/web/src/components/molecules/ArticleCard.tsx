@@ -10,6 +10,8 @@ interface ArticleCardProps {
   onToggleSelect?: () => void;
   onViewDetail?: () => void;
   onBestellen?: () => void;
+  ociMode?: boolean;
+  onAddToOciCart?: () => void;
 }
 
 const mpColors: Record<string, string> = {
@@ -19,7 +21,7 @@ const mpColors: Record<string, string> = {
   RAHMENVERTRAG: 'bg-green-100 text-green-800 border-green-200',
 };
 
-export function ArticleCard({ artikel, isSelected, maxReached, onToggleSelect, onViewDetail, onBestellen }: ArticleCardProps) {
+export function ArticleCard({ artikel, isSelected, maxReached, onToggleSelect, onViewDetail, onBestellen, ociMode, onAddToOciCart }: ArticleCardProps) {
   const { t } = useTranslation();
   const mpLabel = t(`common.marketplace.${artikel.marktplatz}`, { defaultValue: artikel.marktplatz });
 
@@ -84,16 +86,22 @@ export function ArticleCard({ artikel, isSelected, maxReached, onToggleSelect, o
           </div>
 
           <div className="flex gap-2 mt-3">
-            {onViewDetail && (
+            {onViewDetail && !ociMode && (
               <Button variant="secondary" size="sm" onClick={onViewDetail}>{t('common.details')}</Button>
             )}
-            {onBestellen && artikel.marktplatz === 'RAHMENVERTRAG' && (
+            {ociMode && onAddToOciCart && (
+              <Button size="sm" onClick={onAddToOciCart}>
+                <ShoppingCart className="h-3.5 w-3.5 mr-1" />
+                {t('admin.oci.addToCart', { defaultValue: 'In Warenkorb' })}
+              </Button>
+            )}
+            {!ociMode && onBestellen && artikel.marktplatz === 'RAHMENVERTRAG' && (
               <Button size="sm" onClick={onBestellen}>
                 <ShoppingCart className="h-3.5 w-3.5 mr-1" />
                 {t('order.bestellen')}
               </Button>
             )}
-            {onToggleSelect && (
+            {!ociMode && onToggleSelect && (
               <Button
                 variant={isSelected ? 'primary' : 'ghost'}
                 size="sm"

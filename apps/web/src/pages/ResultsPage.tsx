@@ -11,8 +11,9 @@ import { BestellModal } from '../components/organisms/BestellModal';
 import { Spinner, Button } from '../components/atoms';
 import { useSearchStore } from '../store/useSearchStore';
 import { useSearch } from '../hooks/useSearch';
-import { ArrowLeft, BarChart3, Search } from 'lucide-react';
+import { ArrowLeft, BarChart3, Search, ShoppingCart, Send, X } from 'lucide-react';
 import type { Artikel } from '@procurement/shared';
+import { useOciSession } from '../hooks/useOciSession';
 
 interface AIThinkingResult {
   query: string;
@@ -37,6 +38,7 @@ export function ResultsPage() {
     clearSearch,
   } = useSearchStore();
   const searchMutation = useSearch();
+  const oci = useOciSession();
 
   const [isThinking, setIsThinking] = useState(false);
   const [currentQuery, setCurrentQuery] = useState('');
@@ -92,6 +94,57 @@ export function ResultsPage() {
 
   return (
     <SearchLayout title={t('results.title')}>
+      {/* OCI Punch-Out Banner */}
+      {oci.isActive && (
+        <div className="bg-blue-600 text-white px-4 py-3 mb-4 rounded-lg flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <ShoppingCart className="h-5 w-5" />
+            <span className="font-medium">{t('admin.oci.banner')}</span>
+            {oci.cartCount > 0 && (
+              <span className="bg-white text-blue-600 text-xs font-bold px-2 py-0.5 rounded-full">
+                {t('admin.oci.cartItems', { count: oci.cartCount })}
+              </span>
+            )}
+          </div>
+          <button
+            onClick={oci.submitCart}
+            disabled={oci.cartCount === 0 || oci.isSubmitting}
+            className="inline-flex items-center gap-1.5 bg-white text-blue-600 px-4 py-1.5 rounded-lg font-medium text-sm hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            <Send className="h-4 w-4" />
+            {oci.isSubmitting ? t('admin.oci.sending') : t('admin.oci.sendCart')}
+          </button>
+        </div>
+      )}
+
+      {/* OCI Cart Preview */}
+      {oci.isActive && oci.cartItems.length > 0 && (
+        <div className="bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
+          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+            <ShoppingCart className="h-4 w-4" />
+            {t('admin.oci.cartItems', { count: oci.cartItems.length })}
+          </h3>
+          <div className="space-y-2">
+            {oci.cartItems.map((item, idx) => (
+              <div key={idx} className="flex items-center justify-between text-sm bg-gray-50 dark:bg-gray-700 rounded-lg px-3 py-2">
+                <div className="flex-1 min-w-0">
+                  <span className="font-medium text-gray-900 dark:text-gray-100 truncate block">{item.description}</span>
+                  <span className="text-gray-500 dark:text-gray-400 text-xs">
+                    {item.quantity}x · {item.price.toLocaleString('de-DE', { style: 'currency', currency: item.currency })} · {item.vendor}
+                  </span>
+                </div>
+                <button
+                  onClick={() => oci.removeFromCart(idx)}
+                  className="ml-2 text-gray-400 hover:text-red-500 transition-colors flex-shrink-0"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="space-y-4 md:space-y-6">
         <div className="flex items-center gap-3">
           <Button
@@ -151,6 +204,20 @@ export function ResultsPage() {
               onToggleSelect={toggleArticle}
               onViewDetail={(artikel) => navigate(`/article/${artikel.id}`, { state: { artikel } })}
               onBestellen={(artikel) => setBestellArtikel(artikel)}
+              ociMode={oci.isActive}
+              onAddToOciCart={oci.isActive ? (artikel) => {
+                oci.addToCart({
+                  description: artikel.bezeichnung,
+                  quantity: 1,
+                  unit: 'EA',
+                  price: artikel.preis,
+                  currency: artikel.waehrung,
+                  vendorMat: artikel.artikelnummer,
+                  vendor: artikel.lieferant,
+                  contract: artikel.rahmenvertragInfo?.vertragsnummer,
+                  matgroup: artikel.rahmenvertragInfo ? undefined : undefined,
+                });
+              } : undefined}
             />
           ) : !queryParam ? (
             <div className="text-center py-16" key="empty">

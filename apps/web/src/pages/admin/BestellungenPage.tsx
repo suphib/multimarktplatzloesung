@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { AdminLayout } from '../../components/templates/AdminLayout';
 import { Button, Spinner } from '../../components/atoms';
 import { useBestellungen, useApproveBestellung, useRejectBestellung } from '../../hooks/useAdmin';
-import { Check, X, AlertTriangle, ShoppingCart } from 'lucide-react';
+import { Check, X, AlertTriangle, ShoppingCart, Download } from 'lucide-react';
+import { useExportBestellungen } from '../../hooks/useExportBestellungen';
 import type { Bestellung, BestellStatus } from '@procurement/shared';
 
 type FilterStatus = 'ALLE' | BestellStatus;
@@ -13,6 +14,7 @@ export function BestellungenPage() {
   const { data: bestellungen, isLoading } = useBestellungen();
   const approveMutation = useApproveBestellung();
   const rejectMutation = useRejectBestellung();
+  const { exportBestellungenCSV } = useExportBestellungen();
 
   const [filter, setFilter] = useState<FilterStatus>('ALLE');
   const [rejectId, setRejectId] = useState<string | null>(null);
@@ -59,11 +61,22 @@ export function BestellungenPage() {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        <div className="flex items-center gap-3">
-          <ShoppingCart className="h-6 w-6 text-primary-600" />
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-            {t('admin.bestellungen.title')}
-          </h1>
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div className="flex items-center gap-3">
+            <ShoppingCart className="h-6 w-6 text-primary-600" />
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+              {t('admin.bestellungen.title')}
+            </h1>
+          </div>
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={() => exportBestellungenCSV(filtered)}
+            disabled={filtered.length === 0}
+          >
+            <Download className="h-4 w-4 sm:mr-1" />
+            <span className="hidden sm:inline">{t('admin.export.csv', { defaultValue: 'CSV-Export' })}</span>
+          </Button>
         </div>
 
         {/* Filter Tabs */}

@@ -14,6 +14,9 @@ import type {
   PaginatedResponse,
   Bestellung,
   BestellungCreateRequest,
+  OciCartItem,
+  MagicRequestInput,
+  MagicRequestResponse,
 } from '@procurement/shared';
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api/v1';
@@ -176,5 +179,31 @@ export const api = {
       method: 'PATCH',
       body: JSON.stringify({ grund }),
     });
+  },
+
+  // ─── Magic Request ─────────────────────────────────────────────
+
+  magicRequest(data: MagicRequestInput): Promise<MagicRequestResponse> {
+    return request('/magic-request', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  // ─── OCI ────────────────────────────────────────────────────────
+
+  validateOciSession(token: string): Promise<{ valid: boolean; expiresAt: string }> {
+    return request(`/oci/session/${token}`);
+  },
+
+  submitOciCart(sessionToken: string, items: OciCartItem[]): Promise<string> {
+    return request('/oci/return', {
+      method: 'POST',
+      body: JSON.stringify({ sessionToken, items }),
+    });
+  },
+
+  getOciStatus(): Promise<{ activeSessions: number }> {
+    return request('/oci/status');
   },
 };

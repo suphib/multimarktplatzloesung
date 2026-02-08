@@ -8,9 +8,10 @@ interface DetailLayoutProps {
   children: ReactNode;
   title: string;
   backTo?: string;
+  wide?: boolean;
 }
 
-export function DetailLayout({ children, title, backTo }: DetailLayoutProps) {
+export function DetailLayout({ children, title, backTo, wide }: DetailLayoutProps) {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -27,7 +28,7 @@ export function DetailLayout({ children, title, backTo }: DetailLayoutProps) {
           <LanguageSwitcher />
         </div>
       </header>
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-4 md:py-6">
+      <main className={`flex-1 ${wide ? 'max-w-7xl' : 'max-w-4xl'} w-full mx-auto px-4 py-4 md:py-6`}>
         {/* Back button inside content area */}
         <button
           onClick={() => (backTo ? navigate(backTo) : navigate(-1))}
