@@ -1,0 +1,82 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import CTASection from '../components/astro/CTASection.astro';
+import SectionHeading from '../components/astro/SectionHeading.astro';
+---
+
+<PageLayout title="Über uns" description="Erfahren Sie mehr über procurement-ai - unser Team, unsere Mission und unsere Werte.">
+
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">Über uns</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Wir digitalisieren die öffentliche Beschaffung mit KI-Technologie — made in Germany.
+      </p>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Unsere Mission</h2>
+      <p class="text-lg text-gray-600 leading-relaxed">
+        Wir glauben, dass die öffentliche Beschaffung effizienter, transparenter und nachhaltiger sein kann.
+        Mit procurement-ai schaffen wir eine KI-gestützte Plattform, die Behörden dabei unterstützt,
+        ihre Beschaffungsprozesse zu optimieren — vergaberechtskonform, DSGVO-konform und vollständig in Deutschland gehostet.
+      </p>
+    </div>
+  </section>
+
+  <!-- Werte -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Unsere Werte" untertitel="Was uns antreibt" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { titel: 'Transparenz', beschreibung: 'Offene Kommunikation und nachvollziehbare Prozesse in allem, was wir tun.', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z' },
+          { titel: 'Compliance', beschreibung: 'Vergaberecht und DSGVO sind keine Hürden, sondern Teil unserer DNA.', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+          { titel: 'Innovation', beschreibung: 'Modernste KI-Technologie für einen traditionellen Bereich — verantwortungsvoll eingesetzt.', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+          { titel: 'Datenschutz', beschreibung: 'Hosting ausschließlich in Deutschland. Keine Kompromisse bei der Datensicherheit.', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' },
+        ].map((wert) => (
+          <div class="bg-white rounded-2xl p-6 border border-gray-100 text-center">
+            <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-primary-50 flex items-center justify-center">
+              <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d={wert.icon} />
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">{wert.titel}</h3>
+            <p class="text-sm text-gray-600">{wert.beschreibung}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Placeholder -->
+  <section class="section-padding">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Unser Team" untertitel="Die Menschen hinter procurement-ai" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-3xl mx-auto">
+        {[
+          { name: 'Max Mustermann', position: 'Geschäftsführer' },
+          { name: 'Dr. Anna Schmidt', position: 'CTO' },
+          { name: 'Thomas Weber', position: 'Head of Product' },
+        ].map((person) => (
+          <div class="text-center">
+            <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gray-200 flex items-center justify-center">
+              <svg class="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900">{person.name}</h3>
+            <p class="text-sm text-gray-500">{person.position}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection />
+</PageLayout>

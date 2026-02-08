@@ -1,0 +1,23 @@
+---
+interface Props {
+  zitat: string;
+  name: string;
+  position: string;
+  organisation: string;
+}
+
+const { zitat, name, position, organisation } = Astro.props;
+---
+
+<div class="bg-white rounded-2xl p-6 sm:p-8 border border-gray-100 shadow-sm">
+  <svg class="w-8 h-8 text-primary-200 mb-4" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151C7.546 6.068 5.983 8.789 5.983 11H10v10H0z"/>
+  </svg>
+  <blockquote class="text-sm sm:text-base text-gray-700 leading-relaxed mb-4">
+    {zitat}
+  </blockquote>
+  <div>
+    <p class="font-semibold text-gray-900 text-sm">{name}</p>
+    <p class="text-xs sm:text-sm text-gray-500">{position}, {organisation}</p>
+  </div>
+</div>

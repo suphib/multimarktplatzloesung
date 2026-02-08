@@ -1,0 +1,73 @@
+---
+interface Props {
+  name: string;
+  preis: string;
+  zeitraum: string;
+  nutzer: string;
+  beschreibung: string;
+  features: string[];
+  cta: string;
+  hervorgehoben: boolean;
+}
+
+const { name, preis, zeitraum, nutzer, beschreibung, features, cta, hervorgehoben } = Astro.props;
+---
+
+<div class={`relative flex flex-col rounded-2xl p-6 sm:p-8 ${
+  hervorgehoben
+    ? 'bg-primary-600 text-white ring-2 ring-primary-600 shadow-xl scale-100 lg:scale-105'
+    : 'bg-white text-gray-900 border border-gray-200'
+}`}>
+  {hervorgehoben && (
+    <div class="absolute -top-4 left-1/2 -translate-x-1/2">
+      <span class="inline-flex items-center px-4 py-1 rounded-full text-xs font-semibold bg-yellow-400 text-yellow-900">
+        Beliebt
+      </span>
+    </div>
+  )}
+
+  <!-- Header -->
+  <div class="mb-6">
+    <h3 class={`text-lg font-bold ${hervorgehoben ? 'text-white' : 'text-gray-900'}`}>{name}</h3>
+    <p class={`mt-1 text-sm ${hervorgehoben ? 'text-blue-100' : 'text-gray-500'}`}>{beschreibung}</p>
+  </div>
+
+  <!-- Price -->
+  <div class="mb-6">
+    <div class="flex items-baseline gap-1">
+      <span class={`text-3xl sm:text-4xl font-extrabold ${hervorgehoben ? 'text-white' : 'text-gray-900'}`}>
+        {preis.includes('Anfrage') ? '' : ''}{preis}
+      </span>
+      {!preis.includes('Anfrage') && (
+        <span class={`text-base ${hervorgehoben ? 'text-blue-200' : 'text-gray-500'}`}>
+          EUR{zeitraum}
+        </span>
+      )}
+    </div>
+    <p class={`mt-1 text-sm ${hervorgehoben ? 'text-blue-200' : 'text-gray-500'}`}>{nutzer}</p>
+  </div>
+
+  <!-- Features -->
+  <ul class="flex-1 space-y-3 mb-8">
+    {features.map((feature) => (
+      <li class="flex items-start gap-3">
+        <svg class={`w-5 h-5 shrink-0 mt-0.5 ${hervorgehoben ? 'text-blue-200' : 'text-primary-500'}`} fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+        <span class={`text-sm ${hervorgehoben ? 'text-blue-50' : 'text-gray-600'}`}>{feature}</span>
+      </li>
+    ))}
+  </ul>
+
+  <!-- CTA -->
+  <a
+    href="/kontakt"
+    class={`block w-full text-center px-6 py-3 rounded-lg font-semibold text-sm transition-colors ${
+      hervorgehoben
+        ? 'bg-white text-primary-700 hover:bg-gray-50'
+        : 'bg-primary-600 text-white hover:bg-primary-700'
+    }`}
+  >
+    {cta}
+  </a>
+</div>

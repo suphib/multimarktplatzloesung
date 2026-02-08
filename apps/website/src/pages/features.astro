@@ -1,0 +1,58 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import SectionHeading from '../components/astro/SectionHeading.astro';
+import CTASection from '../components/astro/CTASection.astro';
+import { FEATURES } from '../lib/constants';
+---
+
+<PageLayout title="Features" description="Alle Features von procurement-ai im Überblick: KI-Klassifizierung, Multi-Marktplatz-Suche, OCI 5.0, Rahmenvertrags-Management und mehr.">
+
+  <!-- Hero -->
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">Leistungsstarke Features</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Entdecken Sie alle Funktionen, die procurement-ai zur führenden Beschaffungslösung für den öffentlichen Sektor machen.
+      </p>
+    </div>
+  </section>
+
+  <!-- Feature Details -->
+  <section class="section-padding">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 lg:space-y-24">
+
+      {FEATURES.map((feature, index) => {
+        const isReversed = index % 2 !== 0;
+        const gradients = [
+          'from-primary-50 to-blue-100',
+          'from-green-50 to-emerald-100',
+          'from-purple-50 to-violet-100',
+          'from-orange-50 to-amber-100',
+          'from-cyan-50 to-teal-100',
+          'from-rose-50 to-pink-100',
+        ];
+        return (
+          <div class={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center`}>
+            <div class={isReversed ? 'lg:order-2' : ''}>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-xs font-semibold mb-4">
+                Feature {index + 1}
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">{feature.titel}</h2>
+              <p class="text-gray-600 leading-relaxed">{feature.beschreibung}</p>
+            </div>
+            <div class={`bg-gradient-to-br ${gradients[index]} rounded-2xl p-12 flex items-center justify-center aspect-[4/3] ${isReversed ? 'lg:order-1' : ''}`}>
+              <div class="w-20 h-20 rounded-2xl bg-white/50 flex items-center justify-center">
+                <svg class="w-10 h-10 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611l-.573.096A9.009 9.009 0 0112 21a9.009 9.009 0 01-7.562-1.491l-.573-.096c-1.717-.293-2.3-2.379-1.067-3.61L5 14.5"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+    </div>
+  </section>
+
+  <CTASection />
+</PageLayout>

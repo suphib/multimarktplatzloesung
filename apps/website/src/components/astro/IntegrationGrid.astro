@@ -1,0 +1,31 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { ERP_LOGOS } from '../../lib/constants';
+---
+
+<section class="section-padding">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <SectionHeading
+      titel="Kompatibel mit Ihrem ERP"
+      untertitel="Nahtlose Integration über OCI 5.0 und cXML in alle führenden ERP-Systeme"
+    />
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 overflow-hidden">
+      {ERP_LOGOS.map((logo) => (
+        <div class="group relative flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-300">
+          <img
+            src={`/erp-logos/${logo.datei}`}
+            alt={logo.name}
+            class="h-8 sm:h-10 w-auto opacity-60 group-hover:opacity-100 transition-opacity"
+            loading="lazy"
+          />
+          <span class="mt-2 text-xs text-gray-400 group-hover:text-gray-600 transition-colors">{logo.name}</span>
+          <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 rounded-lg bg-gray-900 px-3 py-2 text-xs text-white text-center hidden sm:block opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-lg z-10">
+            {logo.beschreibung}
+            <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

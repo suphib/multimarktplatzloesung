@@ -1,0 +1,50 @@
+---
+import PageLayout from './PageLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  datum: string;
+  autor: string;
+  lesezeit: string;
+}
+
+const { title, description, datum, autor, lesezeit } = Astro.props;
+
+const formatDatum = (d: string) => {
+  return new Date(d).toLocaleDateString('de-DE', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+---
+
+<PageLayout title={title} description={description}>
+  <article class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <header class="mb-8 lg:mb-12">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+          {title}
+        </h1>
+        <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+          <span>{formatDatum(datum)}</span>
+          <span class="text-gray-300">|</span>
+          <span>{autor}</span>
+          <span class="text-gray-300">|</span>
+          <span>{lesezeit} Lesezeit</span>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="prose prose-lg prose-primary max-w-none
+        prose-headings:font-bold prose-headings:text-gray-900
+        prose-p:text-gray-600 prose-p:leading-relaxed
+        prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline
+        prose-img:rounded-xl prose-img:shadow-lg">
+        <slot />
+      </div>
+    </div>
+  </article>
+</PageLayout>

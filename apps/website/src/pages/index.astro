@@ -1,0 +1,120 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import HeroSection from '../components/astro/HeroSection.astro';
+import TrustMetrics from '../components/astro/TrustMetrics.astro';
+import FeatureGrid from '../components/astro/FeatureGrid.astro';
+import IntegrationGrid from '../components/astro/IntegrationGrid.astro';
+import CTASection from '../components/astro/CTASection.astro';
+import SectionHeading from '../components/astro/SectionHeading.astro';
+---
+
+<PageLayout title="Startseite">
+  <HeroSection />
+  <TrustMetrics />
+  <FeatureGrid max={3} />
+  <IntegrationGrid />
+
+  <!-- Value Props: alternierend Bild+Text -->
+  <section class="section-padding">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 lg:space-y-24">
+
+      <!-- VP 1: Vergaberecht -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div class="order-2 lg:order-1">
+          <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+            Vergaberechtskonform auf Knopfdruck
+          </h3>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Automatische Prüfung gegen EU-Schwellenwerte und nationale Vergabevorschriften.
+            Jeder Beschaffungsvorgang wird lückenlos dokumentiert und mit SHA-256 Hash gesichert.
+          </p>
+          <ul class="space-y-2">
+            <li class="flex items-center gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              EU-Schwellenwerte automatisch geprüft
+            </li>
+            <li class="flex items-center gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              Revisionssichere Dokumentation
+            </li>
+            <li class="flex items-center gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              CPV-Code Klassifizierung
+            </li>
+          </ul>
+        </div>
+        <div class="order-1 lg:order-2 bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl p-8 flex items-center justify-center aspect-[4/3]">
+          <svg class="w-24 h-24 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- VP 2: Rahmenverträge -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div class="bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl p-8 flex items-center justify-center aspect-[4/3]">
+          <svg class="w-24 h-24 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+            Rahmenverträge intelligent nutzen
+          </h3>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Automatischer Abgleich Ihrer Bedarfe mit bestehenden Rahmenverträgen.
+            Skonto-Konditionen, Mindestbestellwerte und Abrufvolumen immer im Blick.
+          </p>
+          <ul class="space-y-2">
+            <li class="flex items-center gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              Automatisches RV-Matching
+            </li>
+            <li class="flex items-center gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              Skonto automatisch berechnet
+            </li>
+            <li class="flex items-center gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              Laufzeit-Überwachung
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- VP 3: Multi-Marktplatz -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div class="order-2 lg:order-1">
+          <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+            Ein Zugang, alle Marktplätze
+          </h3>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Durchsuchen Sie Amazon Business, Mercateo, Conrad und weitere Marktplätze gleichzeitig.
+            Vergleichen Sie Preise, Lieferzeiten und Konditionen auf einen Blick.
+          </p>
+          <ul class="space-y-2">
+            <li class="flex items-center gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              Parallele Marktplatzsuche
+            </li>
+            <li class="flex items-center gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              Preisvergleich in Echtzeit
+            </li>
+            <li class="flex items-center gap-2 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              Direkte Bestellung aus der Plattform
+            </li>
+          </ul>
+        </div>
+        <div class="order-1 lg:order-2 bg-gradient-to-br from-purple-50 to-violet-100 rounded-2xl p-8 flex items-center justify-center aspect-[4/3]">
+          <svg class="w-24 h-24 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CTASection />
+</PageLayout>

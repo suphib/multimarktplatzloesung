@@ -1,0 +1,31 @@
+---
+import FeatureCard from './FeatureCard.astro';
+import SectionHeading from './SectionHeading.astro';
+import { FEATURES } from '../../lib/constants';
+
+interface Props {
+  max?: number;
+}
+
+const { max } = Astro.props;
+const features = max ? FEATURES.slice(0, max) : FEATURES;
+---
+
+<section class="section-padding bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <SectionHeading
+      titel="Leistungsstarke Features"
+      untertitel="Alles was Sie für eine effiziente, vergaberechtskonforme Beschaffung benötigen"
+    />
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+      {features.map((feature) => (
+        <FeatureCard
+          titel={feature.titel}
+          beschreibung={feature.beschreibung}
+          icon={feature.icon}
+        />
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+---
+import PricingCard from './PricingCard.astro';
+import SectionHeading from './SectionHeading.astro';
+import { PRICING } from '../../lib/constants';
+---
+
+<section class="section-padding">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <SectionHeading
+      titel="Transparente Preise"
+      untertitel="Wählen Sie den Plan, der zu Ihrer Verwaltung passt. Alle Preise zzgl. MwSt."
+    />
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto items-start">
+      {PRICING.map((plan) => (
+        <PricingCard {...plan} />
+      ))}
+    </div>
+  </div>
+</section>

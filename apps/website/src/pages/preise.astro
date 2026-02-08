@@ -1,0 +1,47 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PricingSection from '../components/astro/PricingSection.astro';
+import CTASection from '../components/astro/CTASection.astro';
+import { FAQ_ITEMS } from '../lib/constants';
+---
+
+<PageLayout title="Preise" description="Transparente Preise für procurement-ai. Starter ab 499 EUR/Monat, Professional ab 1.299 EUR/Monat, Enterprise auf Anfrage.">
+
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">Transparente Preise</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Wählen Sie den Plan, der zu Ihrer Verwaltung passt. 30 Tage kostenlos testen.
+      </p>
+    </div>
+  </section>
+
+  <PricingSection />
+
+  <!-- FAQ -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 text-center mb-8 sm:mb-12">
+        Häufig gestellte Fragen
+      </h2>
+
+      <div class="space-y-4">
+        {FAQ_ITEMS.map((item, index) => (
+          <details class="group bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <summary class="flex items-center justify-between cursor-pointer p-5 sm:p-6 text-left">
+              <span class="text-sm sm:text-base font-semibold text-gray-900 pr-4">{item.frage}</span>
+              <svg class="w-5 h-5 text-gray-400 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </summary>
+            <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+              <p class="text-sm sm:text-base text-gray-600 leading-relaxed">{item.antwort}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection titel="Noch Fragen?" beschreibung="Unser Team berät Sie gerne persönlich zu unseren Tarifen und findet die passende Lösung für Ihre Anforderungen." />
+</PageLayout>

@@ -9,7 +9,15 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.setGlobalPrefix('api/v1');
-  app.enableCors();
+  app.enableCors({
+    origin: [
+      'http://localhost:5500',
+      'http://localhost:4321',
+      'https://www.procurement-ai.de',
+      'https://app.procurement-ai.de',
+    ],
+    credentials: true,
+  });
   app.useBodyParser('urlencoded', { extended: true });
   app.useGlobalPipes(
     new ValidationPipe({

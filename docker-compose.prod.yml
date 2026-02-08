@@ -83,6 +83,16 @@ services:
       - procurement-network
       - casamanager-demo
 
+  website:
+    build:
+      context: .
+      dockerfile: apps/website/Dockerfile
+    container_name: procurement-website
+    restart: unless-stopped
+    networks:
+      - procurement-network
+      - casamanager-demo
+
 volumes:
   postgres_data:
   redis_data:

@@ -1,0 +1,58 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import DemoRequestForm from '../components/react/DemoRequestForm';
+import { FIRMA } from '../lib/constants';
+---
+
+<PageLayout title="Kontakt" description="Kontaktieren Sie uns für eine kostenlose Demo von procurement-ai. Wir beraten Sie gerne persönlich.">
+
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">Kontakt aufnehmen</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Fordern Sie eine kostenlose Demo an oder stellen Sie uns Ihre Fragen.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16">
+        <!-- Form -->
+        <div class="lg:col-span-3">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Demo anfordern</h2>
+          <DemoRequestForm client:load />
+        </div>
+
+        <!-- Contact Info -->
+        <div class="lg:col-span-2">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Kontaktdaten</h2>
+          <div class="bg-gray-50 rounded-2xl p-6 sm:p-8 space-y-6">
+            <div>
+              <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-2">E-Mail</h3>
+              <a href={`mailto:${FIRMA.email}`} class="text-primary-600 hover:underline text-sm">{FIRMA.email}</a>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-2">Telefon</h3>
+              <a href={`tel:${FIRMA.telefon.replace(/[^+0-9]/g, '')}`} class="text-primary-600 hover:underline text-sm">{FIRMA.telefon}</a>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-2">Adresse</h3>
+              <p class="text-sm text-gray-600">
+                {FIRMA.betreiber}<br />
+                {FIRMA.strasse}<br />
+                {FIRMA.plz} {FIRMA.ort}<br />
+                {FIRMA.land}
+              </p>
+            </div>
+            <div class="pt-4 border-t border-gray-200">
+              <p class="text-xs text-gray-500">
+                Antwortzeit: In der Regel innerhalb von 24 Stunden an Werktagen.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

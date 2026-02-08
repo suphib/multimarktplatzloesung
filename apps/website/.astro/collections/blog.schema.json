@@ -1,0 +1,43 @@
+{
+  "$ref": "#/definitions/blog",
+  "definitions": {
+    "blog": {
+      "type": "object",
+      "properties": {
+        "titel": {
+          "type": "string"
+        },
+        "beschreibung": {
+          "type": "string"
+        },
+        "datum": {
+          "type": "string"
+        },
+        "autor": {
+          "type": "string"
+        },
+        "lesezeit": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "titel",
+        "beschreibung",
+        "datum",
+        "autor",
+        "lesezeit"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

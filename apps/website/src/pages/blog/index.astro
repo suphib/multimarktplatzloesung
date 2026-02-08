@@ -1,0 +1,37 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import BlogCard from '../../components/astro/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => new Date(b.data.datum).getTime() - new Date(a.data.datum).getTime()
+);
+---
+
+<PageLayout title="Blog" description="Neuigkeiten, Tipps und Insights rund um KI-gestützte Beschaffung im öffentlichen Sektor.">
+
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">Blog</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Neuigkeiten, Tipps und Insights rund um KI-gestützte Beschaffung.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {posts.map((post) => (
+          <BlogCard
+            titel={post.data.titel}
+            beschreibung={post.data.beschreibung}
+            datum={post.data.datum}
+            slug={post.slug}
+            lesezeit={post.data.lesezeit}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</PageLayout>

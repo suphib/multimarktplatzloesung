@@ -1,0 +1,36 @@
+{
+  "name": "@procurement/website",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev --port 5502",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run",
+    "lint": "astro check"
+  },
+  "dependencies": {
+    "astro": "^5.7.10",
+    "@astrojs/react": "^4.2.1",
+    "@astrojs/tailwind": "^6.0.2",
+    "@astrojs/sitemap": "^3.3.1",
+    "@astrojs/mdx": "^4.2.4",
+    "@astrojs/check": "^0.9.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "framer-motion": "^12.0.0",
+    "lucide-react": "^0.460.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.1.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "jsdom": "^25.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0"
+  }
+}

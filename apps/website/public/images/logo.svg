@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 40" fill="none">
+  <rect width="36" height="36" x="2" y="2" rx="8" fill="#2563eb"/>
+  <path d="M12 14h16M12 20h12M12 26h8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="28" cy="26" r="4" fill="white" opacity="0.8"/>
+  <text x="48" y="28" fill="#1e3a8a" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="20">procurement</text>
+  <text x="193" y="28" fill="#2563eb" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="20">-ai</text>
+</svg>

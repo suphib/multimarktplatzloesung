@@ -16,6 +16,8 @@ import { FrameworkContractEntity } from './search/entities/framework-contract.en
 import { ShopConfigEntity } from './admin/entities/shop-config.entity';
 import { BestellungEntity } from './admin/entities/bestellung.entity';
 import { SystemSettingsEntity } from './admin/entities/system-settings.entity';
+import { LeadEntity } from './lead/entities/lead.entity';
+import { LeadModule } from './lead/lead.module';
 
 @Module({
   imports: [
@@ -41,6 +43,7 @@ import { SystemSettingsEntity } from './admin/entities/system-settings.entity';
           ShopConfigEntity,
           BestellungEntity,
           SystemSettingsEntity,
+          LeadEntity,
         ],
         synchronize: true, // Nur für Entwicklung
         logging: config.get('NODE_ENV') === 'development',
@@ -54,6 +57,7 @@ import { SystemSettingsEntity } from './admin/entities/system-settings.entity';
     AiModule,
     AdminModule,
     OciModule,
+    LeadModule,
   ],
 })
 export class AppModule {}
