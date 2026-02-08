@@ -5,6 +5,7 @@ import type {
   ShopConfigUpdateRequest,
   FrameworkContractItem,
   BestellungCreateRequest,
+  SystemModus,
 } from '@procurement/shared';
 
 // ─── Query Keys ─────────────────────────────────────────────────
@@ -16,6 +17,7 @@ const keys = {
   shopConfigs: ['admin', 'shop-configs'] as const,
   katalog: (params: Record<string, any>) => ['admin', 'katalog', params] as const,
   bestellungen: ['admin', 'bestellungen'] as const,
+  modus: ['admin', 'modus'] as const,
 };
 
 // ─── Queries ────────────────────────────────────────────────────
@@ -206,6 +208,35 @@ export function useRejectBestellung() {
     mutationFn: ({ id, grund }: { id: string; grund: string }) => api.rejectBestellung(id, grund),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: keys.bestellungen });
+    },
+  });
+}
+
+// ─── Modus (Demo / Echtdaten) ────────────────────────────────────
+
+export function useModus() {
+  return useQuery({
+    queryKey: keys.modus,
+    queryFn: () => api.getModus(),
+  });
+}
+
+export function useSetModus() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (modus: SystemModus) => api.setModus(modus),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin'] });
+    },
+  });
+}
+
+export function useImportSandboxDaten() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (modus: 'ADDITIV' | 'ERSETZEND') => api.importSandboxDaten(modus),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['admin'] });
     },
   });
 }

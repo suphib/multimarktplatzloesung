@@ -4,6 +4,7 @@ import { Search, BarChart3, Settings, HelpCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher, Footer } from '../atoms';
 import { ThemeSelector } from '../atoms/ThemeSelector';
+import { useModus } from '../../hooks/useAdmin';
 
 interface SearchLayoutProps {
   children: ReactNode;
@@ -19,14 +20,31 @@ const navKeys = [
 export function SearchLayout({ children, title }: SearchLayoutProps) {
   const location = useLocation();
   const { t } = useTranslation();
+  const { data: modusData } = useModus();
+  const isSandbox = modusData?.aktuellerModus === 'SANDBOX';
 
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/search" className="font-bold text-primary-700 text-lg">
-            {t('common.appName')}
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link to="/search" className="font-bold text-primary-700 text-lg">
+              {t('common.appName')}
+            </Link>
+            {modusData && (
+              <Link
+                to="/admin/dashboard"
+                className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-semibold transition-colors ${
+                  isSandbox
+                    ? 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-700'
+                    : 'bg-green-100 text-green-800 border border-green-300 dark:bg-green-900/40 dark:text-green-300 dark:border-green-700'
+                }`}
+              >
+                <span className={`inline-block w-1.5 h-1.5 rounded-full ${isSandbox ? 'bg-amber-500' : 'bg-green-500'}`} />
+                {isSandbox ? t('admin.modus.sandbox') : t('admin.modus.echtdaten')}
+              </Link>
+            )}
+          </div>
           {title && (
             <h1 className="text-sm font-medium text-gray-600 dark:text-gray-400 hidden sm:block">{title}</h1>
           )}

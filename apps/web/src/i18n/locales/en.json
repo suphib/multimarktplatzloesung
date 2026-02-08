@@ -220,7 +220,7 @@
     "imprint": "Legal Notice",
     "privacy": "Privacy Policy",
     "handbook": "Handbook",
-    "prototype": "Prototype · Demo Data"
+    "prototype": "Prototype · Sandbox Data"
   },
   "organisms": {
     "noArticlesForComparison": "No articles selected for comparison.",
@@ -290,6 +290,17 @@
   },
   "admin": {
     "title": "Administration",
+    "modus": {
+      "sandbox": "Sandbox",
+      "echtdaten": "Real Data"
+    },
+    "sandbox": {
+      "title": "Manage Sandbox Data",
+      "description": "You are in sandbox mode. The displayed data is sample data and not real procurement data.",
+      "additive": "Add Sandbox Data",
+      "replace": "Reset Sandbox Data",
+      "replaceConfirm": "All existing sandbox data will be deleted and replaced with new sample data. Continue?"
+    },
     "nav": {
       "dashboard": "Dashboard",
       "dashboardShort": "Dashboard",
@@ -520,6 +531,26 @@
       "vorherigeSeite": "Previous page",
       "naechsteSeite": "Next page"
     }
+  },
+  "katalogImport": {
+    "title": "Catalogue Import",
+    "subtitle": "Import articles from CSV file",
+    "csvImport": "CSV Import",
+    "selectRv": "Select framework agreement",
+    "uploadFile": "Upload CSV file",
+    "dropHint": "Drop file here or click to select",
+    "preview": "Preview",
+    "importButton": "Import",
+    "importing": "Importing...",
+    "result": "Import Result",
+    "imported": "{{count}} imported",
+    "updated": "{{count}} updated",
+    "errors": "{{count}} errors",
+    "errorDetail": "Row {{zeile}}: {{nachricht}}",
+    "downloadTemplate": "Download CSV template",
+    "noFile": "Please select a CSV file",
+    "noRv": "Please select a framework agreement",
+    "csvFormat": "Semicolon-separated (;), UTF-8"
   },
   "magicRequest": {
     "title": "Magic Request",

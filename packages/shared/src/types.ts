@@ -250,12 +250,29 @@ export interface PaginatedResponse<T> {
   proSeite: number;
 }
 
+// ─── System-Modus (Sandbox / Echtdaten) ────────────────────────
+
+export type SystemModus = 'SANDBOX' | 'ECHTDATEN';
+
+/** @deprecated Use SystemModus instead */
+export type DemoModus = SystemModus;
+
+export interface SandboxImportResult {
+  rahmenvertraegeImportiert: number;
+  katalogArtikelImportiert: number;
+  modus: 'ADDITIV' | 'ERSETZEND';
+}
+
+/** @deprecated Use SandboxImportResult instead */
+export type DemoImportResult = SandboxImportResult;
+
 export interface AdminDashboardStats {
   rahmenvertraegeGesamt: number;
   rahmenvertraegeAktiv: number;
   katalogArtikelGesamt: number;
   shopKonfigurationen: number;
   shopKonfigurationenAktiv: number;
+  aktuellerModus: SystemModus;
 }
 
 // ─── Bestellung ─────────────────────────────────────────────────
@@ -366,6 +383,22 @@ export interface MagicRequestResponse {
   zusammenfassung: string;
   verarbeitungszeit: number;
   methode: 'ki' | 'regelbasiert';
+}
+
+// ─── Katalog Import ─────────────────────────────────────────────
+
+export interface KatalogImportResult {
+  importiert: number;
+  aktualisiert: number;
+  uebersprungen: number;
+  fehler: KatalogImportError[];
+  gesamt: number;
+}
+
+export interface KatalogImportError {
+  zeile: number;
+  feld: string;
+  nachricht: string;
 }
 
 // ─── API Error ───────────────────────────────────────────────────

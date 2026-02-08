@@ -14,6 +14,8 @@ import { DocumentationEntity } from './documentation/entities/documentation.enti
 import { RahmenvertragEntity } from './embedding/entities/rahmenvertrag.entity';
 import { FrameworkContractEntity } from './search/entities/framework-contract.entity';
 import { ShopConfigEntity } from './admin/entities/shop-config.entity';
+import { BestellungEntity } from './admin/entities/bestellung.entity';
+import { SystemSettingsEntity } from './admin/entities/system-settings.entity';
 
 @Module({
   imports: [
@@ -37,6 +39,8 @@ import { ShopConfigEntity } from './admin/entities/shop-config.entity';
           RahmenvertragEntity,
           FrameworkContractEntity,
           ShopConfigEntity,
+          BestellungEntity,
+          SystemSettingsEntity,
         ],
         synchronize: true, // Nur für Entwicklung
         logging: config.get('NODE_ENV') === 'development',

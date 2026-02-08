@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Database, Plus, Search } from 'lucide-react';
+import { Database, Plus, Search, Upload } from 'lucide-react';
 import { AdminLayout } from '../../components/templates/AdminLayout';
 import { DataTable, Badge, Button, Input } from '../../components/atoms';
 import { PriceTag } from '../../components/atoms';
@@ -32,6 +33,7 @@ const emptyForm = {
 
 export function KatalogPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [suchbegriff, setSuchbegriff] = useState('');
   const [lieferant, setLieferant] = useState('');
@@ -164,10 +166,16 @@ export function KatalogPage() {
             <Database className="h-6 w-6 text-primary-600" />
             <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('admin.katalog.title')}</h1>
           </div>
-          <Button onClick={openCreate} size="sm">
-            <Plus className="h-4 w-4 mr-1" />
-            {t('admin.katalog.neu')}
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={() => navigate('/admin/katalog/import')} size="sm" variant="secondary">
+              <Upload className="h-4 w-4 mr-1" />
+              {t('katalogImport.csvImport')}
+            </Button>
+            <Button onClick={openCreate} size="sm">
+              <Plus className="h-4 w-4 mr-1" />
+              {t('admin.katalog.neu')}
+            </Button>
+          </div>
         </div>
 
         {/* Filters */}

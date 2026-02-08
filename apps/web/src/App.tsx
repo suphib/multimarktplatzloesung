@@ -13,6 +13,7 @@ import { RahmenvertraegePage } from './pages/admin/RahmenvertraegePage';
 import { RahmenvertragDetailPage } from './pages/admin/RahmenvertragDetailPage';
 import { ShopConfigPage } from './pages/admin/ShopConfigPage';
 import { KatalogPage } from './pages/admin/KatalogPage';
+import { KatalogImportPage } from './pages/admin/KatalogImportPage';
 import { ConnectionsPage } from './pages/admin/ConnectionsPage';
 import { BestellungenPage } from './pages/admin/BestellungenPage';
 import { OciConfigPage } from './pages/admin/OciConfigPage';
@@ -37,6 +38,7 @@ export function App() {
       <Route path="/admin/bestellungen" element={<BestellungenPage />} />
       <Route path="/admin/shop-config" element={<ShopConfigPage />} />
       <Route path="/admin/katalog" element={<KatalogPage />} />
+      <Route path="/admin/katalog/import" element={<KatalogImportPage />} />
       <Route path="/admin/oci-config" element={<OciConfigPage />} />
       <Route path="/admin/verbindungen" element={<ConnectionsPage />} />
     </Routes>

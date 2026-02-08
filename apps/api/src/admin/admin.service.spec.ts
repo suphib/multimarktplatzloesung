@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { RahmenvertragEntity } from '../embedding/entities/rahmenvertrag.entity';
 import { FrameworkContractEntity } from '../search/entities/framework-contract.entity';
 import { ShopConfigEntity } from './entities/shop-config.entity';
 import { BestellungEntity } from './entities/bestellung.entity';
+import { SystemSettingsEntity } from './entities/system-settings.entity';
 import { Marktplatz } from '@procurement/shared';
 
 const mockRvRepo = () => ({
@@ -14,9 +15,11 @@ const mockRvRepo = () => ({
   create: jest.fn((dto) => dto),
   save: jest.fn((entity) => ({ ...entity, erstelltAm: new Date() })),
   remove: jest.fn(),
+  delete: jest.fn(),
   count: jest.fn(),
   createQueryBuilder: jest.fn(() => ({
     where: jest.fn().mockReturnThis(),
+    andWhere: jest.fn().mockReturnThis(),
     getCount: jest.fn().mockResolvedValue(4),
   })),
 });
@@ -27,6 +30,7 @@ const mockFcRepo = () => ({
   create: jest.fn((dto) => dto),
   save: jest.fn((entity) => ({ ...entity, erstelltAm: new Date() })),
   remove: jest.fn(),
+  delete: jest.fn(),
   count: jest.fn(),
   createQueryBuilder: jest.fn(() => ({
     andWhere: jest.fn().mockReturnThis(),
@@ -50,7 +54,14 @@ const mockBestellungRepo = () => ({
   findOne: jest.fn(),
   create: jest.fn((dto) => dto),
   save: jest.fn((entity) => ({ ...entity, erstelltAm: new Date() })),
+  delete: jest.fn(),
   count: jest.fn(),
+});
+
+const mockSettingsRepo = () => ({
+  findOne: jest.fn().mockResolvedValue({ id: 'global', aktuellerModus: 'SANDBOX' }),
+  create: jest.fn((dto) => dto),
+  save: jest.fn((entity) => entity),
 });
 
 describe('AdminService', () => {
@@ -59,12 +70,14 @@ describe('AdminService', () => {
   let fcRepo: ReturnType<typeof mockFcRepo>;
   let scRepo: ReturnType<typeof mockScRepo>;
   let bestellungRepo: ReturnType<typeof mockBestellungRepo>;
+  let settingsRepo: ReturnType<typeof mockSettingsRepo>;
 
   beforeEach(async () => {
     rvRepo = mockRvRepo();
     fcRepo = mockFcRepo();
     scRepo = mockScRepo();
     bestellungRepo = mockBestellungRepo();
+    settingsRepo = mockSettingsRepo();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -73,6 +86,7 @@ describe('AdminService', () => {
         { provide: getRepositoryToken(FrameworkContractEntity), useValue: fcRepo },
         { provide: getRepositoryToken(ShopConfigEntity), useValue: scRepo },
         { provide: getRepositoryToken(BestellungEntity), useValue: bestellungRepo },
+        { provide: getRepositoryToken(SystemSettingsEntity), useValue: settingsRepo },
       ],
     }).compile();
 
@@ -82,7 +96,7 @@ describe('AdminService', () => {
   // ─── Dashboard Stats ───────────────────────────────────────────
 
   describe('getStats', () => {
-    it('should return correct aggregated stats', async () => {
+    it('should return correct aggregated stats with aktuellerModus', async () => {
       rvRepo.count.mockResolvedValue(6);
       fcRepo.count.mockResolvedValue(10);
       scRepo.count.mockResolvedValueOnce(3).mockResolvedValueOnce(2);
@@ -94,13 +108,25 @@ describe('AdminService', () => {
       expect(stats.katalogArtikelGesamt).toBe(10);
       expect(stats.shopKonfigurationen).toBe(3);
       expect(stats.shopKonfigurationenAktiv).toBe(2);
+      expect(stats.aktuellerModus).toBe('SANDBOX');
+    });
+
+    it('should filter counts by istSandbox based on current modus', async () => {
+      rvRepo.count.mockResolvedValue(3);
+      fcRepo.count.mockResolvedValue(5);
+      scRepo.count.mockResolvedValueOnce(2).mockResolvedValueOnce(1);
+
+      await service.getStats();
+
+      expect(rvRepo.count).toHaveBeenCalledWith({ where: { istSandbox: true } });
+      expect(fcRepo.count).toHaveBeenCalledWith({ where: { istSandbox: true } });
     });
   });
 
   // ─── Rahmenverträge ─────────────────────────────────────────────
 
   describe('findAllRahmenvertraege', () => {
-    it('should return all Rahmenverträge sorted by erstelltAm DESC', async () => {
+    it('should return Rahmenverträge filtered by istSandbox and sorted by erstelltAm DESC', async () => {
       const mockEntities = [
         {
           id: 'rv-1',
@@ -111,6 +137,7 @@ describe('AdminService', () => {
           gueltigBis: new Date('2026-12-31'),
           cpvCodes: '30213100',
           maxVolumen: 500000,
+          istSandbox: true,
           erstelltAm: new Date(),
         },
       ];
@@ -118,7 +145,7 @@ describe('AdminService', () => {
 
       const result = await service.findAllRahmenvertraege();
 
-      expect(rvRepo.find).toHaveBeenCalledWith({ order: { erstelltAm: 'DESC' } });
+      expect(rvRepo.find).toHaveBeenCalledWith({ where: { istSandbox: true }, order: { erstelltAm: 'DESC' } });
       expect(result).toHaveLength(1);
       expect(result[0].bezeichnung).toBe('IT-Endgeräte');
       expect(result[0].lieferant).toBe('Bechtle AG');
@@ -409,6 +436,126 @@ describe('AdminService', () => {
     it('should throw NotFoundException for invalid ID', async () => {
       scRepo.findOne.mockResolvedValue(null);
       await expect(service.triggerSync('invalid')).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  // ─── Modus Management ──────────────────────────────────────────
+
+  describe('getModus', () => {
+    it('should return the current modus', async () => {
+      const result = await service.getModus();
+      expect(result.aktuellerModus).toBe('SANDBOX');
+    });
+
+    it('should default to SANDBOX if no settings exist', async () => {
+      settingsRepo.findOne.mockResolvedValue(null);
+      const result = await service.getModus();
+      expect(result.aktuellerModus).toBe('SANDBOX');
+    });
+  });
+
+  describe('setModus', () => {
+    it('should switch modus to ECHTDATEN', async () => {
+      const result = await service.setModus('ECHTDATEN');
+      expect(result.aktuellerModus).toBe('ECHTDATEN');
+      expect(settingsRepo.save).toHaveBeenCalled();
+    });
+
+    it('should switch modus to SANDBOX', async () => {
+      settingsRepo.findOne.mockResolvedValue({ id: 'global', aktuellerModus: 'ECHTDATEN' });
+      const result = await service.setModus('SANDBOX');
+      expect(result.aktuellerModus).toBe('SANDBOX');
+    });
+
+    it('should create settings row if none exists', async () => {
+      settingsRepo.findOne.mockResolvedValue(null);
+      await service.setModus('ECHTDATEN');
+      expect(settingsRepo.create).toHaveBeenCalledWith({ id: 'global', aktuellerModus: 'ECHTDATEN' });
+      expect(settingsRepo.save).toHaveBeenCalled();
+    });
+
+    it('should reject invalid modus values', async () => {
+      await expect(service.setModus('INVALID')).rejects.toThrow(BadRequestException);
+    });
+  });
+
+  describe('importSandboxDaten', () => {
+    it('should import sandbox data additively', async () => {
+      rvRepo.findOne.mockResolvedValue(null);
+      fcRepo.findOne.mockResolvedValue(null);
+
+      const result = await service.importSandboxDaten('ADDITIV');
+
+      expect(result.modus).toBe('ADDITIV');
+      expect(result.rahmenvertraegeImportiert).toBeGreaterThan(0);
+      expect(result.katalogArtikelImportiert).toBeGreaterThan(0);
+      expect(rvRepo.delete).not.toHaveBeenCalled();
+      expect(fcRepo.delete).not.toHaveBeenCalled();
+    });
+
+    it('should delete existing sandbox data in ERSETZEND mode', async () => {
+      rvRepo.findOne.mockResolvedValue(null);
+      fcRepo.findOne.mockResolvedValue(null);
+
+      const result = await service.importSandboxDaten('ERSETZEND');
+
+      expect(result.modus).toBe('ERSETZEND');
+      expect(rvRepo.delete).toHaveBeenCalledWith({ istSandbox: true });
+      expect(fcRepo.delete).toHaveBeenCalledWith({ istSandbox: true });
+      expect(bestellungRepo.delete).toHaveBeenCalledWith({ istSandbox: true });
+    });
+  });
+
+  // ─── Modus-aware queries ───────────────────────────────────────
+
+  describe('createRahmenvertrag with modus', () => {
+    it('should set istSandbox based on current modus', async () => {
+      const dto = {
+        bezeichnung: 'Test RV',
+        beschreibung: 'Test',
+        lieferant: 'Test GmbH',
+        vertragsnummer: 'RV-TEST',
+        gueltigBis: '2027-01-01',
+        cpvCodes: '30213100',
+        maxVolumen: 100000,
+      };
+
+      await service.createRahmenvertrag(dto);
+
+      const createCall = rvRepo.create.mock.calls[0][0];
+      expect(createCall.istSandbox).toBe(true);
+    });
+
+    it('should set istSandbox=false in ECHTDATEN modus', async () => {
+      settingsRepo.findOne.mockResolvedValue({ id: 'global', aktuellerModus: 'ECHTDATEN' });
+
+      const dto = {
+        bezeichnung: 'Test RV',
+        beschreibung: 'Test',
+        lieferant: 'Test GmbH',
+        vertragsnummer: 'RV-TEST',
+        gueltigBis: '2027-01-01',
+        cpvCodes: '30213100',
+        maxVolumen: 100000,
+      };
+
+      await service.createRahmenvertrag(dto);
+
+      const createCall = rvRepo.create.mock.calls[0][0];
+      expect(createCall.istSandbox).toBe(false);
+    });
+  });
+
+  describe('getBestellungen with modus', () => {
+    it('should filter bestellungen by istSandbox', async () => {
+      bestellungRepo.find.mockResolvedValue([]);
+
+      await service.getBestellungen();
+
+      expect(bestellungRepo.find).toHaveBeenCalledWith({
+        where: { istSandbox: true },
+        order: { erstelltAm: 'DESC' },
+      });
     });
   });
 });

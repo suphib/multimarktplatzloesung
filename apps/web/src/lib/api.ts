@@ -17,6 +17,9 @@ import type {
   OciCartItem,
   MagicRequestInput,
   MagicRequestResponse,
+  KatalogImportResult,
+  SystemModus,
+  SandboxImportResult,
 } from '@procurement/shared';
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api/v1';
@@ -164,6 +167,21 @@ export const api = {
     return request(`/admin/katalog/${id}`, { method: 'DELETE' });
   },
 
+  async importKatalog(rahmenvertragsNummer: string, file: File): Promise<KatalogImportResult> {
+    const formData = new FormData();
+    formData.append('datei', file);
+    formData.append('rahmenvertragsNummer', rahmenvertragsNummer);
+    const response = await fetch(`${API_BASE}/admin/katalog/import`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ nachricht: 'Import fehlgeschlagen' }));
+      throw new Error(error.nachricht || `HTTP ${response.status}`);
+    }
+    return response.json();
+  },
+
   // ─── Bestellungen ─────────────────────────────────────────────────
 
   createBestellung(data: BestellungCreateRequest): Promise<Bestellung> {
@@ -185,6 +203,26 @@ export const api = {
     return request(`/admin/bestellungen/${id}/reject`, {
       method: 'PATCH',
       body: JSON.stringify({ grund }),
+    });
+  },
+
+  // ─── System Settings (Modus) ─────────────────────────────────────
+
+  getModus(): Promise<{ aktuellerModus: SystemModus }> {
+    return request('/admin/system-settings/modus');
+  },
+
+  setModus(modus: SystemModus): Promise<{ aktuellerModus: SystemModus }> {
+    return request('/admin/system-settings/modus', {
+      method: 'PATCH',
+      body: JSON.stringify({ modus }),
+    });
+  },
+
+  importSandboxDaten(modus: 'ADDITIV' | 'ERSETZEND'): Promise<SandboxImportResult> {
+    return request('/admin/system-settings/sandbox-daten', {
+      method: 'POST',
+      body: JSON.stringify({ modus }),
     });
   },
 

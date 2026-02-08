@@ -59,6 +59,9 @@ export class BestellungEntity {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   bestelltAm: Date;
 
+  @Column({ default: false })
+  istSandbox: boolean;
+
   @CreateDateColumn()
   erstelltAm: Date;
 }

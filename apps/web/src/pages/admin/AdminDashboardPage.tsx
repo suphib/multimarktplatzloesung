@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { FileText, LayoutDashboard, Database, Store, Plug } from 'lucide-react';
 import { AdminLayout } from '../../components/templates/AdminLayout';
 import { StatusDot, Spinner } from '../../components/atoms';
-import { useAdminStats, useShopConfigs } from '../../hooks/useAdmin';
+import { useAdminStats, useShopConfigs, useModus, useImportSandboxDaten } from '../../hooks/useAdmin';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../lib/api';
+import { AlertTriangle, Plus, RefreshCw } from 'lucide-react';
 
 export function AdminDashboardPage() {
   const { t } = useTranslation();
@@ -15,6 +16,19 @@ export function AdminDashboardPage() {
     queryKey: ['health'],
     queryFn: () => api.health(),
   });
+  const { data: modusData } = useModus();
+  const importSandboxDaten = useImportSandboxDaten();
+  const isSandbox = modusData?.aktuellerModus === 'SANDBOX';
+
+  const handleImportAdditiv = () => {
+    importSandboxDaten.mutate('ADDITIV');
+  };
+
+  const handleImportErsetzend = () => {
+    if (window.confirm(t('admin.sandbox.replaceConfirm'))) {
+      importSandboxDaten.mutate('ERSETZEND');
+    }
+  };
 
   const statCards = [
     {
@@ -82,6 +96,37 @@ export function AdminDashboardPage() {
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1.5 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{card.label}</p>
               </Link>
             ))}
+          </div>
+        )}
+
+        {/* Sandbox Data Management (only in sandbox mode) */}
+        {isSandbox && (
+          <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800 p-5">
+            <div className="flex items-start gap-3 mb-4">
+              <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+              <div>
+                <h2 className="text-sm font-semibold text-amber-800 dark:text-amber-300">{t('admin.sandbox.title')}</h2>
+                <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">{t('admin.sandbox.description')}</p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={handleImportAdditiv}
+                disabled={importSandboxDaten.isPending}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-900/40 dark:text-amber-300 dark:hover:bg-amber-900/60 border border-amber-300 dark:border-amber-700 transition-colors disabled:opacity-50"
+              >
+                <Plus className="h-3.5 w-3.5" />
+                {t('admin.sandbox.additive')}
+              </button>
+              <button
+                onClick={handleImportErsetzend}
+                disabled={importSandboxDaten.isPending}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-900/40 dark:text-amber-300 dark:hover:bg-amber-900/60 border border-amber-300 dark:border-amber-700 transition-colors disabled:opacity-50"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+                {t('admin.sandbox.replace')}
+              </button>
+            </div>
           </div>
         )}
 

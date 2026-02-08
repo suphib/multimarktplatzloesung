@@ -3,10 +3,12 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { SearchService } from './search.service';
 import { FrameworkContractEntity } from './entities/framework-contract.entity';
 import { RahmenvertragEntity } from '../embedding/entities/rahmenvertrag.entity';
+import { SystemSettingsEntity } from '../admin/entities/system-settings.entity';
 import { Marktplatz } from '@procurement/shared';
 
 const mockQueryBuilder = {
   where: jest.fn().mockReturnThis(),
+  andWhere: jest.fn().mockReturnThis(),
   getMany: jest.fn().mockResolvedValue([]),
 };
 
@@ -18,12 +20,17 @@ const mockRvRepository = {
   find: jest.fn().mockResolvedValue([]),
 };
 
+const mockSettingsRepository = {
+  findOne: jest.fn().mockResolvedValue({ id: 'global', aktuellerModus: 'SANDBOX' }),
+};
+
 describe('SearchService', () => {
   let service: SearchService;
 
   beforeEach(async () => {
     mockQueryBuilder.getMany.mockResolvedValue([]);
     mockQueryBuilder.where.mockReturnThis();
+    mockQueryBuilder.andWhere.mockReturnThis();
     mockRepository.createQueryBuilder.mockReturnValue(mockQueryBuilder);
 
     const module: TestingModule = await Test.createTestingModule({
@@ -36,6 +43,10 @@ describe('SearchService', () => {
         {
           provide: getRepositoryToken(RahmenvertragEntity),
           useValue: mockRvRepository,
+        },
+        {
+          provide: getRepositoryToken(SystemSettingsEntity),
+          useValue: mockSettingsRepository,
         },
       ],
     }).compile();

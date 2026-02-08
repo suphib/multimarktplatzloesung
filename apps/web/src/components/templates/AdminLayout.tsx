@@ -16,6 +16,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher, Footer } from '../atoms';
 import { ThemeSelector } from '../atoms/ThemeSelector';
+import { useModus, useSetModus } from '../../hooks/useAdmin';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -35,6 +36,13 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   const location = useLocation();
   const { t } = useTranslation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data: modusData } = useModus();
+  const setModus = useSetModus();
+  const isSandbox = modusData?.aktuellerModus === 'SANDBOX';
+
+  const toggleModus = () => {
+    setModus.mutate(isSandbox ? 'ECHTDATEN' : 'SANDBOX');
+  };
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -102,6 +110,18 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
               {t('admin.title')}
             </span>
+            <button
+              onClick={toggleModus}
+              disabled={setModus.isPending}
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-colors cursor-pointer ${
+                isSandbox
+                  ? 'bg-amber-100 text-amber-800 border border-amber-300 hover:bg-amber-200 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-700 dark:hover:bg-amber-900/60'
+                  : 'bg-green-100 text-green-800 border border-green-300 hover:bg-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-700 dark:hover:bg-green-900/60'
+              }`}
+            >
+              <span className={`inline-block w-2 h-2 rounded-full ${isSandbox ? 'bg-amber-500' : 'bg-green-500'}`} />
+              {isSandbox ? t('admin.modus.sandbox') : t('admin.modus.echtdaten')}
+            </button>
           </div>
           <div className="flex items-center gap-3">
             <Link

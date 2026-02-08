@@ -68,6 +68,9 @@ export class RahmenvertragEntity {
   @Column({ type: 'text', nullable: true })
   notizen: string;
 
+  @Column({ default: false })
+  istSandbox: boolean;
+
   @CreateDateColumn()
   erstelltAm: Date;
 }

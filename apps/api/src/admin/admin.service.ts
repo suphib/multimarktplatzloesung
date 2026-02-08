@@ -8,12 +8,15 @@ import { RahmenvertragEntity } from '../embedding/entities/rahmenvertrag.entity'
 import { FrameworkContractEntity } from '../search/entities/framework-contract.entity';
 import { ShopConfigEntity } from './entities/shop-config.entity';
 import { BestellungEntity } from './entities/bestellung.entity';
+import { SystemSettingsEntity } from './entities/system-settings.entity';
 import { CreateRahmenvertragDto } from './dto/create-rahmenvertrag.dto';
 import { UpdateRahmenvertragDto } from './dto/update-rahmenvertrag.dto';
 import { UpdateShopConfigDto } from './dto/update-shop-config.dto';
 import { CreateKatalogArtikelDto } from './dto/create-katalog-artikel.dto';
 import { CreateBestellungDto } from './dto/create-bestellung.dto';
 import { QueryFrameworkItemsDto } from './dto/query-framework-items.dto';
+import { parse } from 'csv-parse/sync';
+import { getSandboxRahmenvertraege, getSandboxFrameworkContractItems } from '../config/sandbox-data';
 import type {
   AdminDashboardStats,
   PaginatedResponse,
@@ -21,6 +24,10 @@ import type {
   Rahmenvertrag,
   ShopConfig,
   Bestellung,
+  KatalogImportResult,
+  KatalogImportError,
+  SystemModus,
+  SandboxImportResult,
 } from '@procurement/shared';
 
 @Injectable()
@@ -34,17 +41,90 @@ export class AdminService {
     private readonly scRepo: Repository<ShopConfigEntity>,
     @InjectRepository(BestellungEntity)
     private readonly bestellungRepo: Repository<BestellungEntity>,
+    @InjectRepository(SystemSettingsEntity)
+    private readonly settingsRepo: Repository<SystemSettingsEntity>,
   ) {}
+
+  // ─── Modus Helper ─────────────────────────────────────────────────
+
+  private async getIstSandbox(): Promise<boolean> {
+    const settings = await this.settingsRepo.findOne({ where: { id: 'global' } });
+    return settings?.aktuellerModus === 'SANDBOX';
+  }
+
+  private async getAktuellerModus(): Promise<SystemModus> {
+    const settings = await this.settingsRepo.findOne({ where: { id: 'global' } });
+    return (settings?.aktuellerModus as SystemModus) || 'SANDBOX';
+  }
+
+  // ─── Modus Management ────────────────────────────────────────────
+
+  async getModus(): Promise<{ aktuellerModus: SystemModus }> {
+    const modus = await this.getAktuellerModus();
+    return { aktuellerModus: modus };
+  }
+
+  async setModus(modus: string): Promise<{ aktuellerModus: SystemModus }> {
+    if (modus !== 'SANDBOX' && modus !== 'ECHTDATEN') {
+      throw new BadRequestException('Modus muss SANDBOX oder ECHTDATEN sein');
+    }
+    let settings = await this.settingsRepo.findOne({ where: { id: 'global' } });
+    if (!settings) {
+      settings = this.settingsRepo.create({ id: 'global', aktuellerModus: modus });
+    } else {
+      settings.aktuellerModus = modus;
+    }
+    await this.settingsRepo.save(settings);
+    return { aktuellerModus: modus as SystemModus };
+  }
+
+  async importSandboxDaten(modus: 'ADDITIV' | 'ERSETZEND'): Promise<SandboxImportResult> {
+    if (modus === 'ERSETZEND') {
+      await this.fcRepo.delete({ istSandbox: true });
+      await this.rvRepo.delete({ istSandbox: true });
+      await this.bestellungRepo.delete({ istSandbox: true });
+    }
+
+    const rahmenvertraege = getSandboxRahmenvertraege();
+    for (const rv of rahmenvertraege) {
+      const existing = await this.rvRepo.findOne({ where: { vertragsnummer: rv.vertragsnummer } });
+      if (existing) {
+        const { id, ...updateData } = rv;
+        Object.assign(existing, updateData);
+        await this.rvRepo.save(existing);
+      } else {
+        await this.rvRepo.save(this.rvRepo.create(rv));
+      }
+    }
+
+    const fcItems = getSandboxFrameworkContractItems();
+    for (const fc of fcItems) {
+      const existing = await this.fcRepo.findOne({ where: { artikelnummer: fc.artikelnummer } });
+      if (!existing) {
+        await this.fcRepo.save(this.fcRepo.create(fc));
+      }
+    }
+
+    return {
+      rahmenvertraegeImportiert: rahmenvertraege.length,
+      katalogArtikelImportiert: fcItems.length,
+      modus,
+    };
+  }
 
   // ─── Dashboard ──────────────────────────────────────────────────
 
   async getStats(): Promise<AdminDashboardStats> {
-    const rahmenvertraegeGesamt = await this.rvRepo.count();
+    const istSandbox = await this.getIstSandbox();
+    const aktuellerModus = await this.getAktuellerModus();
+
+    const rahmenvertraegeGesamt = await this.rvRepo.count({ where: { istSandbox } });
     const rahmenvertraegeAktiv = await this.rvRepo
       .createQueryBuilder('rv')
       .where('rv.gueltigBis > NOW()')
+      .andWhere('rv.istSandbox = :istSandbox', { istSandbox })
       .getCount();
-    const katalogArtikelGesamt = await this.fcRepo.count();
+    const katalogArtikelGesamt = await this.fcRepo.count({ where: { istSandbox } });
     const shopKonfigurationen = await this.scRepo.count();
     const shopKonfigurationenAktiv = await this.scRepo.count({ where: { aktiv: true } });
 
@@ -54,13 +134,15 @@ export class AdminService {
       katalogArtikelGesamt,
       shopKonfigurationen,
       shopKonfigurationenAktiv,
+      aktuellerModus,
     };
   }
 
   // ─── Rahmenverträge ─────────────────────────────────────────────
 
   async findAllRahmenvertraege(): Promise<Rahmenvertrag[]> {
-    const entities = await this.rvRepo.find({ order: { erstelltAm: 'DESC' } });
+    const istSandbox = await this.getIstSandbox();
+    const entities = await this.rvRepo.find({ where: { istSandbox }, order: { erstelltAm: 'DESC' } });
     return entities.map((e) => this.mapRahmenvertrag(e));
   }
 
@@ -71,6 +153,7 @@ export class AdminService {
   }
 
   async createRahmenvertrag(dto: CreateRahmenvertragDto): Promise<Rahmenvertrag> {
+    const istSandbox = await this.getIstSandbox();
     const entity = this.rvRepo.create({
       id: randomUUID(),
       bezeichnung: dto.bezeichnung,
@@ -92,6 +175,7 @@ export class AdminService {
       abrufVolumen: dto.abrufVolumen || 0,
       mindestBestellwert: dto.mindestBestellwert || 0,
       notizen: dto.notizen || null,
+      istSandbox,
     } as Partial<RahmenvertragEntity>);
     const saved = await this.rvRepo.save(entity);
     return this.mapRahmenvertrag(saved as RahmenvertragEntity);
@@ -239,11 +323,14 @@ export class AdminService {
   async findKatalogArtikel(
     query: QueryFrameworkItemsDto,
   ): Promise<PaginatedResponse<FrameworkContractItem>> {
+    const istSandbox = await this.getIstSandbox();
     const seite = query.seite || 1;
     const proSeite = query.proSeite || 10;
     const skip = (seite - 1) * proSeite;
 
     const qb = this.fcRepo.createQueryBuilder('fc');
+
+    qb.andWhere('fc.istSandbox = :istSandbox', { istSandbox });
 
     if (query.suchbegriff) {
       qb.andWhere(
@@ -290,6 +377,7 @@ export class AdminService {
   }
 
   async createKatalogArtikel(dto: CreateKatalogArtikelDto): Promise<FrameworkContractItem> {
+    const istSandbox = await this.getIstSandbox();
     const entity = this.fcRepo.create({
       id: randomUUID(),
       titel: dto.titel,
@@ -304,6 +392,7 @@ export class AdminService {
       lieferzeit: dto.lieferzeit || '',
       bildUrl: dto.bildUrl || '',
       verfuegbar: dto.verfuegbar !== undefined ? dto.verfuegbar : true,
+      istSandbox,
     });
     const saved = await this.fcRepo.save(entity);
     return this.mapFrameworkItem(saved);
@@ -325,6 +414,102 @@ export class AdminService {
     const entity = await this.fcRepo.findOne({ where: { id } });
     if (!entity) throw new NotFoundException(`Katalog-Artikel ${id} nicht gefunden`);
     await this.fcRepo.remove(entity);
+  }
+
+  async importKatalogCsv(
+    csvBuffer: Buffer,
+    rahmenvertragsNummer: string,
+  ): Promise<KatalogImportResult> {
+    const records = parse(csvBuffer, {
+      columns: true,
+      delimiter: ';',
+      skip_empty_lines: true,
+      trim: true,
+    }) as Record<string, string>[];
+
+    let importiert = 0;
+    let aktualisiert = 0;
+    const fehler: KatalogImportError[] = [];
+
+    for (let i = 0; i < records.length; i++) {
+      const row = records[i];
+      const zeile = i + 2; // +2 because 1-based + header row
+
+      // Validate required fields
+      if (!row.titel || !row.titel.trim()) {
+        fehler.push({ zeile, feld: 'titel', nachricht: 'Titel ist ein Pflichtfeld' });
+        continue;
+      }
+      if (!row.lieferant || !row.lieferant.trim()) {
+        fehler.push({ zeile, feld: 'lieferant', nachricht: 'Lieferant ist ein Pflichtfeld' });
+        continue;
+      }
+      if (!row.artikelnummer || !row.artikelnummer.trim()) {
+        fehler.push({ zeile, feld: 'artikelnummer', nachricht: 'Artikelnummer ist ein Pflichtfeld' });
+        continue;
+      }
+
+      const preis = parseFloat(row.preis);
+      if (!row.preis || isNaN(preis)) {
+        fehler.push({ zeile, feld: 'preis', nachricht: 'Preis muss eine gueltige Zahl sein' });
+        continue;
+      }
+
+      // Check for existing article (upsert logic)
+      const existing = await this.fcRepo.findOne({
+        where: {
+          artikelnummer: row.artikelnummer.trim(),
+          rahmenvertragsNummer,
+        },
+      });
+
+      if (existing) {
+        // Update existing
+        existing.titel = row.titel.trim();
+        existing.beschreibung = row.beschreibung?.trim() || existing.beschreibung;
+        existing.lieferant = row.lieferant.trim();
+        existing.preis = preis;
+        existing.waehrung = row.waehrung?.trim() || existing.waehrung || 'EUR';
+        existing.cpvCodes = row.cpvCodes?.trim() || existing.cpvCodes;
+        existing.lieferzeit = row.lieferzeit?.trim() || existing.lieferzeit;
+        existing.nachhaltigkeitslabel = row.nachhaltigkeitslabel?.trim() || existing.nachhaltigkeitslabel;
+        if (row.verfuegbar !== undefined && row.verfuegbar !== '') {
+          existing.verfuegbar = row.verfuegbar.toLowerCase() === 'true';
+        }
+        await this.fcRepo.save(existing);
+        aktualisiert++;
+      } else {
+        // CSV imports are always real data (istSandbox: false)
+        const entity = this.fcRepo.create({
+          id: randomUUID(),
+          titel: row.titel.trim(),
+          beschreibung: row.beschreibung?.trim() || '',
+          lieferant: row.lieferant.trim(),
+          artikelnummer: row.artikelnummer.trim(),
+          preis,
+          waehrung: row.waehrung?.trim() || 'EUR',
+          rahmenvertragsNummer,
+          cpvCodes: row.cpvCodes?.trim() || '',
+          lieferzeit: row.lieferzeit?.trim() || '',
+          nachhaltigkeitslabel: row.nachhaltigkeitslabel?.trim() || '',
+          bildUrl: '',
+          verfuegbar: row.verfuegbar !== undefined && row.verfuegbar !== ''
+            ? row.verfuegbar.toLowerCase() === 'true'
+            : true,
+          istSandbox: false,
+        });
+        await this.fcRepo.save(entity);
+        importiert++;
+      }
+    }
+
+    return {
+      importiert,
+      aktualisiert,
+      uebersprungen: 0,
+      fehler,
+      gesamt: records.length,
+    };
   }
 
   private mapFrameworkItem(e: FrameworkContractEntity): FrameworkContractItem {
@@ -397,6 +582,7 @@ export class AdminService {
   // ─── Bestellungen ─────────────────────────────────────────────────
 
   async createBestellung(dto: CreateBestellungDto): Promise<Bestellung> {
+    const istSandbox = await this.getIstSandbox();
     const gesamtpreis = dto.einzelpreis * dto.menge;
     let skontoAbzug = 0;
     let genehmigungErforderlich = false;
@@ -447,6 +633,7 @@ export class AdminService {
       rahmenvertragNr: dto.rahmenvertragNr || null,
       genehmigungErforderlich,
       begruendung: dto.begruendung || null,
+      istSandbox,
     } as Partial<BestellungEntity>);
 
     const saved = await this.bestellungRepo.save(entity);
@@ -454,7 +641,8 @@ export class AdminService {
   }
 
   async getBestellungen(): Promise<Bestellung[]> {
-    const entities = await this.bestellungRepo.find({ order: { erstelltAm: 'DESC' } });
+    const istSandbox = await this.getIstSandbox();
+    const entities = await this.bestellungRepo.find({ where: { istSandbox }, order: { erstelltAm: 'DESC' } });
     return entities.map((e) => this.mapBestellung(e));
   }
 

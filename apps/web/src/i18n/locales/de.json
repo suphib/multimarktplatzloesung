@@ -122,7 +122,7 @@
   "compare": {
     "title": "Preisvergleich",
     "articlesInComparison": "{{count}} Artikel im Vergleich",
-    "demoData": "Demo-Daten",
+    "demoData": "Sandbox-Daten",
     "backToResults": "Zurück zu Ergebnissen",
     "possibleSavings": "Mögliche Ersparnis: {{amount}} €",
     "cheapestVsExpensive": "Günstigstes Angebot: {{min}} € vs. teuerstes: {{max}} €",
@@ -219,7 +219,7 @@
     "imprint": "Impressum",
     "privacy": "Datenschutz",
     "handbook": "Handbuch",
-    "prototype": "Prototyp-Version · Demo-Daten"
+    "prototype": "Prototyp-Version · Sandbox-Daten"
   },
   "organisms": {
     "noArticlesForComparison": "Keine Artikel zum Vergleich ausgewählt.",
@@ -289,6 +289,17 @@
   },
   "admin": {
     "title": "Administration",
+    "modus": {
+      "sandbox": "Sandbox",
+      "echtdaten": "Echtdaten"
+    },
+    "sandbox": {
+      "title": "Sandbox-Daten verwalten",
+      "description": "Sie befinden sich im Sandbox-Modus. Die angezeigten Daten sind Beispieldaten und keine echten Beschaffungsdaten.",
+      "additive": "Sandbox-Daten hinzufuegen",
+      "replace": "Sandbox-Daten zuruecksetzen",
+      "replaceConfirm": "Alle bestehenden Sandbox-Daten werden geloescht und durch neue Beispieldaten ersetzt. Fortfahren?"
+    },
     "nav": {
       "dashboard": "Dashboard",
       "dashboardShort": "Dashboard",
@@ -519,6 +530,26 @@
       "vorherigeSeite": "Vorherige Seite",
       "naechsteSeite": "Nächste Seite"
     }
+  },
+  "katalogImport": {
+    "title": "Katalog-Import",
+    "subtitle": "Artikel aus CSV-Datei importieren",
+    "csvImport": "CSV importieren",
+    "selectRv": "Rahmenvertrag wählen",
+    "uploadFile": "CSV-Datei hochladen",
+    "dropHint": "Datei hierher ziehen oder klicken",
+    "preview": "Vorschau",
+    "importButton": "Importieren",
+    "importing": "Wird importiert...",
+    "result": "Import-Ergebnis",
+    "imported": "{{count}} importiert",
+    "updated": "{{count}} aktualisiert",
+    "errors": "{{count}} Fehler",
+    "errorDetail": "Zeile {{zeile}}: {{nachricht}}",
+    "downloadTemplate": "CSV-Vorlage herunterladen",
+    "noFile": "Bitte wählen Sie eine CSV-Datei",
+    "noRv": "Bitte wählen Sie einen Rahmenvertrag",
+    "csvFormat": "Semikolon-getrennt (;), UTF-8"
   },
   "magicRequest": {
     "title": "Magic Request",

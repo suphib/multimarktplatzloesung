@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useOciSession } from '../hooks/useOciSession';
 import { MagicRequestPanel } from '../components/organisms/MagicRequestPanel';
+import { useModus } from '../hooks/useAdmin';
 
 
 const KATEGORIEN = [
@@ -55,6 +56,8 @@ export function SearchPage() {
   const { setSuchbegriff, setSearchResponse } = useSearchStore();
   const searchMutation = useSearch();
   const oci = useOciSession();
+  const { data: modusData } = useModus();
+  const isSandbox = modusData?.aktuellerModus === 'SANDBOX';
 
   const [isThinking, setIsThinking] = useState(false);
   const [currentQuery, setCurrentQuery] = useState('');
@@ -217,26 +220,28 @@ export function SearchPage() {
                 )}
               </AnimatePresence>
 
-              {/* Kategorie-Chips */}
-              <div className="w-full">
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                  {t('search.browseByCategory')}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {KATEGORIEN.map(({ tKey, suchbegriff, icon: Icon, anzahl }) => (
-                    <button
-                      key={tKey}
-                      onClick={() => handleSearch(suchbegriff)}
-                      disabled={searchMutation.isPending}
-                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 hover:border-primary-300 dark:hover:border-primary-700 hover:text-primary-700 dark:hover:text-primary-400 transition-all shadow-sm disabled:opacity-50"
-                    >
-                      <Icon className="h-3.5 w-3.5" />
-                      {t(tKey)}
-                      <span className="text-xs text-gray-400 dark:text-gray-500 ml-0.5">({anzahl})</span>
-                    </button>
-                  ))}
+              {/* Kategorie-Chips (only in sandbox mode with mock data) */}
+              {isSandbox && (
+                <div className="w-full">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                    {t('search.browseByCategory')}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {KATEGORIEN.map(({ tKey, suchbegriff, icon: Icon, anzahl }) => (
+                      <button
+                        key={tKey}
+                        onClick={() => handleSearch(suchbegriff)}
+                        disabled={searchMutation.isPending}
+                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 hover:border-primary-300 dark:hover:border-primary-700 hover:text-primary-700 dark:hover:text-primary-400 transition-all shadow-sm disabled:opacity-50"
+                      >
+                        <Icon className="h-3.5 w-3.5" />
+                        {t(tKey)}
+                        <span className="text-xs text-gray-400 dark:text-gray-500 ml-0.5">({anzahl})</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Feature-Karten */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">

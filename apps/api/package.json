@@ -25,6 +25,7 @@
     "@procurement/shared": "*",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "csv-parse": "^6.1.0",
     "fast-xml-parser": "^5.3.4",
     "ioredis": "^5.4.0",
     "openai": "^4.70.0",

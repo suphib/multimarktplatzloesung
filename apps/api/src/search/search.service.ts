@@ -6,6 +6,7 @@ import { Marktplatz, Artikel, SearchResponse, Aggregationen, RahmenvertragInfo, 
 import { SearchRequestDto } from './dto/search-request.dto';
 import { FrameworkContractEntity } from './entities/framework-contract.entity';
 import { RahmenvertragEntity } from '../embedding/entities/rahmenvertrag.entity';
+import { SystemSettingsEntity } from '../admin/entities/system-settings.entity';
 
 const MOCK_ARTIKEL: Artikel[] = [
   // ═══════════════════════════════════════════════════════════════
@@ -636,7 +637,14 @@ export class SearchService {
     private readonly frameworkContractRepo: Repository<FrameworkContractEntity>,
     @InjectRepository(RahmenvertragEntity)
     private readonly rvRepo: Repository<RahmenvertragEntity>,
+    @InjectRepository(SystemSettingsEntity)
+    private readonly settingsRepo: Repository<SystemSettingsEntity>,
   ) {}
+
+  private async getIstSandbox(): Promise<boolean> {
+    const settings = await this.settingsRepo.findOne({ where: { id: 'global' } });
+    return settings?.aktuellerModus === 'SANDBOX';
+  }
 
   async search(dto: SearchRequestDto): Promise<SearchResponse> {
     const suchbegriff = dto.suchbegriff.toLowerCase();
@@ -724,6 +732,7 @@ export class SearchService {
     }
 
     try {
+      const istSandbox = await this.getIstSandbox();
       const term = `%${suchbegriff}%`;
       const entities = await this.frameworkContractRepo
         .createQueryBuilder('fc')
@@ -731,12 +740,13 @@ export class SearchService {
           'LOWER(fc.titel) LIKE :term OR LOWER(fc.beschreibung) LIKE :term OR LOWER(fc.lieferant) LIKE :term',
           { term },
         )
+        .andWhere('fc.istSandbox = :istSandbox', { istSandbox })
         .getMany();
 
       // RV-Konditionen laden
       const rvNummern = [...new Set(entities.map((e) => e.rahmenvertragsNummer))];
       const rvEntities = rvNummern.length > 0
-        ? await this.rvRepo.find({ where: { vertragsnummer: In(rvNummern) } })
+        ? await this.rvRepo.find({ where: { vertragsnummer: In(rvNummern), istSandbox } })
         : [];
       const rvMap = new Map(rvEntities.map((rv) => [rv.vertragsnummer, rv]));
 
@@ -750,10 +760,14 @@ export class SearchService {
     }
   }
 
-  private searchExternalMarketplaces(
+  private async searchExternalMarketplaces(
     suchbegriff: string,
     marktplaetze: Marktplatz[],
-  ): Artikel[] {
+  ): Promise<Artikel[]> {
+    // In Echtdaten mode, no mock marketplace data
+    const isSandbox = await this.getIstSandbox();
+    if (!isSandbox) return [];
+
     // Filter out RAHMENVERTRAG — not an external marketplace
     const externalMarktplaetze: Marktplatz[] = marktplaetze.filter(
       (m) => m !== Marktplatz.RAHMENVERTRAG,

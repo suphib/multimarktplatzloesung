@@ -1,4 +1,9 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body, Query, HttpCode } from '@nestjs/common';
+import {
+  Controller, Get, Post, Patch, Delete,
+  Param, Body, Query, HttpCode,
+  BadRequestException, UseInterceptors, UploadedFile,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { AdminService } from '../admin.service';
 import { CreateKatalogArtikelDto } from '../dto/create-katalog-artikel.dto';
 import { QueryFrameworkItemsDto } from '../dto/query-framework-items.dto';
@@ -15,6 +20,21 @@ export class KatalogAdminController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.adminService.findOneKatalogArtikel(id);
+  }
+
+  @Post('import')
+  @UseInterceptors(FileInterceptor('datei'))
+  async importKatalog(
+    @UploadedFile() file: any,
+    @Body('rahmenvertragsNummer') rahmenvertragsNummer: string,
+  ) {
+    if (!file) {
+      throw new BadRequestException('CSV-Datei ist erforderlich');
+    }
+    if (!rahmenvertragsNummer) {
+      throw new BadRequestException('Rahmenvertragsnummer ist erforderlich');
+    }
+    return this.adminService.importKatalogCsv(file.buffer, rahmenvertragsNummer);
   }
 
   @Post()

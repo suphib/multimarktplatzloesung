@@ -41,6 +41,9 @@ export class FrameworkContractEntity {
   @Column({ default: true })
   verfuegbar: boolean;
 
+  @Column({ default: false })
+  istSandbox: boolean;
+
   @CreateDateColumn()
   erstelltAm: Date;
 }
