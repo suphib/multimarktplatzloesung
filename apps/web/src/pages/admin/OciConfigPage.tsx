@@ -144,10 +144,18 @@ export function OciConfigPage() {
   };
 
   const handleTestSession = () => {
-    window.open(
-      `${apiBase}/oci/setup?HOOK_URL=${encodeURIComponent(origin + '/search')}`,
-      '_blank',
-    );
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `${apiBase}/oci/setup`;
+    form.target = '_blank';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'HOOK_URL';
+    input.value = origin + '/search';
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
   };
 
   if (loading) {
