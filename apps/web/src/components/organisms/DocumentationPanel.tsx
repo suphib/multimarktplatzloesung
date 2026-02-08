@@ -2,7 +2,7 @@ import type { Dokumentation } from '@procurement/shared';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '../atoms';
 import { ClassificationBadge } from '../molecules/ClassificationBadge';
-import { FileText, Shield, Hash, CheckCircle, AlertCircle } from 'lucide-react';
+import { FileText, Shield, Hash, CheckCircle, AlertCircle, ShieldCheck } from 'lucide-react';
 
 interface DocumentationPanelProps {
   dokumentation: Dokumentation;
@@ -89,6 +89,14 @@ export function DocumentationPanel({ dokumentation }: DocumentationPanelProps) {
           <Hash className="h-5 w-5 text-primary-600" />
           {t('documentation.integrityProof')}
         </h2>
+        {dokumentation.integritaetsHash && (dokumentation as any).persistiert !== false && (
+          <div className="flex items-center gap-2 mb-3">
+            <Badge variant="success">
+              <ShieldCheck className="h-3 w-3 mr-1" />
+              {t('documentation.persisted')}
+            </Badge>
+          </div>
+        )}
         <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
           {t('documentation.integrityHint')}
         </p>

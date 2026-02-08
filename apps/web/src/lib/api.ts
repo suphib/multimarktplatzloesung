@@ -58,6 +58,13 @@ export const api = {
     return request(`/documentation/${id}`);
   },
 
+  createDocumentation(data: { klassifizierungId: string }): Promise<Dokumentation> {
+    return request('/documentation', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
   health(): Promise<HealthResponse> {
     return request('/health');
   },

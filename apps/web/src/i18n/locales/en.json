@@ -210,7 +210,10 @@
       "KONFORM": "Compliant",
       "PRUEFUNG_ERFORDERLICH": "Review required",
       "NICHT_KONFORM": "Non-compliant"
-    }
+    },
+    "persisted": "Audit-proof saved",
+    "creatingDoc": "Creating documentation...",
+    "hashVerified": "Integrity verified"
   },
   "footer": {
     "copyright": "© 2026 WP Workers GmbH",

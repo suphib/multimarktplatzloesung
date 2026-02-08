@@ -1,9 +1,10 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DocumentationService } from './documentation.service';
 import { ClassificationEntity } from '../classification/entities/classification.entity';
+import { CreateDocumentationDto } from './dto/create-documentation.dto';
 import { Kanal, Konfidenz, ComplianceStatus } from '@procurement/shared';
 
 @ApiTags('Dokumentation')
@@ -15,13 +16,35 @@ export class DocumentationController {
     private readonly classificationRepo: Repository<ClassificationEntity>,
   ) {}
 
+  @Post()
+  @ApiOperation({ summary: 'Vergabedokumentation erstellen und persistieren' })
+  @ApiResponse({ status: 201, description: 'Dokumentation erstellt' })
+  @ApiResponse({ status: 404, description: 'Klassifizierung nicht gefunden' })
+  async createDocumentation(@Body() dto: CreateDocumentationDto) {
+    const existing = await this.documentationService.getDokumentation(dto.klassifizierungId);
+    if (existing) return existing;
+
+    const classification = await this.classificationRepo.findOne({ where: { id: dto.klassifizierungId } });
+    if (!classification) throw new NotFoundException();
+
+    const result = classification.ergebnis as any;
+    return this.documentationService.erstelleDokumentation({
+      klassifizierungId: dto.klassifizierungId,
+      benutzer: 'max.mustermann@behoerde.de',
+      artikelBezeichnung: classification.artikelBezeichnung,
+      klassifizierung: result,
+      begruendung: result?.begruendung ?? '',
+      compliancePruefung: result?.compliance ?? {},
+    });
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Vergabedokumentation abrufen' })
   @ApiParam({ name: 'id', description: 'Klassifizierungs-ID' })
   @ApiResponse({ status: 200, description: 'Dokumentation gefunden' })
   @ApiResponse({ status: 404, description: 'Nicht gefunden' })
   async getDocumentation(@Param('id') id: string) {
-    let doc = await this.documentationService.getDokumentation(id);
+    let doc: any = await this.documentationService.getDokumentation(id);
 
     if (!doc) {
       // Try to build documentation from stored classification
@@ -57,6 +80,7 @@ export class DocumentationController {
             dokumentationspflicht: false,
           },
           integritaetsHash: this.documentationService.berechneHash({ id, klassifizierung: result }),
+          persistiert: false,
         };
       } else {
         // Fallback: generic mock
@@ -92,6 +116,7 @@ export class DocumentationController {
             dokumentationspflicht: true,
           },
           integritaetsHash: this.documentationService.berechneHash({ id }),
+          persistiert: false,
         };
       }
     }

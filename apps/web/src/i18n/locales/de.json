@@ -209,7 +209,10 @@
       "KONFORM": "Konform",
       "PRUEFUNG_ERFORDERLICH": "Prüfung erforderlich",
       "NICHT_KONFORM": "Nicht konform"
-    }
+    },
+    "persisted": "Revisionssicher gespeichert",
+    "creatingDoc": "Dokumentation wird erstellt...",
+    "hashVerified": "Integrität verifiziert"
   },
   "footer": {
     "copyright": "© 2026 WP Workers GmbH",

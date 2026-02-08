@@ -5,6 +5,7 @@ import { PriceTag, Badge, Button, Spinner } from '../components/atoms';
 import { SupplierInfo } from '../components/molecules/SupplierInfo';
 import { ClassificationBadge } from '../components/molecules/ClassificationBadge';
 import { useClassify } from '../hooks/useClassify';
+import { useCreateDocumentation } from '../hooks/useDocumentation';
 import { useSearchStore } from '../store/useSearchStore';
 import type { Artikel } from '@procurement/shared';
 import { Package, Leaf, Sparkles, FileText, ExternalLink, BarChart3, Check, ShoppingCart } from 'lucide-react';
@@ -17,6 +18,7 @@ export function ArticleDetailPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const classifyMutation = useClassify();
+  const createDocMutation = useCreateDocumentation();
   const { classifyResult, setClassifyResult, selectedArticles, toggleArticle } = useSearchStore();
   const [bestellModalOpen, setBestellModalOpen] = useState(false);
 
@@ -47,6 +49,7 @@ export function ArticleDetailPage() {
       menge: 1,
     });
     setClassifyResult(result);
+    createDocMutation.mutate({ klassifizierungId: result.id });
   };
 
   return (
@@ -243,10 +246,20 @@ export function ArticleDetailPage() {
               <Button
                 variant="secondary"
                 onClick={() => navigate(`/documentation/${classifyResult.id}`)}
+                disabled={createDocMutation.isPending}
                 className="w-full sm:w-auto"
               >
-                <FileText className="h-4 w-4 mr-2" />
-                {t('article.showDocumentation')}
+                {createDocMutation.isPending ? (
+                  <>
+                    <Spinner size="sm" className="mr-2" />
+                    {t('documentation.creatingDoc')}
+                  </>
+                ) : (
+                  <>
+                    <FileText className="h-4 w-4 mr-2" />
+                    {t('article.showDocumentation')}
+                  </>
+                )}
               </Button>
             </div>
           ) : (
