@@ -14,7 +14,7 @@ export const FIRMA = {
   handelsregister: 'HRB (auf Anfrage)',
   registergericht: 'Amtsgericht München',
   ustIdNr: 'DE (auf Anfrage)',
-  website: 'https://www.procurement-ai.de',
+  website: 'https://procurement-ai.de',
   betreiberWebsite: 'https://wp-workers.de',
 } as const;
 

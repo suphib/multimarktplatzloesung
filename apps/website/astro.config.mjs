@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
-  site: 'https://www.procurement-ai.de',
+  site: 'https://procurement-ai.de',
   output: 'static',
   server: { port: 5502 },
   integrations: [
