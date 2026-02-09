@@ -267,7 +267,7 @@ export function BestellungDetailPage() {
                       {isRejected ? <X className="h-4 w-4" /> : isActive ? <Check className="h-4 w-4" /> : i + 1}
                     </div>
                     <span className={`text-xs mt-1 text-center ${isActive ? 'text-gray-900 dark:text-gray-100 font-medium' : 'text-gray-400'}`}>
-                      {isRejected ? t('admin.bestellungen.abgelehnt') : t(step.labelKey)}
+                      {isRejected ? t('admin.bestellungen.abgelehnt') : t(step.labelKey as any)}
                     </span>
                   </div>
                   {i < TIMELINE_STEPS.length - 1 && (

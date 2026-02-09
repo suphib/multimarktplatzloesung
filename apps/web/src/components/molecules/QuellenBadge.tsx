@@ -21,7 +21,7 @@ export function QuellenBadge({ quelle }: QuellenBadgeProps) {
   return (
     <Badge variant={config.variant}>
       <Icon className="h-3 w-3 mr-1" />
-      {t(config.labelKey)}
+      {t(config.labelKey as any)}
     </Badge>
   );
 }
