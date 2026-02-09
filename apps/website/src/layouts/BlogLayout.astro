@@ -1,5 +1,7 @@
 ---
 import PageLayout from './PageLayout.astro';
+import ArticleSchema from '../components/seo/ArticleSchema.astro';
+import { FIRMA } from '../lib/constants';
 
 interface Props {
   title: string;
@@ -18,9 +20,24 @@ const formatDatum = (d: string) => {
     day: 'numeric',
   });
 };
+
+const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const breadcrumbItems = [
+  { label: 'Startseite', href: '/' },
+  { label: 'Blog', href: '/blog' },
+  { label: title, href: Astro.url.pathname },
+];
 ---
 
-<PageLayout title={title} description={description}>
+<PageLayout
+  title={title}
+  description={description}
+  ogType="article"
+  articlePublishedTime={datum}
+  articleAuthor={autor}
+  breadcrumbItems={breadcrumbItems}
+>
   <article class="section-padding">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
@@ -47,4 +64,11 @@ const formatDatum = (d: string) => {
       </div>
     </div>
   </article>
+  <ArticleSchema
+    titel={title}
+    beschreibung={description || ''}
+    datum={datum}
+    autor={autor}
+    url={articleUrl}
+  />
 </PageLayout>

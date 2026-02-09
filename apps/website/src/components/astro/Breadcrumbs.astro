@@ -1,0 +1,63 @@
+---
+interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  items?: BreadcrumbItem[];
+}
+
+const LABEL_MAP: Record<string, string> = {
+  features: 'Features',
+  integrationen: 'Integrationen',
+  preise: 'Preise',
+  blog: 'Blog',
+  'ueber-uns': 'Über uns',
+  kontakt: 'Kontakt',
+  impressum: 'Impressum',
+  datenschutz: 'Datenschutz',
+};
+
+const { items } = Astro.props;
+
+let breadcrumbs: BreadcrumbItem[];
+
+if (items) {
+  breadcrumbs = items;
+} else {
+  const pathname = Astro.url.pathname.replace(/\/$/, '');
+  const segments = pathname.split('/').filter(Boolean);
+
+  breadcrumbs = [
+    { label: 'Startseite', href: '/' },
+    ...segments.map((seg, i) => ({
+      label: LABEL_MAP[seg] || decodeURIComponent(seg),
+      href: `/${segments.slice(0, i + 1).join('/')}`,
+    })),
+  ];
+}
+---
+
+{breadcrumbs.length > 1 && (
+  <nav aria-label="Breadcrumb" class="bg-gray-50 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <ol class="flex items-center gap-2 py-3 text-sm text-gray-500 overflow-x-auto">
+        {breadcrumbs.map((item, i) => (
+          <li class="flex items-center gap-2 whitespace-nowrap">
+            {i > 0 && (
+              <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            )}
+            {i === breadcrumbs.length - 1 ? (
+              <span class="font-semibold text-gray-900">{item.label}</span>
+            ) : (
+              <a href={item.href} class="hover:text-primary-600 transition-colors">{item.label}</a>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </nav>
+)}

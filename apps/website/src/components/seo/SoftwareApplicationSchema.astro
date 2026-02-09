@@ -1,0 +1,25 @@
+---
+import JsonLd from './JsonLd.astro';
+import { FIRMA, FEATURES } from '../../lib/constants';
+
+const featureList = FEATURES.map((f) => f.titel).join(', ');
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: FIRMA.name,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: FIRMA.website,
+  featureList,
+  offers: {
+    '@type': 'AggregateOffer',
+    lowPrice: '499',
+    highPrice: '1299',
+    priceCurrency: 'EUR',
+    offerCount: 3,
+  },
+};
+---
+
+<JsonLd schema={schema} />

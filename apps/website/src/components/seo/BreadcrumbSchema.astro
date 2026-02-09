@@ -1,0 +1,39 @@
+---
+import JsonLd from './JsonLd.astro';
+import { FIRMA } from '../../lib/constants';
+
+const LABEL_MAP: Record<string, string> = {
+  features: 'Features',
+  integrationen: 'Integrationen',
+  preise: 'Preise',
+  blog: 'Blog',
+  'ueber-uns': 'Über uns',
+  kontakt: 'Kontakt',
+  impressum: 'Impressum',
+  datenschutz: 'Datenschutz',
+};
+
+const pathname = Astro.url.pathname.replace(/\/$/, '');
+const segments = pathname.split('/').filter(Boolean);
+
+const breadcrumbs = [
+  { name: 'Startseite', url: FIRMA.website },
+  ...segments.map((seg, i) => ({
+    name: LABEL_MAP[seg] || decodeURIComponent(seg),
+    url: `${FIRMA.website}/${segments.slice(0, i + 1).join('/')}`,
+  })),
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.name,
+    item: item.url,
+  })),
+};
+---
+
+{breadcrumbs.length > 1 && <JsonLd schema={schema} />}

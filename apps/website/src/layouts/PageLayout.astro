@@ -2,22 +2,41 @@
 import BaseLayout from './BaseLayout.astro';
 import Header from '../components/astro/Header.astro';
 import Footer from '../components/astro/Footer.astro';
+import Breadcrumbs from '../components/astro/Breadcrumbs.astro';
 import CookieConsent from '../components/react/CookieConsent';
 import { ScreenshotLightbox } from '../components/react/ScreenshotLightbox';
 import '../styles/global.css';
+
+interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
 
 interface Props {
   title: string;
   description?: string;
   ogImage?: string;
   noIndex?: boolean;
+  ogType?: 'website' | 'article';
+  articlePublishedTime?: string;
+  articleAuthor?: string;
+  breadcrumbItems?: BreadcrumbItem[];
 }
 
-const { title, description, ogImage, noIndex } = Astro.props;
+const { title, description, ogImage, noIndex, ogType, articlePublishedTime, articleAuthor, breadcrumbItems } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} ogImage={ogImage} noIndex={noIndex}>
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  noIndex={noIndex}
+  ogType={ogType}
+  articlePublishedTime={articlePublishedTime}
+  articleAuthor={articleAuthor}
+>
   <Header />
+  <Breadcrumbs items={breadcrumbItems} />
   <main class="flex-1">
     <slot />
   </main>

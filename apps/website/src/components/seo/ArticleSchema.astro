@@ -1,0 +1,40 @@
+---
+import JsonLd from './JsonLd.astro';
+import { FIRMA } from '../../lib/constants';
+
+interface Props {
+  titel: string;
+  beschreibung: string;
+  datum: string;
+  autor: string;
+  url: string;
+}
+
+const { titel, beschreibung, datum, autor, url } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: titel,
+  description: beschreibung,
+  datePublished: datum,
+  author: {
+    '@type': 'Person',
+    name: autor,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: FIRMA.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${FIRMA.website}/images/logo.svg`,
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': url,
+  },
+};
+---
+
+<JsonLd schema={schema} />

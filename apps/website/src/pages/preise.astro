@@ -2,6 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import PricingSection from '../components/astro/PricingSection.astro';
 import CTASection from '../components/astro/CTASection.astro';
+import FaqSchema from '../components/seo/FaqSchema.astro';
 import { FAQ_ITEMS } from '../lib/constants';
 ---
 
@@ -44,4 +45,5 @@ import { FAQ_ITEMS } from '../lib/constants';
   </section>
 
   <CTASection titel="Noch Fragen?" beschreibung="Unser Team berät Sie gerne persönlich zu unseren Tarifen und findet die passende Lösung für Ihre Anforderungen." />
+  <FaqSchema items={FAQ_ITEMS} />
 </PageLayout>

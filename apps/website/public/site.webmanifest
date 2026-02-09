@@ -1,0 +1,32 @@
+{
+  "name": "procurement-ai",
+  "short_name": "procurement-ai",
+  "description": "Intelligente Beschaffung für den öffentlichen Sektor & regulierte Industrien",
+  "start_url": "/",
+  "display": "browser",
+  "lang": "de",
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/images/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/images/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ]
+}

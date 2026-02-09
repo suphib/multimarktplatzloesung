@@ -7,6 +7,8 @@ import IntegrationGrid from '../components/astro/IntegrationGrid.astro';
 import CTASection from '../components/astro/CTASection.astro';
 import SectionHeading from '../components/astro/SectionHeading.astro';
 import Screenshot from '../components/astro/Screenshot.astro';
+import OrganizationSchema from '../components/seo/OrganizationSchema.astro';
+import SoftwareApplicationSchema from '../components/seo/SoftwareApplicationSchema.astro';
 
 const vpGallery = ['admin-bestellung-detail', 'admin-rahmenvertraege', 'results'];
 const vpGalleryAlts = ['Bestellungsdetail mit Genehmigungs-Timeline', 'Rahmenverträge-Verwaltung', 'Multi-Marktplatz Suchergebnisse'];
@@ -113,4 +115,6 @@ const vpGalleryAlts = ['Bestellungsdetail mit Genehmigungs-Timeline', 'Rahmenver
   </section>
 
   <CTASection />
+  <OrganizationSchema />
+  <SoftwareApplicationSchema />
 </PageLayout>
