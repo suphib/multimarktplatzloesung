@@ -1,7 +1,9 @@
 ---
 import PageLayout from './PageLayout.astro';
 import ArticleSchema from '../components/seo/ArticleSchema.astro';
+import CTASection from '../components/astro/CTASection.astro';
 import { FIRMA } from '../lib/constants';
+import { getCollection } from 'astro:content';
 
 interface Props {
   title: string;
@@ -22,6 +24,13 @@ const formatDatum = (d: string) => {
 };
 
 const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+// Related posts (other blog posts, max 2)
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+  .filter((p) => p.data.titel !== title)
+  .sort((a, b) => new Date(b.data.datum).getTime() - new Date(a.data.datum).getTime())
+  .slice(0, 2);
 
 const breadcrumbItems = [
   { label: 'Startseite', href: '/' },
@@ -64,6 +73,26 @@ const breadcrumbItems = [
       </div>
     </div>
   </article>
+  <!-- Related Posts -->
+  {relatedPosts.length > 0 && (
+    <section class="border-t border-gray-100 py-12">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-xl font-bold text-gray-900 mb-6">Weiterlesen</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {relatedPosts.map((post) => (
+            <a href={`/blog/${post.id}`} class="group block p-5 rounded-xl border border-gray-200 hover:border-primary-200 hover:shadow-md transition-all">
+              <h3 class="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors mb-2">{post.data.titel}</h3>
+              <p class="text-sm text-gray-500 line-clamp-2">{post.data.beschreibung}</p>
+              <span class="inline-block mt-3 text-sm text-primary-600 font-medium">Lesen →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CTASection titel="Überzeugt?" beschreibung="Fordern Sie jetzt Ihre kostenlose Demo an und erleben Sie procurement-ai in Aktion." />
+
   <ArticleSchema
     titel={title}
     beschreibung={description || ''}

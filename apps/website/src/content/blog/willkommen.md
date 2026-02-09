@@ -20,9 +20,11 @@ Die öffentliche Beschaffung in Deutschland steht vor großen Herausforderungen:
 - **Rahmenvertrags-Management**: Automatischer Abgleich Ihrer Bedarfe mit bestehenden Rahmenverträgen.
 - **Revisionssichere Dokumentation**: Lückenlose Vergabedokumentation mit SHA-256 Integritätsprüfung.
 
+Alle Features im Detail finden Sie auf unserer [Features-Seite](/features). Für die technische Integration in Ihr ERP-System lesen Sie unseren [OCI 5.0 Integrationsleitfaden](/blog/oci-integration-guide).
+
 ## Made in Germany
 
-Alle Daten werden ausschließlich auf deutschen Servern gehostet. Unsere Lösung ist vollständig DSGVO-konform und erfüllt die strengsten Anforderungen an Datenschutz und Datensicherheit.
+Alle Daten werden ausschließlich auf deutschen Servern gehostet. Unsere Lösung ist vollständig DSGVO-konform und erfüllt die strengsten Anforderungen an Datenschutz und Datensicherheit. Mehr über unsere Sicherheitsarchitektur und [Integrationen](/integrationen) erfahren Sie auf der Integrationsseite.
 
 ## Nächste Schritte
 

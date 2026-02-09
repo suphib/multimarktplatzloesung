@@ -38,6 +38,9 @@ const fullTitle = title === 'Startseite'
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#2563eb" />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang="de" href={canonicalURL} />
+    <link rel="alternate" hreflang="x-default" href={canonicalURL} />
+    <meta http-equiv="content-language" content="de-DE" />
 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -65,9 +68,14 @@ const fullTitle = title === 'Startseite'
     <!-- Structured Data -->
     <BreadcrumbSchema />
 
-    <!-- Fonts -->
+    <!-- Fonts (preconnect + preload for LCP) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      as="style"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"

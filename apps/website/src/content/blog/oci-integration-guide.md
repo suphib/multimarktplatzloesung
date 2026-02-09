@@ -7,7 +7,7 @@ lesezeit: "8 min"
 tags: ["Technik", "OCI", "Integration", "Leitfaden"]
 ---
 
-Die OCI 5.0 (Open Catalog Interface) Integration ist der Schlüssel zur nahtlosen Anbindung von procurement-ai an Ihr ERP-System. In diesem Leitfaden erklären wir Schritt für Schritt, wie die Integration funktioniert.
+Die OCI 5.0 (Open Catalog Interface) Integration ist der Schlüssel zur nahtlosen Anbindung von procurement-ai an Ihr ERP-System. Eine Übersicht aller unterstützten Systeme finden Sie auf unserer [Integrationsseite](/integrationen). In diesem Leitfaden erklären wir Schritt für Schritt, wie die Integration funktioniert.
 
 ## Was ist OCI 5.0?
 
@@ -23,7 +23,7 @@ OCI (Open Catalog Interface) ist ein von SAP entwickelter Standard für die Anbi
 Bevor Sie mit der Integration beginnen, stellen Sie sicher, dass folgende Voraussetzungen erfüllt sind:
 
 1. **ERP-System** mit OCI 5.0 Unterstützung (SAP S/4HANA, SAP ECC, SAP Business One, etc.)
-2. **procurement-ai Account** mit Professional oder Enterprise Plan
+2. **procurement-ai Account** mit [Professional oder Enterprise Plan](/preise)
 3. **Netzwerkverbindung** zwischen Ihrem ERP und procurement-ai (HTTPS)
 4. **Administrator-Zugang** zu Ihrem ERP-System
 

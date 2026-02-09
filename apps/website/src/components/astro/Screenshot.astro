@@ -11,15 +11,17 @@ interface Props {
 
 const { name, alt, gallery, galleryAlts, class: className } = Astro.props;
 
-const desktopSrc = `/images/screenshots/desktop/${name}.png`;
-const mobileSrc = `/images/screenshots/mobile/${name}.png`;
+const desktopSrc = `/images/screenshots/desktop/${name}.webp`;
+const desktopFallback = `/images/screenshots/desktop/${name}.png`;
+const mobileSrc = `/images/screenshots/mobile/${name}.webp`;
+const mobileFallback = `/images/screenshots/mobile/${name}.png`;
 
 // Build gallery data for the lightbox
 const galleryNames = gallery ?? [name];
 const galleryAltTexts = galleryAlts ?? [alt];
 const galleryIndex = galleryNames.indexOf(name);
 const galleryData = galleryNames.map((n, i) => ({
-  src: `/images/screenshots/desktop/${n}.png`,
+  src: `/images/screenshots/desktop/${n}.webp`,
   alt: galleryAltTexts[i] ?? n,
 }));
 ---
@@ -33,10 +35,12 @@ const galleryData = galleryNames.map((n, i) => ({
 >
   <div class="relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-gray-50 transition-shadow group-hover:shadow-xl">
     <picture>
-      <source media="(max-width: 639px)" srcset={mobileSrc} />
-      <source media="(min-width: 640px)" srcset={desktopSrc} />
+      <source media="(max-width: 639px)" srcset={mobileSrc} type="image/webp" />
+      <source media="(max-width: 639px)" srcset={mobileFallback} type="image/png" />
+      <source media="(min-width: 640px)" srcset={desktopSrc} type="image/webp" />
+      <source media="(min-width: 640px)" srcset={desktopFallback} type="image/png" />
       <img
-        src={desktopSrc}
+        src={desktopFallback}
         alt={alt}
         class="w-full h-auto"
         loading="lazy"

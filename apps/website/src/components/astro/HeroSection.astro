@@ -54,11 +54,14 @@
             class="hero-screenshot-btn relative block w-full bg-white rounded-b-xl shadow-2xl overflow-hidden cursor-zoom-in group text-left"
             aria-label="Screenshot vergrößern"
           >
-            <img
-              src="/images/screenshots/desktop/search.png"
-              alt="procurement-ai Suchoberfläche"
-              class="w-full h-auto"
-            />
+            <picture>
+              <source srcset="/images/screenshots/desktop/search.webp" type="image/webp" />
+              <img
+                src="/images/screenshots/desktop/search.png"
+                alt="procurement-ai Suchoberfläche"
+                class="w-full h-auto"
+              />
+            </picture>
             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors rounded-b-xl"></div>
           </button>
         </div>
@@ -71,7 +74,7 @@
   document.querySelector('.hero-screenshot-btn')?.addEventListener('click', () => {
     window.dispatchEvent(new CustomEvent('lightbox:open', {
       detail: {
-        screenshots: [{ src: '/images/screenshots/desktop/search.png', alt: 'procurement-ai Suchoberfläche' }],
+        screenshots: [{ src: '/images/screenshots/desktop/search.webp', alt: 'procurement-ai Suchoberfläche' }],
         index: 0,
       },
     }));

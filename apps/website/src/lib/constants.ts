@@ -141,12 +141,12 @@ export const TRUST_METRICS = [
 
 export const ERP_LOGOS = [
   { name: 'SAP S/4HANA', datei: 'sap-s4hana.svg', beschreibung: 'ERP-Suite für Großunternehmen mit integrierter Beschaffung und Materialwirtschaft.' },
-  { name: 'SAP Ariba', datei: 'sap-ariba.png', beschreibung: 'Cloud-basiertes Beschaffungsnetzwerk mit über 5 Mio. Lieferanten weltweit.' },
+  { name: 'SAP Ariba', datei: 'sap-ariba.webp', beschreibung: 'Cloud-basiertes Beschaffungsnetzwerk mit über 5 Mio. Lieferanten weltweit.' },
   { name: 'SAP Business One', datei: 'sap-business-one.svg', beschreibung: 'ERP-Lösung für kleine und mittelständische Unternehmen.' },
   { name: 'Microsoft Dynamics', datei: 'microsoft-dynamics.svg', beschreibung: 'Business-Plattform mit Finance, Supply Chain und Procurement-Modulen.' },
   { name: 'Oracle', datei: 'oracle.svg', beschreibung: 'Cloud ERP mit Procurement- und Supplier-Management.' },
   { name: 'Coupa', datei: 'coupa.svg', beschreibung: 'Business Spend Management Plattform für Einkauf und Finanzen.' },
-  { name: 'JAGGAER', datei: 'jaggaer.png', beschreibung: 'Source-to-Pay-Plattform spezialisiert auf den öffentlichen Sektor.' },
+  { name: 'JAGGAER', datei: 'jaggaer.webp', beschreibung: 'Source-to-Pay-Plattform spezialisiert auf den öffentlichen Sektor.' },
   { name: 'Sage', datei: 'sage.svg', beschreibung: 'Buchhaltungs- und ERP-Software für KMU und den Mittelstand.' },
   { name: 'DATEV', datei: 'datev.svg', beschreibung: 'IT-Dienstleister für Steuerberater, Wirtschaftsprüfer und Unternehmen.' },
   { name: 'Infor', datei: 'infor.svg', beschreibung: 'Branchenspezifische Cloud-ERP-Lösungen für Fertigung und Handel.' },

@@ -17,7 +17,7 @@ Die durchschnittliche Bearbeitungszeit für einen Beschaffungsvorgang liegt bei 
 
 ## Trend 1: KI-gestützte Klassifizierung
 
-Die automatische Zuordnung von Bedarfen zu CPV-Codes und Warengruppen war bisher eine zeitintensive manuelle Aufgabe. Moderne KI-Modelle können diese Zuordnung in Sekundenbruchteilen durchführen — mit einer Genauigkeit von über 95%.
+Die automatische Zuordnung von Bedarfen zu CPV-Codes und Warengruppen war bisher eine zeitintensive manuelle Aufgabe. Moderne KI-Modelle können diese Zuordnung in Sekundenbruchteilen durchführen — mit einer Genauigkeit von über 95%. procurement-ai setzt genau hier an — mehr dazu unter [KI-Bedarfserfassung](/features).
 
 ## Trend 2: Predictive Procurement
 
@@ -35,11 +35,11 @@ Die Fragmentierung des Beschaffungsmarktes ist ein großes Problem. KI-gestützt
 
 - **Datenschutz**: DSGVO-konforme Verarbeitung muss gewährleistet sein
 - **Akzeptanz**: Mitarbeiter müssen geschult und überzeugt werden
-- **Integration**: Nahtlose Anbindung an bestehende ERP-Systeme ist entscheidend
+- **Integration**: [Nahtlose Anbindung an bestehende ERP-Systeme](/integrationen) ist entscheidend
 - **Transparenz**: KI-Entscheidungen müssen nachvollziehbar und erklärbar sein
 
 ## Fazit
 
 2026 wird das Jahr, in dem KI in der öffentlichen Beschaffung den Durchbruch schafft. Behörden, die jetzt handeln, sichern sich einen entscheidenden Vorsprung in Effizienz und Compliance.
 
-[Erfahren Sie mehr über procurement-ai →](/features)
+[Erfahren Sie mehr über procurement-ai →](/features) | [Preise und Pakete →](/preise)
