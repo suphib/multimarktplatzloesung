@@ -20,6 +20,8 @@ import type {
   KatalogImportResult,
   SystemModus,
   SandboxImportResult,
+  OverrideClassificationRequest,
+  AenderungsEintrag,
 } from '@procurement/shared';
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api/v1';
@@ -48,6 +50,17 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(data),
     });
+  },
+
+  overrideClassification(id: string, data: OverrideClassificationRequest): Promise<ClassifyResponse> {
+    return request(`/classify/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  },
+
+  getClassificationAudit(id: string): Promise<AenderungsEintrag[]> {
+    return request(`/classify/${id}/audit`);
   },
 
   search(data: SearchRequest): Promise<SearchResponse> {
@@ -193,6 +206,10 @@ export const api = {
 
   getBestellungen(): Promise<Bestellung[]> {
     return request('/admin/bestellungen');
+  },
+
+  getBestellung(id: string): Promise<Bestellung> {
+    return request(`/admin/bestellungen/${id}`);
   },
 
   approveBestellung(id: string): Promise<Bestellung> {

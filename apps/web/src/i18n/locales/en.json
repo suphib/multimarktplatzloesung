@@ -118,7 +118,33 @@
     "addToCompare": "Add to Comparison",
     "removeFromCompare": "Remove from Comparison",
     "goToMarketplace": "Go to Marketplace",
-    "goToCompare": "Go to Comparison"
+    "goToCompare": "Go to Comparison",
+    "quelle": {
+      "KI": "AI-classified",
+      "REGELBASIERT": "Rule-based",
+      "MANUELL": "Manually adjusted"
+    },
+    "override": {
+      "title": "Change CPV Code",
+      "searchPlaceholder": "Search CPV code or description...",
+      "current": "current",
+      "selected": "Selected:",
+      "noResults": "No CPV codes found",
+      "reasonLabel": "Justification",
+      "reasonPlaceholder": "Reason for the change (min. 10 characters)...",
+      "reasonMinLength": "At least 10 characters required",
+      "save": "Apply CPV Code",
+      "saving": "Saving...",
+      "editButton": "Change CPV Code"
+    },
+    "audit": {
+      "title": "Change History",
+      "loading": "Loading history...",
+      "empty": "No changes recorded",
+      "created": "Created",
+      "overridden": "Overridden",
+      "showHistory": "Change History"
+    }
   },
   "compare": {
     "title": "Price Comparison",
@@ -435,7 +461,24 @@
       "genehmigen": "Approve",
       "ablehnen": "Reject",
       "ablehnungsgrund": "Reason for rejection",
-      "keine": "No orders found"
+      "keine": "No orders found",
+      "detail": "Order Detail",
+      "artikelDetails": "Article Details",
+      "preisaufstellung": "Price Breakdown",
+      "genehmigung": "Approval",
+      "zeitpunkt": "Timestamps",
+      "bestelltAm": "Ordered on",
+      "erstelltAm": "Created on",
+      "genehmigungVon": "Approved by",
+      "genehmigungAm": "Approved on",
+      "begruendung": "Justification",
+      "rahmenvertrag": "Framework Agreement",
+      "keineBegruendung": "No justification provided",
+      "zurueck": "Back to overview",
+      "nichtGefunden": "Order not found",
+      "artikelId": "Article ID",
+      "marktplatz": "Marketplace",
+      "lieferant": "Supplier"
     },
     "oci": {
       "banner": "OCI Punch-Out Session Active",

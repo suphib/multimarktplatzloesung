@@ -1,5 +1,5 @@
 import { Entity, PrimaryColumn, Column, CreateDateColumn } from 'typeorm';
-import { Kanal, Konfidenz } from '@procurement/shared';
+import { Kanal, Konfidenz, KlassifizierungsQuelle } from '@procurement/shared';
 
 @Entity('classifications')
 export class ClassificationEntity {
@@ -29,6 +29,12 @@ export class ClassificationEntity {
 
   @Column()
   cpvCode: string;
+
+  @Column({ nullable: true })
+  cpvBezeichnung: string;
+
+  @Column({ type: 'enum', enum: KlassifizierungsQuelle, default: KlassifizierungsQuelle.KI })
+  quelle: KlassifizierungsQuelle;
 
   @Column({ type: 'jsonb' })
   ergebnis: Record<string, any>;

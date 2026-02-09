@@ -16,6 +16,11 @@ export class BestellungAdminController {
     return this.adminService.getBestellungen();
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.adminService.getBestellung(id);
+  }
+
   @Patch(':id/approve')
   approve(@Param('id') id: string) {
     return this.adminService.approveBestellung(id);

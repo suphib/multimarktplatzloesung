@@ -117,7 +117,33 @@
     "addToCompare": "Zum Vergleich hinzufügen",
     "removeFromCompare": "Aus Vergleich entfernen",
     "goToMarketplace": "Zum Marktplatz",
-    "goToCompare": "Zum Vergleich"
+    "goToCompare": "Zum Vergleich",
+    "quelle": {
+      "KI": "KI-klassifiziert",
+      "REGELBASIERT": "Regelbasiert",
+      "MANUELL": "Manuell angepasst"
+    },
+    "override": {
+      "title": "CPV-Code ändern",
+      "searchPlaceholder": "CPV-Code oder Bezeichnung suchen...",
+      "current": "aktuell",
+      "selected": "Ausgewählt:",
+      "noResults": "Keine CPV-Codes gefunden",
+      "reasonLabel": "Begründung",
+      "reasonPlaceholder": "Begründung für die Änderung (min. 10 Zeichen)...",
+      "reasonMinLength": "Mindestens 10 Zeichen erforderlich",
+      "save": "CPV-Code übernehmen",
+      "saving": "Wird gespeichert...",
+      "editButton": "CPV-Code ändern"
+    },
+    "audit": {
+      "title": "Änderungshistorie",
+      "loading": "Historie wird geladen...",
+      "empty": "Keine Änderungen vorhanden",
+      "created": "Erstellt",
+      "overridden": "Überschrieben",
+      "showHistory": "Änderungshistorie"
+    }
   },
   "compare": {
     "title": "Preisvergleich",
@@ -434,7 +460,24 @@
       "genehmigen": "Genehmigen",
       "ablehnen": "Ablehnen",
       "ablehnungsgrund": "Ablehnungsgrund",
-      "keine": "Keine Bestellungen vorhanden"
+      "keine": "Keine Bestellungen vorhanden",
+      "detail": "Bestellungsdetail",
+      "artikelDetails": "Artikeldetails",
+      "preisaufstellung": "Preisaufstellung",
+      "genehmigung": "Genehmigung",
+      "zeitpunkt": "Zeitstempel",
+      "bestelltAm": "Bestellt am",
+      "erstelltAm": "Erstellt am",
+      "genehmigungVon": "Genehmigt von",
+      "genehmigungAm": "Genehmigt am",
+      "begruendung": "Begründung",
+      "rahmenvertrag": "Rahmenvertrag",
+      "keineBegruendung": "Keine Begründung angegeben",
+      "zurueck": "Zurück zur Übersicht",
+      "nichtGefunden": "Bestellung nicht gefunden",
+      "artikelId": "Artikel-ID",
+      "marktplatz": "Marktplatz",
+      "lieferant": "Lieferant"
     },
     "oci": {
       "banner": "OCI Punch-Out Sitzung aktiv",

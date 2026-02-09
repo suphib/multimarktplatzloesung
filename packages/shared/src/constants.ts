@@ -56,6 +56,13 @@ export const CPV_KATEGORIEN = {
   '30192000': 'Bürobedarf',
 } as const;
 
+/** Klassifizierungs-Quelle */
+export enum KlassifizierungsQuelle {
+  KI = 'KI',
+  REGELBASIERT = 'REGELBASIERT',
+  MANUELL = 'MANUELL',
+}
+
 /** Shop-Verbindungsstatus */
 export enum ShopStatus {
   VERBUNDEN = 'VERBUNDEN',

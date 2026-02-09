@@ -32,31 +32,49 @@ export const FEATURES = [
     titel: 'KI-Bedarfserfassung',
     beschreibung: 'Automatische Klassifizierung nach CPV-Codes mit KI-Unterstützung. Artikelanforderungen in natürlicher Sprache eingeben und sofort passende Kategorien erhalten.',
     icon: 'Brain',
+    screenshot: 'search',
+  },
+  {
+    titel: 'Klassifizierungs-Übersteuerung & Audit-Trail',
+    beschreibung: 'CPV-Codes manuell übersteuern mit durchsuchbarem Code-Picker und Begründungspflicht. Jede Änderung wird in einer lückenlosen Änderungshistorie mit Zeitstempel, Benutzer und Vorher-/Nachher-Vergleich protokolliert.',
+    icon: 'ShieldCheck',
+    screenshot: 'classification-override',
   },
   {
     titel: 'Multi-Marktplatz-Suche',
     beschreibung: 'Gleichzeitige Suche über Amazon Business, Mercateo, Conrad und weitere Marktplätze. Preisvergleich und Lieferantenauswahl auf einen Blick.',
     icon: 'Search',
+    screenshot: 'results',
   },
   {
     titel: 'OCI 5.0 & cXML',
     beschreibung: 'Nahtlose Integration in Ihr ERP-System über OCI 5.0 und cXML Punchout. Direkte Warenkorb-Übernahme ohne Medienbruch.',
     icon: 'Link',
+    screenshot: 'admin-oci-config',
   },
   {
     titel: 'Rahmenvertrags-Management',
     beschreibung: 'Zentrale Verwaltung aller Rahmenverträge mit automatischem Abgleich. Skonto-Konditionen und Mindestbestellwerte immer im Blick.',
     icon: 'FileCheck',
+    screenshot: 'admin-rahmenvertraege',
   },
   {
     titel: 'Revisionssichere Dokumentation',
     beschreibung: 'Lückenlose Vergabedokumentation mit SHA-256 Integritätsprüfung. Jeder Beschaffungsvorgang wird automatisch protokolliert.',
     icon: 'Shield',
+    screenshot: 'admin-bestellungen',
   },
   {
-    titel: 'Admin-Dashboard',
-    beschreibung: 'Vollständige Übersicht über alle Beschaffungsvorgänge, Bestellungen und Genehmigungsworkflows. Echtzeit-Statistiken und Analysen.',
+    titel: 'Bestellungsmanagement & Genehmigungen',
+    beschreibung: 'Detailansicht jeder Bestellung mit Status-Timeline und Genehmigungsworkflow. Genehmigungs­anforderungen, Skonto-Berechnung und revisionssichere Protokollierung — alles auf einen Blick.',
     icon: 'LayoutDashboard',
+    screenshot: 'admin-bestellung-detail',
+  },
+  {
+    titel: 'Marktplatz-Verbindungen',
+    beschreibung: 'Zentrale Übersicht aller angebundenen Marktplätze und Lieferanten. Status, Verbindungsdetails und Konfiguration auf einen Blick verwalten.',
+    icon: 'Globe',
+    screenshot: 'admin-verbindungen',
   },
 ] as const;
 
@@ -153,6 +171,6 @@ export const FAQ_ITEMS = [
   },
   {
     frage: 'Wie funktioniert die KI-Klassifizierung?',
-    antwort: 'Unsere KI analysiert Ihre Artikelbeschreibungen und ordnet automatisch die passenden CPV-Codes zu. Bei Unsicherheit wird ein regelbasiertes Fallback-System aktiviert, das auf bewährten Zuordnungstabellen basiert.',
+    antwort: 'Unsere KI analysiert Ihre Artikelbeschreibungen und ordnet automatisch die passenden CPV-Codes zu. Bei Unsicherheit wird ein regelbasiertes Fallback-System aktiviert. Jede Klassifizierung kann manuell übersteuert werden — mit Begründungspflicht und vollständiger Änderungshistorie für maximale Transparenz.',
   },
 ] as const;

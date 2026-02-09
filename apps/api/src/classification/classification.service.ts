@@ -1,11 +1,13 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
-import { Kanal, Konfidenz, ComplianceStatus, SCHWELLENWERTE } from '@procurement/shared';
+import { Kanal, Konfidenz, ComplianceStatus, KlassifizierungsQuelle, SCHWELLENWERTE } from '@procurement/shared';
 import { ClassificationEntity } from './entities/classification.entity';
+import { ClassificationAuditEntity } from './entities/classification-audit.entity';
 import { ClassifyRequestDto } from './dto/classify-request.dto';
 import { ClassifyResponseDto } from './dto/classify-response.dto';
+import { OverrideClassificationDto } from './dto/override-classification.dto';
 import { ClassificationAiService } from '../ai/classification-ai.service';
 import { EmbeddingService } from '../embedding/embedding.service';
 
@@ -16,6 +18,8 @@ export class ClassificationService {
   constructor(
     @InjectRepository(ClassificationEntity)
     private readonly classificationRepo: Repository<ClassificationEntity>,
+    @InjectRepository(ClassificationAuditEntity)
+    private readonly auditRepo: Repository<ClassificationAuditEntity>,
     private readonly aiService: ClassificationAiService,
     private readonly embeddingService: EmbeddingService,
   ) {}
@@ -26,11 +30,14 @@ export class ClassificationService {
 
     // 1. KI-Klassifizierung (mit Fallback)
     let aiResult;
+    let quelle: KlassifizierungsQuelle;
     try {
       aiResult = await this.aiService.classify(dto.artikelBezeichnung, dto.artikelBeschreibung);
+      quelle = KlassifizierungsQuelle.KI;
     } catch (error) {
       this.logger.warn('KI-Klassifizierung fehlgeschlagen, nutze regelbasierte Klassifizierung', error);
       aiResult = this.regelbasierteKlassifizierung(dto.artikelBezeichnung, gesamtpreis);
+      quelle = KlassifizierungsQuelle.REGELBASIERT;
     }
 
     // 2. Rahmenvertrag-Matching
@@ -60,6 +67,7 @@ export class ClassificationService {
       compliance,
       rahmenvertrag: rahmenvertrag ?? undefined,
       alternativeKanaele: this.ermittleAlternativen(empfohlenerKanal, gesamtpreis),
+      quelle,
       erstelltAm: new Date().toISOString(),
     };
 
@@ -75,14 +83,102 @@ export class ClassificationService {
         konfidenz: aiResult.konfidenz,
         konfidenzWert: aiResult.konfidenzWert,
         cpvCode: aiResult.cpvCode,
+        cpvBezeichnung: aiResult.cpvBezeichnung,
+        quelle,
         ergebnis: ergebnis as any,
       });
       await this.classificationRepo.save(entity);
+
+      // Initialen Audit-Eintrag schreiben
+      const auditEntry = this.auditRepo.create({
+        klassifizierungId: id,
+        benutzer: 'System',
+        aktion: 'ERSTELLT' as const,
+        vorher: null,
+        nachher: { cpvCode: aiResult.cpvCode, cpvBezeichnung: aiResult.cpvBezeichnung, quelle },
+        begruendung: quelle === KlassifizierungsQuelle.KI ? 'KI-Klassifizierung' : 'Regelbasierte Klassifizierung',
+      });
+      await this.auditRepo.save(auditEntry);
     } catch (error) {
       this.logger.error('Klassifizierung konnte nicht gespeichert werden', error);
     }
 
     return ergebnis;
+  }
+
+  async overrideClassification(id: string, dto: OverrideClassificationDto): Promise<ClassifyResponseDto> {
+    const entity = await this.classificationRepo.findOne({ where: { id } });
+    if (!entity) {
+      throw new NotFoundException(`Klassifizierung mit ID ${id} nicht gefunden`);
+    }
+
+    const vorher = {
+      cpvCode: entity.cpvCode,
+      cpvBezeichnung: entity.cpvBezeichnung || '',
+      quelle: entity.quelle,
+    };
+
+    // Entity aktualisieren
+    entity.cpvCode = dto.cpvCode;
+    entity.cpvBezeichnung = dto.cpvBezeichnung;
+    entity.quelle = KlassifizierungsQuelle.MANUELL;
+
+    // ergebnis-JSONB ebenfalls aktualisieren
+    if (entity.ergebnis) {
+      entity.ergebnis = {
+        ...entity.ergebnis,
+        cpvCode: dto.cpvCode,
+        cpvBezeichnung: dto.cpvBezeichnung,
+        quelle: KlassifizierungsQuelle.MANUELL,
+      };
+    }
+
+    await this.classificationRepo.save(entity);
+
+    // Audit-Eintrag
+    const auditEntry = this.auditRepo.create({
+      klassifizierungId: id,
+      benutzer: dto.benutzer || 'Unbekannt',
+      aktion: 'UEBERSCHRIEBEN' as const,
+      vorher,
+      nachher: { cpvCode: dto.cpvCode, cpvBezeichnung: dto.cpvBezeichnung, quelle: KlassifizierungsQuelle.MANUELL },
+      begruendung: dto.begruendung,
+    });
+    await this.auditRepo.save(auditEntry);
+
+    // Audit-Trail laden
+    const auditTrail = await this.getAuditTrail(id);
+
+    return {
+      ...(entity.ergebnis as ClassifyResponseDto),
+      id: entity.id,
+      cpvCode: entity.cpvCode,
+      cpvBezeichnung: entity.cpvBezeichnung || '',
+      quelle: KlassifizierungsQuelle.MANUELL,
+      aenderungsHistorie: auditTrail,
+    };
+  }
+
+  async getAuditTrail(id: string) {
+    const entity = await this.classificationRepo.findOne({ where: { id } });
+    if (!entity) {
+      throw new NotFoundException(`Klassifizierung mit ID ${id} nicht gefunden`);
+    }
+
+    const entries = await this.auditRepo.find({
+      where: { klassifizierungId: id },
+      order: { zeitpunkt: 'ASC' },
+    });
+
+    return entries.map((e) => ({
+      id: e.id,
+      aktion: e.aktion,
+      benutzer: e.benutzer,
+      zeitpunkt: e.zeitpunkt.toISOString(),
+      begruendung: e.begruendung || undefined,
+      vorher: e.vorher || undefined,
+      nachher: e.nachher,
+    }));
   }
 
   bestimmeKanal(gesamtpreis: number, rahmenvertrag?: any): Kanal {

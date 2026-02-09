@@ -1,0 +1,67 @@
+---
+interface Props {
+  name: string;
+  alt: string;
+  /** All screenshot names in the current gallery for lightbox navigation */
+  gallery?: string[];
+  /** All alt texts corresponding to the gallery names */
+  galleryAlts?: string[];
+  class?: string;
+}
+
+const { name, alt, gallery, galleryAlts, class: className } = Astro.props;
+
+const desktopSrc = `/images/screenshots/desktop/${name}.png`;
+const mobileSrc = `/images/screenshots/mobile/${name}.png`;
+
+// Build gallery data for the lightbox
+const galleryNames = gallery ?? [name];
+const galleryAltTexts = galleryAlts ?? [alt];
+const galleryIndex = galleryNames.indexOf(name);
+const galleryData = galleryNames.map((n, i) => ({
+  src: `/images/screenshots/desktop/${n}.png`,
+  alt: galleryAltTexts[i] ?? n,
+}));
+---
+
+<button
+  type="button"
+  class:list={['screenshot-btn block w-full cursor-zoom-in group text-left', className]}
+  data-gallery={JSON.stringify(galleryData)}
+  data-index={galleryIndex}
+  aria-label={`${alt} — Klicken zum Vergrößern`}
+>
+  <div class="relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-gray-50 transition-shadow group-hover:shadow-xl">
+    <picture>
+      <source media="(max-width: 639px)" srcset={mobileSrc} />
+      <source media="(min-width: 640px)" srcset={desktopSrc} />
+      <img
+        src={desktopSrc}
+        alt={alt}
+        class="w-full h-auto"
+        loading="lazy"
+      />
+    </picture>
+    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-center justify-center pointer-events-none">
+      <span class="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg">
+        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+        </svg>
+      </span>
+    </div>
+  </div>
+</button>
+
+<script>
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as Element).closest('.screenshot-btn');
+    if (!btn) return;
+
+    const gallery = JSON.parse(btn.getAttribute('data-gallery') || '[]');
+    const index = parseInt(btn.getAttribute('data-index') || '0', 10);
+
+    window.dispatchEvent(new CustomEvent('lightbox:open', {
+      detail: { screenshots: gallery, index },
+    }));
+  });
+</script>

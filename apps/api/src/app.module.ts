@@ -10,6 +10,7 @@ import { AiModule } from './ai/ai.module';
 import { AdminModule } from './admin/admin.module';
 import { OciModule } from './oci/oci.module';
 import { ClassificationEntity } from './classification/entities/classification.entity';
+import { ClassificationAuditEntity } from './classification/entities/classification-audit.entity';
 import { DocumentationEntity } from './documentation/entities/documentation.entity';
 import { RahmenvertragEntity } from './embedding/entities/rahmenvertrag.entity';
 import { FrameworkContractEntity } from './search/entities/framework-contract.entity';
@@ -37,6 +38,7 @@ import { LeadModule } from './lead/lead.module';
         database: config.get('DATABASE_NAME', 'procurement_ai'),
         entities: [
           ClassificationEntity,
+          ClassificationAuditEntity,
           DocumentationEntity,
           RahmenvertragEntity,
           FrameworkContractEntity,

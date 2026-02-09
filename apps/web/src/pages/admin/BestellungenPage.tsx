@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AdminLayout } from '../../components/templates/AdminLayout';
 import { Button, Spinner } from '../../components/atoms';
@@ -10,6 +11,7 @@ import type { Bestellung, BestellStatus } from '@procurement/shared';
 type FilterStatus = 'ALLE' | BestellStatus;
 
 export function BestellungenPage() {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { data: bestellungen, isLoading } = useBestellungen();
   const approveMutation = useApproveBestellung();
@@ -134,7 +136,11 @@ export function BestellungenPage() {
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                   {filtered.map((b) => (
-                    <tr key={b.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
+                    <tr
+                      key={b.id}
+                      onClick={() => navigate(`/admin/bestellungen/${b.id}`)}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors cursor-pointer"
+                    >
                       <td className="px-4 py-3">
                         <div className="font-medium text-gray-900 dark:text-gray-100 truncate max-w-[200px]">
                           {b.artikelBezeichnung}
@@ -164,7 +170,7 @@ export function BestellungenPage() {
                           </div>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-right">
+                      <td className="px-4 py-3 text-right" onClick={(e) => e.stopPropagation()}>
                         {b.status === 'GENEHMIGUNG_ANGEFORDERT' && (
                           <div className="flex gap-1 justify-end">
                             <Button

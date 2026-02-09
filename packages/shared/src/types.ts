@@ -1,4 +1,4 @@
-import { Kanal, Marktplatz, ComplianceStatus, Konfidenz } from './constants';
+import { Kanal, Marktplatz, ComplianceStatus, Konfidenz, KlassifizierungsQuelle } from './constants';
 
 // ─── Classification ──────────────────────────────────────────────
 
@@ -22,6 +22,8 @@ export interface ClassifyResponse {
   compliance: ComplianceInfo;
   rahmenvertrag?: RahmenvertragMatch;
   alternativeKanaele: KanalEmpfehlung[];
+  quelle: KlassifizierungsQuelle;
+  aenderungsHistorie?: AenderungsEintrag[];
   erstelltAm: string;
 }
 
@@ -51,6 +53,23 @@ export interface KanalEmpfehlung {
   kanal: Kanal;
   begruendung: string;
   prioritaet: number;
+}
+
+export interface OverrideClassificationRequest {
+  cpvCode: string;
+  cpvBezeichnung: string;
+  begruendung: string;
+  benutzer?: string;
+}
+
+export interface AenderungsEintrag {
+  id: string;
+  aktion: 'ERSTELLT' | 'UEBERSCHRIEBEN';
+  benutzer: string;
+  zeitpunkt: string;
+  begruendung?: string;
+  vorher?: { cpvCode: string; cpvBezeichnung: string; quelle: KlassifizierungsQuelle };
+  nachher: { cpvCode: string; cpvBezeichnung: string; quelle: KlassifizierungsQuelle };
 }
 
 // ─── Search ──────────────────────────────────────────────────────
@@ -260,6 +279,7 @@ export type DemoModus = SystemModus;
 export interface SandboxImportResult {
   rahmenvertraegeImportiert: number;
   katalogArtikelImportiert: number;
+  bestellungenImportiert: number;
   modus: 'ADDITIV' | 'ERSETZEND';
 }
 

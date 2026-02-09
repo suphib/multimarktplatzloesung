@@ -4,11 +4,15 @@ import { DetailLayout } from '../components/templates/DetailLayout';
 import { PriceTag, Badge, Button, Spinner } from '../components/atoms';
 import { SupplierInfo } from '../components/molecules/SupplierInfo';
 import { ClassificationBadge } from '../components/molecules/ClassificationBadge';
+import { QuellenBadge } from '../components/molecules/QuellenBadge';
 import { useClassify } from '../hooks/useClassify';
+import { useOverrideClassification, useClassificationAudit } from '../hooks/useOverrideClassification';
 import { useCreateDocumentation } from '../hooks/useDocumentation';
 import { useSearchStore } from '../store/useSearchStore';
+import { CpvOverrideModal } from '../components/organisms/CpvOverrideModal';
+import { AuditTimeline } from '../components/organisms/AuditTimeline';
 import type { Artikel } from '@procurement/shared';
-import { Package, Leaf, Sparkles, FileText, ExternalLink, BarChart3, Check, ShoppingCart } from 'lucide-react';
+import { Package, Leaf, Sparkles, FileText, ExternalLink, BarChart3, Check, ShoppingCart, Pencil, History } from 'lucide-react';
 import { useState } from 'react';
 import { BestellModal } from '../components/organisms/BestellModal';
 
@@ -19,8 +23,13 @@ export function ArticleDetailPage() {
   const { t } = useTranslation();
   const classifyMutation = useClassify();
   const createDocMutation = useCreateDocumentation();
+  const overrideMutation = useOverrideClassification();
   const { classifyResult, setClassifyResult, selectedArticles, toggleArticle } = useSearchStore();
   const [bestellModalOpen, setBestellModalOpen] = useState(false);
+  const [overrideModalOpen, setOverrideModalOpen] = useState(false);
+  const [auditOpen, setAuditOpen] = useState(false);
+
+  const auditQuery = useClassificationAudit(auditOpen ? classifyResult?.id : undefined);
 
   const artikel: Artikel | undefined = (location.state as any)?.artikel;
 
@@ -50,6 +59,16 @@ export function ArticleDetailPage() {
     });
     setClassifyResult(result);
     createDocMutation.mutate({ klassifizierungId: result.id });
+  };
+
+  const handleOverrideSave = async (cpvCode: string, cpvBezeichnung: string, begruendung: string) => {
+    if (!classifyResult) return;
+    const result = await overrideMutation.mutateAsync({
+      id: classifyResult.id,
+      data: { cpvCode, cpvBezeichnung, begruendung },
+    });
+    setClassifyResult(result);
+    setOverrideModalOpen(false);
   };
 
   return (
@@ -215,17 +234,31 @@ export function ArticleDetailPage() {
           </h3>
           {classifyResult ? (
             <div className="space-y-4">
-              <ClassificationBadge
-                kanal={classifyResult.empfohlenerKanal}
-                konfidenz={classifyResult.konfidenz}
-                konfidenzWert={classifyResult.konfidenzWert}
-              />
+              <div className="flex flex-wrap items-center gap-2">
+                <ClassificationBadge
+                  kanal={classifyResult.empfohlenerKanal}
+                  konfidenz={classifyResult.konfidenz}
+                  konfidenzWert={classifyResult.konfidenzWert}
+                />
+                {classifyResult.quelle && (
+                  <QuellenBadge quelle={classifyResult.quelle} />
+                )}
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-gray-500">{t('article.cpvCode')}</p>
-                  <p className="font-medium mt-0.5">
-                    {classifyResult.cpvCode} – {classifyResult.cpvBezeichnung}
-                  </p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <p className="font-medium">
+                      {classifyResult.cpvCode} – {classifyResult.cpvBezeichnung}
+                    </p>
+                    <button
+                      onClick={() => setOverrideModalOpen(true)}
+                      className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 hover:text-gray-600 transition-colors"
+                      title={t('article.override.editButton')}
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">{t('article.reasoning')}</p>
@@ -243,24 +276,49 @@ export function ArticleDetailPage() {
                   </p>
                 </div>
               )}
-              <Button
-                variant="secondary"
-                onClick={() => navigate(`/documentation/${classifyResult.id}`)}
-                disabled={createDocMutation.isPending}
-                className="w-full sm:w-auto"
-              >
-                {createDocMutation.isPending ? (
-                  <>
-                    <Spinner size="sm" className="mr-2" />
-                    {t('documentation.creatingDoc')}
-                  </>
-                ) : (
-                  <>
-                    <FileText className="h-4 w-4 mr-2" />
-                    {t('article.showDocumentation')}
-                  </>
-                )}
-              </Button>
+
+              {/* Actions row */}
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="secondary"
+                  onClick={() => navigate(`/documentation/${classifyResult.id}`)}
+                  disabled={createDocMutation.isPending}
+                  className="flex-1 sm:flex-none"
+                >
+                  {createDocMutation.isPending ? (
+                    <>
+                      <Spinner size="sm" className="mr-2" />
+                      {t('documentation.creatingDoc')}
+                    </>
+                  ) : (
+                    <>
+                      <FileText className="h-4 w-4 mr-2" />
+                      {t('article.showDocumentation')}
+                    </>
+                  )}
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => setAuditOpen(!auditOpen)}
+                  className="flex-1 sm:flex-none"
+                >
+                  <History className="h-4 w-4 mr-2" />
+                  {t('article.audit.showHistory')}
+                </Button>
+              </div>
+
+              {/* Audit Timeline */}
+              {auditOpen && (
+                <div className="border-t border-gray-100 pt-4">
+                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    {t('article.audit.title')}
+                  </h4>
+                  <AuditTimeline
+                    entries={classifyResult.aenderungsHistorie ?? auditQuery.data ?? []}
+                    isLoading={auditQuery.isLoading}
+                  />
+                </div>
+              )}
             </div>
           ) : (
             <div>
@@ -288,6 +346,17 @@ export function ArticleDetailPage() {
             </div>
           )}
         </div>
+
+        {/* CPV Override Modal */}
+        {classifyResult && (
+          <CpvOverrideModal
+            open={overrideModalOpen}
+            onClose={() => setOverrideModalOpen(false)}
+            currentCpvCode={classifyResult.cpvCode}
+            onSave={handleOverrideSave}
+            isSaving={overrideMutation.isPending}
+          />
+        )}
       </div>
     </DetailLayout>
   );

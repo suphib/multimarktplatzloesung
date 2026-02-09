@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Kanal, Konfidenz, ComplianceStatus } from '@procurement/shared';
+import { Kanal, Konfidenz, ComplianceStatus, KlassifizierungsQuelle } from '@procurement/shared';
 
 export class ComplianceInfoDto {
   @ApiProperty({ enum: ComplianceStatus })
@@ -80,6 +80,35 @@ export class ClassifyResponseDto {
   @ApiProperty({ type: [KanalEmpfehlungDto] })
   alternativeKanaele: KanalEmpfehlungDto[];
 
+  @ApiProperty({ enum: KlassifizierungsQuelle })
+  quelle: KlassifizierungsQuelle;
+
+  @ApiPropertyOptional()
+  aenderungsHistorie?: AenderungsEintragDto[];
+
   @ApiProperty()
   erstelltAm: string;
+}
+
+export class AenderungsEintragDto {
+  @ApiProperty()
+  id: string;
+
+  @ApiProperty()
+  aktion: 'ERSTELLT' | 'UEBERSCHRIEBEN';
+
+  @ApiProperty()
+  benutzer: string;
+
+  @ApiProperty()
+  zeitpunkt: string;
+
+  @ApiPropertyOptional()
+  begruendung?: string;
+
+  @ApiPropertyOptional()
+  vorher?: { cpvCode: string; cpvBezeichnung: string; quelle: KlassifizierungsQuelle };
+
+  @ApiProperty()
+  nachher: { cpvCode: string; cpvBezeichnung: string; quelle: KlassifizierungsQuelle };
 }

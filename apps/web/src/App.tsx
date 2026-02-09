@@ -16,6 +16,7 @@ import { KatalogPage } from './pages/admin/KatalogPage';
 import { KatalogImportPage } from './pages/admin/KatalogImportPage';
 import { ConnectionsPage } from './pages/admin/ConnectionsPage';
 import { BestellungenPage } from './pages/admin/BestellungenPage';
+import { BestellungDetailPage } from './pages/admin/BestellungDetailPage';
 import { OciConfigPage } from './pages/admin/OciConfigPage';
 
 export function App() {
@@ -36,6 +37,7 @@ export function App() {
       <Route path="/admin/rahmenvertraege" element={<RahmenvertraegePage />} />
       <Route path="/admin/rahmenvertraege/:id" element={<RahmenvertragDetailPage />} />
       <Route path="/admin/bestellungen" element={<BestellungenPage />} />
+      <Route path="/admin/bestellungen/:id" element={<BestellungDetailPage />} />
       <Route path="/admin/shop-config" element={<ShopConfigPage />} />
       <Route path="/admin/katalog" element={<KatalogPage />} />
       <Route path="/admin/katalog/import" element={<KatalogImportPage />} />

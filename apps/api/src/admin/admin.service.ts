@@ -16,7 +16,7 @@ import { CreateKatalogArtikelDto } from './dto/create-katalog-artikel.dto';
 import { CreateBestellungDto } from './dto/create-bestellung.dto';
 import { QueryFrameworkItemsDto } from './dto/query-framework-items.dto';
 import { parse } from 'csv-parse/sync';
-import { getSandboxRahmenvertraege, getSandboxFrameworkContractItems } from '../config/sandbox-data';
+import { getSandboxRahmenvertraege, getSandboxFrameworkContractItems, getSandboxBestellungen } from '../config/sandbox-data';
 import type {
   AdminDashboardStats,
   PaginatedResponse,
@@ -105,9 +105,18 @@ export class AdminService {
       }
     }
 
+    const bestellungen = getSandboxBestellungen();
+    const existingSandboxBestellungen = await this.bestellungRepo.count({ where: { istSandbox: true } });
+    if (existingSandboxBestellungen === 0) {
+      for (const b of bestellungen) {
+        await this.bestellungRepo.save(this.bestellungRepo.create(b));
+      }
+    }
+
     return {
       rahmenvertraegeImportiert: rahmenvertraege.length,
       katalogArtikelImportiert: fcItems.length,
+      bestellungenImportiert: bestellungen.length,
       modus,
     };
   }
@@ -638,6 +647,12 @@ export class AdminService {
 
     const saved = await this.bestellungRepo.save(entity);
     return this.mapBestellung(saved as BestellungEntity);
+  }
+
+  async getBestellung(id: string): Promise<Bestellung> {
+    const entity = await this.bestellungRepo.findOne({ where: { id } });
+    if (!entity) throw new NotFoundException(`Bestellung ${id} nicht gefunden`);
+    return this.mapBestellung(entity);
   }
 
   async getBestellungen(): Promise<Bestellung[]> {

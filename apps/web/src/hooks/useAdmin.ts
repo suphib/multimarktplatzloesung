@@ -17,6 +17,7 @@ const keys = {
   shopConfigs: ['admin', 'shop-configs'] as const,
   katalog: (params: Record<string, any>) => ['admin', 'katalog', params] as const,
   bestellungen: ['admin', 'bestellungen'] as const,
+  bestellung: (id: string) => ['admin', 'bestellung', id] as const,
   modus: ['admin', 'modus'] as const,
 };
 
@@ -182,6 +183,14 @@ export function useBestellungen() {
   });
 }
 
+export function useBestellung(id: string) {
+  return useQuery({
+    queryKey: keys.bestellung(id),
+    queryFn: () => api.getBestellung(id),
+    enabled: !!id,
+  });
+}
+
 export function useCreateBestellung() {
   const qc = useQueryClient();
   return useMutation({
@@ -196,8 +205,9 @@ export function useApproveBestellung() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => api.approveBestellung(id),
-    onSuccess: () => {
+    onSuccess: (_data, id) => {
       qc.invalidateQueries({ queryKey: keys.bestellungen });
+      qc.invalidateQueries({ queryKey: keys.bestellung(id) });
     },
   });
 }
@@ -206,8 +216,9 @@ export function useRejectBestellung() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: ({ id, grund }: { id: string; grund: string }) => api.rejectBestellung(id, grund),
-    onSuccess: () => {
+    onSuccess: (_data, vars) => {
       qc.invalidateQueries({ queryKey: keys.bestellungen });
+      qc.invalidateQueries({ queryKey: keys.bestellung(vars.id) });
     },
   });
 }

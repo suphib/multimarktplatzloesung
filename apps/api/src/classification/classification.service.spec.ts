@@ -1,10 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { NotFoundException } from '@nestjs/common';
 import { ClassificationService } from './classification.service';
 import { ClassificationEntity } from './entities/classification.entity';
+import { ClassificationAuditEntity } from './entities/classification-audit.entity';
 import { ClassificationAiService } from '../ai/classification-ai.service';
 import { EmbeddingService } from '../embedding/embedding.service';
-import { Kanal, Konfidenz, ComplianceStatus } from '@procurement/shared';
+import { Kanal, Konfidenz, ComplianceStatus, KlassifizierungsQuelle } from '@procurement/shared';
 
 describe('ClassificationService', () => {
   let service: ClassificationService;
@@ -14,6 +16,13 @@ describe('ClassificationService', () => {
   const mockRepo = {
     create: jest.fn((entity) => entity),
     save: jest.fn((entity) => Promise.resolve(entity)),
+    findOne: jest.fn(),
+  };
+
+  const mockAuditRepo = {
+    create: jest.fn((entity) => entity),
+    save: jest.fn((entity) => Promise.resolve(entity)),
+    find: jest.fn().mockResolvedValue([]),
   };
 
   const mockAiResult = {
@@ -25,12 +34,18 @@ describe('ClassificationService', () => {
   };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ClassificationService,
         {
           provide: getRepositoryToken(ClassificationEntity),
           useValue: mockRepo,
+        },
+        {
+          provide: getRepositoryToken(ClassificationAuditEntity),
+          useValue: mockAuditRepo,
         },
         {
           provide: ClassificationAiService,
@@ -60,6 +75,50 @@ describe('ClassificationService', () => {
     expect(result.konfidenz).toBe(Konfidenz.HOCH);
     expect(result.empfohlenerKanal).toBeDefined();
     expect(result.compliance).toBeDefined();
+  });
+
+  it('sollte Quelle=KI bei erfolgreicher KI-Klassifizierung setzen', async () => {
+    const result = await service.classify({
+      artikelBezeichnung: 'Dell Latitude 5540 Laptop',
+      geschaetzterPreis: 1200,
+      menge: 1,
+    });
+
+    expect(result.quelle).toBe(KlassifizierungsQuelle.KI);
+  });
+
+  it('sollte Quelle=REGELBASIERT bei Fallback setzen', async () => {
+    aiService.classify.mockRejectedValue(new Error('API nicht erreichbar'));
+
+    const result = await service.classify({
+      artikelBezeichnung: 'Laptop Dell',
+      geschaetzterPreis: 1000,
+      menge: 1,
+    });
+
+    expect(result.quelle).toBe(KlassifizierungsQuelle.REGELBASIERT);
+    expect(result.konfidenz).toBe(Konfidenz.NIEDRIG);
+    expect(result.begruendung).toContain('Regelbasierte');
+  });
+
+  it('sollte einen initialen Audit-Eintrag bei Klassifizierung schreiben', async () => {
+    await service.classify({
+      artikelBezeichnung: 'Dell Latitude 5540 Laptop',
+      geschaetzterPreis: 1200,
+      menge: 1,
+    });
+
+    expect(mockAuditRepo.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        aktion: 'ERSTELLT',
+        benutzer: 'System',
+        nachher: expect.objectContaining({
+          cpvCode: '30213100',
+          quelle: KlassifizierungsQuelle.KI,
+        }),
+      }),
+    );
+    expect(mockAuditRepo.save).toHaveBeenCalled();
   });
 
   it('sollte Direktauftrag für günstige Artikel empfehlen', () => {
@@ -94,16 +153,85 @@ describe('ClassificationService', () => {
     expect(compliance.dokumentationspflicht).toBe(true);
   });
 
-  it('sollte auf regelbasierte Klassifizierung zurückfallen', async () => {
-    aiService.classify.mockRejectedValue(new Error('API nicht erreichbar'));
+  it('sollte Klassifizierung manuell übersteuern und Audit schreiben', async () => {
+    const existingEntity = {
+      id: 'test-id',
+      cpvCode: '30213100',
+      cpvBezeichnung: 'Tragbare Computer',
+      quelle: KlassifizierungsQuelle.KI,
+      ergebnis: {
+        id: 'test-id',
+        cpvCode: '30213100',
+        cpvBezeichnung: 'Tragbare Computer',
+        quelle: KlassifizierungsQuelle.KI,
+        artikelBezeichnung: 'Test Laptop',
+        empfohlenerKanal: Kanal.FREIE_VERGABE,
+        konfidenz: Konfidenz.HOCH,
+        konfidenzWert: 0.92,
+        begruendung: 'Test',
+        compliance: {},
+        alternativeKanaele: [],
+        erstelltAm: '2026-01-01T00:00:00.000Z',
+      },
+    };
 
-    const result = await service.classify({
-      artikelBezeichnung: 'Laptop Dell',
-      geschaetzterPreis: 1000,
-      menge: 1,
+    mockRepo.findOne.mockResolvedValue(existingEntity);
+    mockAuditRepo.find.mockResolvedValue([
+      {
+        id: 'audit-1',
+        aktion: 'ERSTELLT',
+        benutzer: 'System',
+        zeitpunkt: new Date('2026-01-01'),
+        vorher: null,
+        nachher: { cpvCode: '30213100', cpvBezeichnung: 'Tragbare Computer', quelle: KlassifizierungsQuelle.KI },
+        begruendung: 'KI-Klassifizierung',
+      },
+      {
+        id: 'audit-2',
+        aktion: 'UEBERSCHRIEBEN',
+        benutzer: 'Max Mustermann',
+        zeitpunkt: new Date('2026-01-02'),
+        vorher: { cpvCode: '30213100', cpvBezeichnung: 'Tragbare Computer', quelle: KlassifizierungsQuelle.KI },
+        nachher: { cpvCode: '30231000', cpvBezeichnung: 'Computerbildschirme und Konsolen', quelle: KlassifizierungsQuelle.MANUELL },
+        begruendung: 'Falsche Zuordnung, es handelt sich um einen Monitor',
+      },
+    ]);
+
+    const result = await service.overrideClassification('test-id', {
+      cpvCode: '30231000',
+      cpvBezeichnung: 'Computerbildschirme und Konsolen',
+      begruendung: 'Falsche Zuordnung, es handelt sich um einen Monitor',
+      benutzer: 'Max Mustermann',
     });
 
-    expect(result.konfidenz).toBe(Konfidenz.NIEDRIG);
-    expect(result.begruendung).toContain('Regelbasierte');
+    expect(result.cpvCode).toBe('30231000');
+    expect(result.quelle).toBe(KlassifizierungsQuelle.MANUELL);
+    expect(result.aenderungsHistorie).toHaveLength(2);
+    expect(mockAuditRepo.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        aktion: 'UEBERSCHRIEBEN',
+        benutzer: 'Max Mustermann',
+        vorher: expect.objectContaining({ cpvCode: '30213100' }),
+        nachher: expect.objectContaining({ cpvCode: '30231000', quelle: KlassifizierungsQuelle.MANUELL }),
+      }),
+    );
+  });
+
+  it('sollte NotFoundException werfen bei unbekannter ID (override)', async () => {
+    mockRepo.findOne.mockResolvedValue(null);
+
+    await expect(
+      service.overrideClassification('unknown-id', {
+        cpvCode: '30231000',
+        cpvBezeichnung: 'Test',
+        begruendung: 'Mindestens zehn Zeichen',
+      }),
+    ).rejects.toThrow(NotFoundException);
+  });
+
+  it('sollte NotFoundException werfen bei unbekannter ID (audit)', async () => {
+    mockRepo.findOne.mockResolvedValue(null);
+
+    await expect(service.getAuditTrail('unknown-id')).rejects.toThrow(NotFoundException);
   });
 });
