@@ -18,3 +18,6 @@ packages/shared/src/*.js
 packages/shared/src/*.js.map
 packages/shared/src/*.d.ts
 test-results/*
+
+# Astro build cache
+apps/website/.astro/
