@@ -1,0 +1,55 @@
+---
+import { MATOMO } from '../../lib/constants';
+---
+
+<!--
+  Matomo Analytics — DSGVO-konform
+  - Cookieless-Modus aktiv bis Nutzer Cookies akzeptiert
+  - Bei "Alle akzeptieren" werden Matomo-Cookies aktiviert
+  - Bei "Nur notwendige" bleibt cookieless-Tracking aktiv (kein Consent nötig, da keine Cookies)
+  - Do-Not-Track wird respektiert
+-->
+<script is:inline define:vars={{ matomoUrl: MATOMO.url, matomoSiteId: MATOMO.siteId }}>
+  var _paq = window._paq = window._paq || [];
+
+  // Do-Not-Track respektieren
+  _paq.push(['setDoNotTrack', true]);
+
+  // Standardmäßig cookieless (DSGVO-konform ohne Consent)
+  _paq.push(['disableCookies']);
+
+  // Standard-Tracking
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+
+  // Cookie-Consent prüfen und Cookies ggf. aktivieren
+  (function checkConsent() {
+    var consent = localStorage.getItem('cookie-consent');
+    if (consent === 'accepted') {
+      _paq.push(['setCookieConsentGiven']);
+    }
+  })();
+
+  // Auf Consent-Änderungen reagieren
+  window.addEventListener('cookie-consent-changed', function (e) {
+    if (e.detail && e.detail.consent === 'accepted') {
+      _paq.push(['setCookieConsentGiven']);
+    } else {
+      _paq.push(['forgetCookieConsentGiven']);
+    }
+  });
+
+  // Matomo-Script laden
+  (function () {
+    var u = matomoUrl + '/';
+    _paq.push(['setTrackerUrl', u + 'matomo.php']);
+    _paq.push(['setSiteId', matomoSiteId]);
+    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+    g.async = true;
+    g.src = u + 'matomo.js';
+    if (s && s.parentNode) s.parentNode.insertBefore(g, s);
+  })();
+</script>
+<noscript>
+  <img referrerpolicy="no-referrer-when-downgrade" src={`${MATOMO.url}/matomo.php?idsite=${MATOMO.siteId}&rec=1`} style="border:0" alt="" />
+</noscript>

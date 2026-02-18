@@ -11,7 +11,13 @@ export default defineConfig({
   integrations: [
     react(),
     tailwind(),
-    sitemap(),
+    sitemap({
+      filter: (page) =>
+        !page.includes('/impressum') &&
+        !page.includes('/datenschutz') &&
+        !page.includes('/agb') &&
+        !page.includes('/404'),
+    }),
     mdx(),
   ],
   vite: {

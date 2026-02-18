@@ -1,0 +1,190 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import CTASection from '../components/astro/CTASection.astro';
+import SectionHeading from '../components/astro/SectionHeading.astro';
+import FaqSchema from '../components/seo/FaqSchema.astro';
+
+const schwellenwerte = [
+  { bereich: 'Liefer- und Dienstleistungsaufträge', national: '25.000 €', eu: '221.000 €', regelung: 'UVgO / VgV' },
+  { bereich: 'Bauleistungen', national: '50.000 €', eu: '5.538.000 €', regelung: 'VOB/A' },
+  { bereich: 'Sektorenauftraggeber', national: '—', eu: '443.000 €', regelung: 'SektVO' },
+  { bereich: 'Konzessionen', national: '—', eu: '5.538.000 €', regelung: 'KonzVgV' },
+];
+
+const faqItems = [
+  { frage: 'Was ist das Vergaberecht?', antwort: 'Das Vergaberecht regelt, wie öffentliche Auftraggeber Aufträge für Waren, Dienstleistungen und Bauleistungen vergeben müssen. Ziel ist ein transparentes, diskriminierungsfreies und wirtschaftliches Beschaffungsverfahren. Die wichtigsten Rechtsgrundlagen sind das GWB (Teil 4), die VgV, die UVgO und die VOB/A.' },
+  { frage: 'Was sind Schwellenwerte im Vergaberecht?', antwort: 'Schwellenwerte bestimmen, ab welchem Auftragswert die EU-weiten Vergabevorschriften gelten. Unterhalb der EU-Schwellenwerte gelten nationale Vergaberegeln (z. B. UVgO). Die Schwellenwerte werden alle zwei Jahre von der EU-Kommission angepasst.' },
+  { frage: 'Warum ist die CPV-Klassifizierung vergaberechtlich relevant?', antwort: 'CPV-Codes sind für EU-weite Ausschreibungen Pflicht. Sie ermöglichen die einheitliche Kategorisierung von Aufträgen und die korrekte Veröffentlichung im EU-Amtsblatt (TED). Eine falsche CPV-Zuordnung kann zur Anfechtbarkeit des Vergabeverfahrens führen.' },
+  { frage: 'Wie hilft procurement-ai bei der Vergabekonformität?', antwort: 'procurement-ai automatisiert die CPV-Klassifizierung, erstellt revisionssichere Vergabedokumentation mit SHA-256 Hashing, prüft Schwellenwerte automatisch und protokolliert jeden Beschaffungsvorgang lückenlos — mit Audit-Trail, Zeitstempeln und Begründungspflicht.' },
+  { frage: 'Welche Dokumentationspflichten gelten im Vergaberecht?', antwort: 'Öffentliche Auftraggeber müssen den gesamten Vergabeprozess dokumentieren: Bedarfsermittlung, Markterkundung, Leistungsbeschreibung, Angebotsauswertung, Zuschlagsentscheidung und Vertragsschluss. Diese Dokumentation muss nachvollziehbar, vollständig und revisionssicher sein.' },
+] as const;
+---
+
+<PageLayout title="Vergaberecht & Compliance" description="Vergaberechtskonforme Beschaffung mit procurement-ai. Automatische Schwellenwertprüfung, CPV-Klassifizierung und revisionssichere Dokumentation.">
+
+  <!-- Hero -->
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-100 text-xs font-semibold mb-4">
+        Compliance
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">Vergaberecht & Compliance</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Vergaberechtskonforme Beschaffung — automatisiert, dokumentiert und revisionssicher.
+      </p>
+    </div>
+  </section>
+
+  <!-- Einführung -->
+  <section class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Vergaberecht einfach erklärt</h2>
+      <p class="text-gray-600 leading-relaxed mb-4">
+        Das deutsche Vergaberecht regelt, wie öffentliche Auftraggeber — Behörden, Kommunen, Kliniken und
+        andere öffentliche Einrichtungen — Aufträge für Waren und Dienstleistungen vergeben müssen.
+        Die Vorschriften sollen Transparenz, Wettbewerb und Wirtschaftlichkeit sicherstellen.
+      </p>
+      <p class="text-gray-600 leading-relaxed">
+        procurement-ai unterstützt Sie bei der Einhaltung dieser Vorschriften mit automatischer
+        CPV-Klassifizierung, Schwellenwertprüfung und revisionssicherer Dokumentation.
+      </p>
+    </div>
+  </section>
+
+  <!-- Schwellenwerte -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="EU-Schwellenwerte 2024/2025" untertitel="Ab diesen Auftragswerten gelten die EU-Vergaberichtlinien" />
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <thead>
+            <tr class="bg-gray-50 border-b border-gray-200">
+              <th class="text-left py-3 px-4 sm:px-6 text-sm font-semibold text-gray-900">Bereich</th>
+              <th class="text-left py-3 px-4 sm:px-6 text-sm font-semibold text-gray-900">National (ab)</th>
+              <th class="text-left py-3 px-4 sm:px-6 text-sm font-semibold text-gray-900">EU-Schwellenwert</th>
+              <th class="text-left py-3 px-4 sm:px-6 text-sm font-semibold text-gray-900">Regelung</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            {schwellenwerte.map((sw) => (
+              <tr class="hover:bg-gray-50">
+                <td class="py-3 px-4 sm:px-6 text-sm text-gray-900 font-medium">{sw.bereich}</td>
+                <td class="py-3 px-4 sm:px-6 text-sm text-gray-600">{sw.national}</td>
+                <td class="py-3 px-4 sm:px-6 text-sm text-gray-600">{sw.eu}</td>
+                <td class="py-3 px-4 sm:px-6">
+                  <span class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">{sw.regelung}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-gray-500 mt-4 text-center">
+        Werte gemäß EU-Verordnung 2023/2495. Nationale Schwellenwerte variieren je nach Bundesland.
+      </p>
+    </div>
+  </section>
+
+  <!-- Dokumentationspflichten -->
+  <section class="section-padding">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Dokumentationspflichten" untertitel="Was im Vergabeverfahren dokumentiert werden muss" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[
+          { titel: 'Bedarfsermittlung', beschreibung: 'Art und Umfang des Bedarfs, CPV-Klassifizierung, geschätzter Auftragswert.', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
+          { titel: 'Markterkundung', beschreibung: 'Lieferantenrecherche, Preisvergleich über Marktplätze, Rahmenvertragsabgleich.', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
+          { titel: 'Angebotsauswertung', beschreibung: 'Vergleich der Angebote, Bewertungsmatrix, Zuschlagsentscheidung.', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+          { titel: 'Genehmigung', beschreibung: 'Bestellfreigabe mit Genehmigungsworkflow, Unterschriften und Zeitstempel.', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+          { titel: 'Vertragsschluss', beschreibung: 'Auftragserteilung, Konditionen, Rahmenvertragsbezug und Skonto-Berechnung.', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+          { titel: 'Integritätsprüfung', beschreibung: 'SHA-256 Hashing für manipulationssichere Dokumentation und Audit-Trail.', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' },
+        ].map((pflicht) => (
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d={pflicht.icon} />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">{pflicht.titel}</h3>
+            <p class="text-sm text-gray-600">{pflicht.beschreibung}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Wie procurement-ai hilft -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Wie procurement-ai bei der Compliance hilft" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {[
+          { titel: 'Automatische CPV-Klassifizierung', beschreibung: 'KI ordnet Artikelbeschreibungen in Sekunden dem richtigen CPV-Code zu. Fehlerquoten sinken, EU-Konformität steigt.', link: '/cpv-klassifizierung' },
+          { titel: 'Schwellenwertprüfung', beschreibung: 'Automatische Prüfung, ob der geschätzte Auftragswert nationale oder EU-Schwellenwerte überschreitet.' },
+          { titel: 'Revisionssichere Dokumentation', beschreibung: 'SHA-256 Hashes garantieren die Integrität. Jeder Vorgang wird mit Zeitstempel, Benutzer und Begründung protokolliert.', link: '/sicherheit' },
+          { titel: 'Genehmigungsworkflows', beschreibung: 'Bestellungen über 1.000 € erfordern automatisch eine Genehmigung. Konfigurierbare Freigabegrenzen für jede Organisation.' },
+          { titel: 'Rahmenvertrags-Matching', beschreibung: 'Automatischer Abgleich mit bestehenden Rahmenverträgen. Skonto-Konditionen und Mindestbestellwerte immer im Blick.' },
+          { titel: 'Lückenloser Audit-Trail', beschreibung: 'Vollständige Änderungshistorie mit Vorher-/Nachher-Vergleich. Jede Übersteuerung der KI-Klassifizierung wird begründet.' },
+        ].map((item) => (
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h3 class="font-semibold text-gray-900 mb-2">{item.titel}</h3>
+            <p class="text-sm text-gray-600 mb-3">{item.beschreibung}</p>
+            {item.link && (
+              <a href={item.link} class="text-sm text-primary-600 font-medium hover:underline">Mehr erfahren →</a>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Rechtliche Grundlagen -->
+  <section class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Rechtliche Grundlagen" />
+      <div class="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100">
+        {[
+          ['GWB Teil 4', 'Gesetz gegen Wettbewerbsbeschränkungen — Oberschwellenbereich'],
+          ['VgV', 'Vergabeverordnung — Liefer- und Dienstleistungsaufträge oberhalb EU-Schwellenwert'],
+          ['UVgO', 'Unterschwellenvergabeordnung — Aufträge unterhalb EU-Schwellenwert'],
+          ['VOB/A', 'Vergabe- und Vertragsordnung für Bauleistungen'],
+          ['CPV-Verordnung', 'EU-Verordnung (EG) Nr. 213/2008 — Common Procurement Vocabulary'],
+          ['EU KI-Verordnung', 'Verordnung (EU) 2024/1689 — KI-Transparenzpflichten'],
+        ].map(([gesetz, beschreibung]) => (
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 gap-1">
+            <span class="text-sm font-medium text-gray-900">{gesetz}</span>
+            <span class="text-sm text-gray-500">{beschreibung}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Häufige Fragen zum Vergaberecht" />
+
+      <div class="space-y-4">
+        {faqItems.map((item) => (
+          <details class="group bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <summary class="flex items-center justify-between cursor-pointer p-5 sm:p-6 text-left">
+              <span class="text-sm sm:text-base font-semibold text-gray-900 pr-4">{item.frage}</span>
+              <svg class="w-5 h-5 text-gray-400 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </summary>
+            <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+              <p class="text-sm sm:text-base text-gray-600 leading-relaxed">{item.antwort}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection titel="Vergabekonform beschaffen" beschreibung="Testen Sie procurement-ai 30 Tage kostenlos und erleben Sie vergaberechtskonforme Beschaffung mit KI-Unterstützung." />
+  <FaqSchema items={faqItems} />
+</PageLayout>

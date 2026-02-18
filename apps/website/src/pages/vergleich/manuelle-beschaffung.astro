@@ -1,0 +1,124 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import CTASection from '../../components/astro/CTASection.astro';
+import SectionHeading from '../../components/astro/SectionHeading.astro';
+
+const vergleich = [
+  { kategorie: 'CPV-Klassifizierung', manuell: '5-15 Min. pro Artikel', ai: '< 3 Sekunden (KI)' },
+  { kategorie: 'Preisvergleich', manuell: 'Einzelne Marktplätze manuell', ai: 'Alle Marktplätze gleichzeitig' },
+  { kategorie: 'Rahmenvertrags-Check', manuell: 'Manueller Abgleich in Excel', ai: 'Automatisches Matching' },
+  { kategorie: 'Dokumentation', manuell: 'Word/PDF, fehleranfällig', ai: 'SHA-256, revisionssicher' },
+  { kategorie: 'Genehmigung', manuell: 'Per E-Mail/Papier', ai: 'Digitaler Workflow' },
+  { kategorie: 'ERP-Übernahme', manuell: 'Manuelle Eingabe', ai: 'OCI 5.0 / cXML direkt' },
+  { kategorie: 'Schwellenwertprüfung', manuell: 'Manuell nachschlagen', ai: 'Automatische Prüfung' },
+  { kategorie: 'Audit-Trail', manuell: 'Nicht vorhanden', ai: 'Lückenlos mit Zeitstempel' },
+];
+---
+
+<PageLayout title="procurement-ai vs. manuelle Beschaffung" description="Vergleich: KI-gestützte Beschaffung mit procurement-ai vs. manuelle Beschaffungsprozesse. Zeitersparnis, Kostenreduktion und bessere Compliance.">
+
+  <!-- Hero -->
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">procurement-ai vs. manuelle Beschaffung</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Warum KI-gestützte Beschaffung der manuellen Prozessführung überlegen ist.
+      </p>
+    </div>
+  </section>
+
+  <!-- Vergleichstabelle -->
+  <section class="section-padding">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Direkter Vergleich" untertitel="Manuelle Beschaffung vs. procurement-ai" />
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <thead>
+            <tr class="bg-gray-50 border-b border-gray-200">
+              <th class="text-left py-3 px-4 sm:px-6 text-sm font-semibold text-gray-900">Prozessschritt</th>
+              <th class="text-left py-3 px-4 sm:px-6 text-sm font-semibold text-red-600">Manuell</th>
+              <th class="text-left py-3 px-4 sm:px-6 text-sm font-semibold text-green-600">procurement-ai</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            {vergleich.map((row) => (
+              <tr class="hover:bg-gray-50">
+                <td class="py-3 px-4 sm:px-6 text-sm font-medium text-gray-900">{row.kategorie}</td>
+                <td class="py-3 px-4 sm:px-6 text-sm text-gray-600">
+                  <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    {row.manuell}
+                  </span>
+                </td>
+                <td class="py-3 px-4 sm:px-6 text-sm text-gray-600">
+                  <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    {row.ai}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zeitersparnis -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Zeitersparnis pro Beschaffungsvorgang" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {[
+          { schritt: 'Klassifizierung', manuell: '10 Min.', ai: '3 Sek.', ersparnis: '99%' },
+          { schritt: 'Preisvergleich', manuell: '20 Min.', ai: '30 Sek.', ersparnis: '97%' },
+          { schritt: 'Dokumentation', manuell: '15 Min.', ai: 'Automatisch', ersparnis: '100%' },
+        ].map((item) => (
+          <div class="bg-white rounded-xl border border-gray-200 p-6 text-center">
+            <h3 class="font-semibold text-gray-900 mb-4">{item.schritt}</h3>
+            <div class="space-y-2">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Manuell:</span>
+                <span class="text-red-600 font-medium">{item.manuell}</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">procurement-ai:</span>
+                <span class="text-green-600 font-medium">{item.ai}</span>
+              </div>
+              <div class="pt-2 border-t border-gray-100">
+                <span class="text-2xl font-extrabold text-green-600">{item.ersparnis}</span>
+                <span class="text-sm text-gray-500 ml-1">Zeitersparnis</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Risiken manueller Beschaffung -->
+  <section class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Risiken manueller Beschaffung" />
+
+      <div class="space-y-4">
+        {[
+          { risiko: 'Falsche CPV-Klassifizierung', folge: 'Vergabeverfahren wird anfechtbar, Beschaffung verzögert sich' },
+          { risiko: 'Fehlende Dokumentation', folge: 'Beanstandung bei Rechnungshofprüfungen, Haftungsrisiko' },
+          { risiko: 'Rahmenverträge nicht genutzt', folge: 'Höhere Kosten, verpasste Skonto-Konditionen' },
+          { risiko: 'Keine Schwellenwertprüfung', folge: 'Verstoß gegen EU-Vergaberecht, Schadensersatzansprüche' },
+          { risiko: 'Medienbrüche bei ERP-Übernahme', folge: 'Doppelerfassungen, Fehler, hoher Zeitaufwand' },
+        ].map((item) => (
+          <div class="bg-red-50 rounded-xl p-5 border border-red-100">
+            <h3 class="font-semibold text-red-800 mb-1">{item.risiko}</h3>
+            <p class="text-sm text-red-600">{item.folge}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection titel="Manuelle Prozesse hinter sich lassen" beschreibung="Starten Sie mit procurement-ai und erleben Sie den Unterschied. 30 Tage kostenlos testen." />
+</PageLayout>

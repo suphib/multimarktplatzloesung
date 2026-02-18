@@ -1,0 +1,254 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import CTASection from '../components/astro/CTASection.astro';
+import SectionHeading from '../components/astro/SectionHeading.astro';
+import FaqSchema from '../components/seo/FaqSchema.astro';
+
+const faqItems = [
+  { frage: 'Wo werden meine Daten gespeichert?', antwort: 'Alle Daten werden ausschließlich auf Servern in Deutschland bei unserem Hosting-Partner 24fire GmbH gespeichert. Es findet keine Datenübertragung in Drittländer statt.' },
+  { frage: 'Ist procurement-ai DSGVO-konform?', antwort: 'Ja, vollständig. Wir haben Auftragsverarbeitungsverträge (AVV) mit allen Dienstleistern geschlossen. Die KI-Verarbeitung erfolgt ausschließlich innerhalb der EU (Azure OpenAI Sweden Central).' },
+  { frage: 'Werden meine Daten für KI-Training genutzt?', antwort: 'Nein. Microsoft verwendet Kundendaten nicht zum Training seiner KI-Modelle. Es gelten die Azure OpenAI Data Processing Terms mit 0 Tagen Datenretention.' },
+  { frage: 'Wie wird die Vergabedokumentation gesichert?', antwort: 'Jedes Dokument wird mit einem SHA-256 Hash versehen. Dadurch ist die Integrität der Dokumentation jederzeit nachweisbar und Manipulationen werden sofort erkannt.' },
+] as const;
+---
+
+<PageLayout title="Sicherheit & DSGVO" description="procurement-ai: 100% DSGVO-konform, Hosting in Deutschland, Azure OpenAI EU Data Boundary, SHA-256 Audit-Trail. Maximale Sicherheit für öffentliche Beschaffung.">
+
+  <!-- Hero -->
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-100 text-xs font-semibold mb-4">
+        100 % DSGVO-konform
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">Sicherheit & Datenschutz</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Gehostet in Deutschland. KI-Verarbeitung in der EU. Keine Kompromisse bei der Datensicherheit.
+      </p>
+    </div>
+  </section>
+
+  <!-- Überblick -->
+  <section class="section-padding">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { wert: '100%', label: 'DSGVO-konform', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+          { wert: 'DE', label: 'Hosting Deutschland', icon: 'M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm0 0h9' },
+          { wert: 'EU', label: 'KI-Verarbeitung', icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9' },
+          { wert: 'SHA-256', label: 'Integritätsprüfung', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' },
+        ].map((item) => (
+          <div class="bg-white rounded-2xl border border-gray-200 p-6 text-center">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-green-50 flex items-center justify-center">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d={item.icon} />
+              </svg>
+            </div>
+            <div class="text-2xl font-extrabold text-gray-900">{item.wert}</div>
+            <div class="text-sm text-gray-500 mt-1">{item.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Hosting in Deutschland -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Hosting in Deutschland</h2>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Alle Daten von procurement-ai werden ausschließlich auf Servern in deutschen Rechenzentren
+            bei unserem Partner <strong>24fire GmbH</strong> gespeichert. Es findet keine Datenübertragung
+            in Drittländer statt.
+          </p>
+          <ul class="space-y-3">
+            {[
+              'Rechenzentren in Deutschland',
+              'Auftragsverarbeitungsvertrag (AVV) nach Art. 28 DSGVO',
+              'Regelmäßige Sicherheitsaudits',
+              'Automatisierte Backups und Disaster Recovery',
+            ].map((item) => (
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-sm text-gray-600">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
+          <h3 class="font-semibold text-gray-900 mb-4">Infrastruktur</h3>
+          <div class="space-y-4">
+            {[
+              ['Hosting', '24fire GmbH, Deutschland'],
+              ['Datenbank', 'PostgreSQL (verschlüsselt)'],
+              ['Cache', 'Redis (in-memory)'],
+              ['Verschlüsselung', 'TLS 1.3 + AES-256'],
+              ['Verfügbarkeit', '99,9 % SLA'],
+            ].map(([label, value]) => (
+              <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+                <span class="text-sm font-medium text-gray-900">{label}</span>
+                <span class="text-sm text-gray-500">{value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KI-Sicherheit -->
+  <section class="section-padding">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div class="lg:order-2">
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">KI-Verarbeitung in der EU</h2>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Die KI-gestützte CPV-Klassifizierung nutzt <strong>Azure OpenAI GPT-4o</strong> — ausschließlich
+            in der EU-Region <strong>Sweden Central</strong>. Dank Microsofts EU Data Boundary verlassen
+            Ihre Daten niemals die EU.
+          </p>
+          <ul class="space-y-3">
+            {[
+              'Microsoft verwendet Kundendaten nicht für KI-Training',
+              '0 Tage Datenretention — sofortige Löschung nach Verarbeitung',
+              'Microsoft DPA + EU-Standardvertragsklauseln (SCCs)',
+              'ISO 27001, SOC 2 zertifiziert',
+              'Regelbasiertes Fallback ohne externe Datenübertragung',
+            ].map((item) => (
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-sm text-gray-600">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="lg:order-1 bg-white rounded-2xl border border-gray-200 p-6 sm:p-8">
+          <h3 class="font-semibold text-gray-900 mb-4">Azure OpenAI Sicherheit</h3>
+          <div class="space-y-4">
+            {[
+              ['Modell', 'GPT-4o (EU-gehostet)'],
+              ['Region', 'Sweden Central'],
+              ['Datenretention', '0 Tage'],
+              ['Verschlüsselung', 'TLS 1.2+ / AES-256'],
+              ['Vertrag', 'Art. 28 DSGVO (AVV)'],
+              ['Zertifizierungen', 'ISO 27001, SOC 2'],
+            ].map(([label, value]) => (
+              <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+                <span class="text-sm font-medium text-gray-900">{label}</span>
+                <span class="text-sm text-gray-500">{value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOMs -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Technische & organisatorische Maßnahmen" untertitel="Unsere Sicherheitsarchitektur im Überblick" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="bg-white rounded-2xl border border-gray-200 p-6">
+          <h3 class="font-semibold text-gray-900 mb-4">Technische Maßnahmen</h3>
+          <ul class="space-y-3">
+            {[
+              'TLS 1.3 Transportverschlüsselung',
+              'AES-256 Verschlüsselung im Ruhezustand',
+              'Multi-Faktor-Authentifizierung',
+              'Rollenbasierte Zugriffskontrolle (RBAC)',
+              'SHA-256 Dokumenten-Integritätsprüfung',
+              'Automatisierte Backups',
+              'Mandantentrennung (Multi-Tenancy)',
+              'Regelmäßiges Patch-Management',
+            ].map((item) => (
+              <li class="flex items-start gap-2">
+                <svg class="w-4 h-4 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-sm text-gray-600">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-200 p-6">
+          <h3 class="font-semibold text-gray-900 mb-4">Organisatorische Maßnahmen</h3>
+          <ul class="space-y-3">
+            {[
+              'Need-to-know-Prinzip für Datenzugriff',
+              'Vertraulichkeitsvereinbarungen',
+              'Regelmäßige Datenschutz-Schulungen',
+              'Dokumentiertes Datenpannen-Verfahren',
+              'Regelmäßige Auftragsverarbeiter-Prüfung',
+              'Datenminimierung und Zweckbindung',
+              'EU KI-Verordnung Compliance',
+              'Transparenzpflichten (Art. 50 EU KI-VO)',
+            ].map((item) => (
+              <li class="flex items-start gap-2">
+                <svg class="w-4 h-4 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span class="text-sm text-gray-600">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Audit-Trail -->
+  <section class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Revisionssicherer Audit-Trail</h2>
+      <p class="text-gray-600 leading-relaxed mb-8">
+        Jeder Beschaffungsvorgang wird automatisch protokolliert. SHA-256 Hashes garantieren die
+        Integrität der Vergabedokumentation. Manipulationen werden sofort erkannt.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {[
+          { label: 'Klassifizierungen', beschreibung: 'Jede KI-Zuordnung und Übersteuerung protokolliert' },
+          { label: 'Bestellvorgänge', beschreibung: 'Lückenlose Dokumentation aller Beschaffungen' },
+          { label: 'Genehmigungen', beschreibung: 'Workflow-Status mit Zeitstempel und Benutzer' },
+        ].map((item) => (
+          <div class="bg-gray-50 rounded-xl p-5">
+            <h3 class="font-semibold text-gray-900 mb-1">{item.label}</h3>
+            <p class="text-sm text-gray-500">{item.beschreibung}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Häufige Fragen zu Sicherheit & Datenschutz" />
+
+      <div class="space-y-4">
+        {faqItems.map((item) => (
+          <details class="group bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <summary class="flex items-center justify-between cursor-pointer p-5 sm:p-6 text-left">
+              <span class="text-sm sm:text-base font-semibold text-gray-900 pr-4">{item.frage}</span>
+              <svg class="w-5 h-5 text-gray-400 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </summary>
+            <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+              <p class="text-sm sm:text-base text-gray-600 leading-relaxed">{item.antwort}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection titel="Überzeugen Sie sich selbst" beschreibung="Testen Sie procurement-ai 30 Tage kostenlos. DSGVO-konform, gehostet in Deutschland." />
+  <FaqSchema items={faqItems} />
+</PageLayout>

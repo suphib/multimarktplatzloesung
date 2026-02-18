@@ -3,7 +3,7 @@ import PageLayout from '../layouts/PageLayout.astro';
 import { FIRMA } from '../lib/constants';
 ---
 
-<PageLayout title="Impressum" description="Impressum – procurement-ai ist ein Produkt der WP Workers GmbH. Angaben gemäß § 5 TMG.">
+<PageLayout title="Impressum" description="Impressum – procurement-ai ist ein Produkt der WP Workers GmbH. Angaben gemäß § 5 TMG." noIndex={true}>
   <section class="section-padding">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-8">Impressum</h1>
@@ -32,6 +32,7 @@ import { FIRMA } from '../lib/constants';
         <div>
           <h2 class="text-xl font-bold text-gray-900 mb-3">Kontakt</h2>
           <p class="text-gray-600">
+            Telefon: {FIRMA.telefon}<br />
             E-Mail: <a href={`mailto:${FIRMA.email}`} class="text-primary-600 hover:underline">{FIRMA.email}</a><br />
             Info: <a href={`mailto:${FIRMA.emailInfo}`} class="text-primary-600 hover:underline">{FIRMA.emailInfo}</a><br />
             Support: <a href={`mailto:${FIRMA.emailSupport}`} class="text-primary-600 hover:underline">{FIRMA.emailSupport}</a>
@@ -85,7 +86,7 @@ import { FIRMA } from '../lib/constants';
         <div>
           <h2 class="text-xl font-bold text-gray-900 mb-3">Haftung für Inhalte</h2>
           <p class="text-gray-600">
-            Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den
+            Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den
             allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht
             verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen
             zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
@@ -127,6 +128,16 @@ import { FIRMA } from '../lib/constants';
             beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine
             Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden
             von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">Aufsichtsbehörde</h2>
+          <p class="text-gray-600">
+            Bayerisches Landesamt für Datenschutzaufsicht (BayLDA)<br />
+            Promenade 18<br />
+            91522 Ansbach<br />
+            Website: <a href="https://www.lda.bayern.de" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:underline">www.lda.bayern.de</a>
           </p>
         </div>
       </div>

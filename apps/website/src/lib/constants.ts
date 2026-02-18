@@ -9,13 +9,18 @@ export const FIRMA = {
   emailInfo: 'info@procurement-ai.de',
   emailSupport: 'support@procurement-ai.de',
   emailNoreply: 'noreply@procurement-ai.de',
-  telefon: '+49 (0) 30 123456-0',
+  telefon: '+49 (0) 1575 5575928',
   geschaeftsfuehrer: 'Suphi Basdemir',
-  handelsregister: 'HRB (auf Anfrage)',
+  handelsregister: 'HRB 269498',
   registergericht: 'Amtsgericht München',
-  ustIdNr: 'DE (auf Anfrage)',
+  ustIdNr: 'DE349280799',
   website: 'https://procurement-ai.de',
   betreiberWebsite: 'https://wp-workers.de',
+} as const;
+
+export const MATOMO = {
+  url: 'https://analytics.procurement-ai.de',
+  siteId: '1',
 } as const;
 
 export const NAV_ITEMS = [

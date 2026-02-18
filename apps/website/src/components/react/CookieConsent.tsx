@@ -13,11 +13,13 @@ export function CookieConsent() {
 
   const accept = () => {
     localStorage.setItem('cookie-consent', 'accepted');
+    window.dispatchEvent(new CustomEvent('cookie-consent-changed', { detail: { consent: 'accepted' } }));
     setVisible(false);
   };
 
   const decline = () => {
     localStorage.setItem('cookie-consent', 'declined');
+    window.dispatchEvent(new CustomEvent('cookie-consent-changed', { detail: { consent: 'declined' } }));
     setVisible(false);
   };
 

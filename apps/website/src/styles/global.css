@@ -31,4 +31,117 @@
   .gradient-hero {
     background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
   }
+
+  /* ── Blog Prose Overrides ── */
+
+  .prose-blog h2 {
+    @apply text-2xl font-bold text-gray-900 mt-14 mb-5 pb-3 border-b-2 border-primary-100;
+    scroll-margin-top: 5rem;
+  }
+
+  .prose-blog h3 {
+    @apply text-xl font-bold text-gray-900 mt-10 mb-4;
+  }
+
+  .prose-blog p {
+    @apply text-gray-600 leading-relaxed mb-5;
+  }
+
+  .prose-blog > hr {
+    @apply my-12 border-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent;
+  }
+
+  /* Tables */
+  .prose-blog table {
+    @apply w-full my-8 text-sm border border-gray-200 rounded-xl overflow-hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .prose-blog thead {
+    @apply bg-gray-50;
+  }
+
+  .prose-blog thead th {
+    @apply px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-200;
+  }
+
+  .prose-blog tbody tr {
+    @apply border-b border-gray-100 transition-colors;
+  }
+
+  .prose-blog tbody tr:last-child {
+    @apply border-b-0;
+  }
+
+  .prose-blog tbody tr:hover {
+    @apply bg-primary-50/30;
+  }
+
+  .prose-blog tbody td {
+    @apply px-4 py-3 text-gray-700;
+  }
+
+  .prose-blog tbody td:first-child {
+    @apply font-medium text-gray-900;
+  }
+
+  /* Blockquotes */
+  .prose-blog blockquote {
+    @apply my-8 px-5 py-4 bg-primary-50/60 border-l-4 border-primary-500 rounded-r-xl text-gray-700 not-italic;
+  }
+
+  .prose-blog blockquote p {
+    @apply mb-0 text-gray-700;
+  }
+
+  .prose-blog blockquote strong {
+    @apply text-primary-800;
+  }
+
+  /* Lists */
+  .prose-blog ul {
+    @apply my-5 space-y-2;
+  }
+
+  .prose-blog ol {
+    @apply my-5 space-y-2;
+  }
+
+  .prose-blog li {
+    @apply text-gray-600 leading-relaxed;
+  }
+
+  .prose-blog li strong {
+    @apply text-gray-900;
+  }
+
+  /* Code */
+  .prose-blog code:not(pre code) {
+    @apply text-primary-700 bg-primary-50 px-1.5 py-0.5 rounded text-sm font-normal;
+  }
+
+  .prose-blog code::before,
+  .prose-blog code::after {
+    content: none;
+  }
+
+  .prose-blog pre {
+    @apply my-8 bg-gray-900 text-gray-100 rounded-xl p-5 text-sm overflow-x-auto;
+  }
+
+  /* Links */
+  .prose-blog a {
+    @apply text-primary-600 font-medium no-underline hover:underline transition-colors;
+  }
+
+  /* Images */
+  .prose-blog img {
+    @apply my-8 rounded-xl shadow-lg border border-gray-200;
+  }
+
+  /* Strong */
+  .prose-blog strong {
+    @apply font-semibold text-gray-900;
+  }
 }

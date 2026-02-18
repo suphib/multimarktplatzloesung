@@ -1,5 +1,6 @@
 ---
 import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
+import MatomoTracking from '../components/astro/MatomoTracking.astro';
 
 interface Props {
   title: string;
@@ -23,7 +24,7 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const fullTitle = title === 'Startseite'
-  ? 'procurement-ai | Intelligente Beschaffung für den öffentlichen Sektor & regulierte Industrien'
+  ? 'Intelligente Beschaffung für den öffentlichen Sektor & regulierte Industrien | procurement-ai'
   : `${title} | procurement-ai`;
 ---
 
@@ -83,5 +84,6 @@ const fullTitle = title === 'Startseite'
   </head>
   <body class="min-h-screen flex flex-col bg-white text-gray-900 antialiased">
     <slot />
+    <MatomoTracking />
   </body>
 </html>

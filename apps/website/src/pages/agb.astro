@@ -1,0 +1,378 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { FIRMA } from '../lib/constants';
+---
+
+<PageLayout title="Allgemeine Geschäftsbedingungen" description="AGB für procurement-ai – SaaS-Lösung für intelligente Beschaffung. Ein Produkt der WP Workers GmbH." noIndex={true}>
+  <section class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-8">Allgemeine Geschäftsbedingungen (AGB)</h1>
+
+      <div class="prose prose-gray max-w-none space-y-8">
+
+        <!-- Teil A -->
+        <div>
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">Teil A — Allgemeine Bestimmungen</h2>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 1 Geltungsbereich</h2>
+          <p class="text-gray-600">
+            Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für die Nutzung der Plattform
+            procurement-ai.de sowie der SaaS-Beschaffungsplattform „procurement-ai", betrieben von:
+          </p>
+          <p class="text-gray-600 mt-2 font-medium">
+            {FIRMA.betreiber}<br />
+            {FIRMA.strasse}<br />
+            {FIRMA.plz} {FIRMA.ort}<br />
+            E-Mail: <a href={`mailto:${FIRMA.email}`} class="text-primary-600 hover:underline">{FIRMA.email}</a>
+          </p>
+          <p class="text-gray-600 mt-2">
+            Teil A regelt die allgemeine Nutzung der Website. Teil B regelt die kostenpflichtigen
+            Serviceverträge der SaaS-Plattform.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 2 Leistungsbeschreibung (Website)</h2>
+          <p class="text-gray-600">
+            Die kostenfreien Leistungen der Website umfassen:
+          </p>
+          <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+            <li>Informationen zu Beschaffungslösungen für den öffentlichen Sektor und regulierte Industrien</li>
+            <li>Übersicht über Features, Integrationen und Preismodelle</li>
+            <li>Wissensbeiträge und Blogartikel zu Beschaffungsthemen</li>
+            <li>Kontaktformular für Anfragen und Beratung</li>
+          </ul>
+          <p class="text-gray-600 mt-2">
+            Informationen dienen der Orientierung und ersetzen keine individuelle Fachberatung.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 3 Kostenfreiheit der Website</h2>
+          <p class="text-gray-600">
+            Alle unter § 2 genannten Leistungen sind vollständig kostenlos. Es fallen weder Gebühren
+            noch Abonnements an. Ausgenommen hiervon ist die kostenpflichtige SaaS-Plattform „procurement-ai"
+            (Teil B).
+          </p>
+        </div>
+
+        <!-- Teil B -->
+        <div>
+          <h2 class="text-2xl font-bold text-gray-900 mb-4 mt-12">Teil B — SaaS-Plattform „procurement-ai"</h2>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 4 Vertragsgegenstand</h2>
+          <p class="text-gray-600">
+            Gegenstand des Vertrages ist die Bereitstellung der cloudbasierten Beschaffungsplattform
+            „procurement-ai" als Software-as-a-Service (SaaS). Der Service umfasst je nach gewähltem
+            Tarif:
+          </p>
+          <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+            <li>KI-gestützte Artikelklassifizierung nach CPV-Codes</li>
+            <li>Multi-Marktplatz-Suche über angebundene Marktplätze</li>
+            <li>Rahmenvertrags-Management und automatischer Abgleich</li>
+            <li>Revisionssichere Vergabedokumentation</li>
+            <li>OCI 5.0 & cXML Integration in ERP-Systeme</li>
+            <li>Genehmigungsworkflows und Bestellmanagement</li>
+            <li>Webbasiertes Admin-Dashboard</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 5 Tarife und Leistungsumfang</h2>
+
+          <h3 class="text-lg font-semibold text-gray-900 mb-2 mt-4">Starter (499 €/Monat)</h3>
+          <p class="text-gray-600">
+            Bis 10 Nutzer. Leistungen: KI-Bedarfserfassung, Multi-Marktplatz-Suche,
+            Rahmenvertrag-Matching, Vergabedokumentation, 1 Marktplatz-Anbindung, E-Mail-Support.
+          </p>
+
+          <h3 class="text-lg font-semibold text-gray-900 mb-2 mt-4">Professional (1.299 €/Monat)</h3>
+          <p class="text-gray-600">
+            Bis 50 Nutzer. Alle Leistungen aus Starter, zusätzlich: OCI 5.0 & cXML Integration,
+            Genehmigungsworkflows, alle Marktplätze, Admin-Dashboard, Prioritäts-Support.
+          </p>
+
+          <h3 class="text-lg font-semibold text-gray-900 mb-2 mt-4">Enterprise (auf Anfrage)</h3>
+          <p class="text-gray-600">
+            Unbegrenzte Nutzer. Alle Leistungen aus Professional, zusätzlich: dedizierter Server,
+            On-Premise Option, Custom Integrationen, 24/7 SLA, Schulung & Onboarding.
+            Preis und Konditionen auf Anfrage.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 6 Vertragsschluss und Registrierung</h2>
+          <p class="text-gray-600">
+            Der Vertrag kommt durch Online-Registrierung und Bestätigung durch procurement-ai zustande.
+            Der Service richtet sich ausschließlich an Unternehmer im Sinne des § 14 BGB, nicht an Verbraucher.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Kein Widerrufsrecht:</strong> Da sich der Service ausschließlich an Unternehmer (§ 14 BGB)
+            richtet, besteht kein Widerrufsrecht nach §§ 355 ff. BGB. Stattdessen steht dem Kunden die
+            kostenlose Testphase (§ 7) zur Verfügung.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 7 Kostenlose Testphase</h2>
+          <p class="text-gray-600">
+            Neukunden erhalten eine kostenlose 30-tägige Testphase mit vollem Funktionsumfang des gewählten
+            Tarifs. Es sind keine Zahlungsinformationen erforderlich. Nach Ablauf der Testphase erfolgt
+            eine automatische Deaktivierung — keine automatische Umwandlung in ein kostenpflichtiges Abonnement.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 8 Preise und Zahlungsbedingungen</h2>
+          <p class="text-gray-600">
+            <strong>Preise:</strong> Alle Preise verstehen sich als Nettopreise zzgl. der gesetzlichen Mehrwertsteuer.
+            Die aktuellen Preise ergeben sich aus der Preisübersicht auf der Website.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Abrechnungszeitraum:</strong> Die Abrechnung erfolgt monatlich oder jährlich im Voraus,
+            je nach gewähltem Abrechnungszyklus.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Zahlungsmethoden:</strong> SEPA-Lastschrift, Kreditkarte oder Überweisung.
+            Rechnungen sind innerhalb von 14 Tagen nach Zugang fällig.
+            Bei Zahlungsverzug ist procurement-ai berechtigt, den Zugang zur Plattform zu sperren.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Preisänderungen:</strong> procurement-ai ist berechtigt, die Preise mit einer Ankündigungsfrist
+            von mindestens 30 Tagen zum nächsten Abrechnungszeitraum anzupassen. Der Kunde hat in diesem
+            Fall ein Sonderkündigungsrecht.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 9 Vertragslaufzeit und Kündigung</h2>
+          <p class="text-gray-600">
+            <strong>Monatliche Abrechnung:</strong> Mindestlaufzeit ein Monat. Automatische Verlängerung
+            um jeweils einen weiteren Monat. Kündigung mit 14 Tagen Frist zum Monatsende.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Jährliche Abrechnung:</strong> Mindestlaufzeit 12 Monate. Automatische Verlängerung
+            um jeweils 12 Monate. Kündigung mit 30 Tagen Frist zum Laufzeitende.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Kündigungsform:</strong> Schriftlich, per E-Mail oder über das Admin-Dashboard.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Außerordentliche Kündigung:</strong> Eine außerordentliche Kündigung aus wichtigem Grund
+            ist für beide Parteien möglich, insbesondere bei: wesentlicher Vertragsverletzung, Insolvenz,
+            Zahlungsverzug von mehr als 30 Tagen, Missbrauch der Plattform.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Folgen der Kündigung:</strong> Der Zugang zur Plattform wird deaktiviert. Daten können
+            innerhalb von 30 Tagen nach Vertragsende exportiert werden (siehe § 18 Datenportabilität),
+            danach erfolgt die Löschung.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 10 KI-gestützte Klassifizierung — Besondere Bedingungen</h2>
+          <p class="text-gray-600">
+            <strong>KI-generierte Inhalte:</strong> Die KI-gestützte CPV-Klassifizierung wird automatisch
+            generiert und kann Fehler enthalten. Es besteht keine Garantie für die Vollständigkeit oder
+            Richtigkeit der KI-generierten Zuordnungen. Die KI-Klassifizierung ersetzt keine fachliche
+            Prüfung durch den Beschaffer.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Übersteuerung und Audit-Trail:</strong> Jede KI-Klassifizierung kann von autorisierten
+            Nutzern manuell übersteuert werden. Änderungen erfordern eine Begründung und werden in einer
+            lückenlosen Änderungshistorie protokolliert.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Kundenpflichten:</strong> Der Kunde ist verantwortlich für die Richtigkeit der
+            eingegebenen Artikeldaten, die Überprüfung der KI-Klassifizierungsergebnisse, die Einhaltung
+            der vergaberechtlichen Vorschriften und die ordnungsgemäße Nutzung der Plattform.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Missbrauch:</strong> Der Service darf nicht für rechtswidrige Zwecke, Manipulation
+            von Vergabeverfahren, Umgehung von Schwellenwerten oder sonstige missbräuchliche Zwecke
+            genutzt werden. Der Zugang kann bei Missbrauch unverzüglich gesperrt werden.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 11 Verfügbarkeit und Service Level</h2>
+          <p class="text-gray-600">
+            <strong>Verfügbarkeit:</strong> procurement-ai strebt eine Verfügbarkeit von 99,9 % monatlich an.
+            Ausgenommen sind: geplante Wartungsarbeiten (48 Stunden Vorankündigung), Störungen durch
+            höhere Gewalt, Fehler auf Kundenseite.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Support:</strong>
+          </p>
+          <ul class="list-disc list-inside text-gray-600 mt-1 space-y-1">
+            <li><strong>Starter:</strong> E-Mail-Support (Antwort innerhalb von 2 Werktagen)</li>
+            <li><strong>Professional:</strong> Prioritäts-Support (Antwort innerhalb von 1 Werktag)</li>
+            <li><strong>Enterprise:</strong> Dedizierter Ansprechpartner, individuelles SLA</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 12 Datenschutz und Auftragsverarbeitung</h2>
+          <p class="text-gray-600">
+            Die ausführliche Datenschutzerklärung ist unter
+            <a href="/datenschutz" class="text-primary-600 hover:underline">/datenschutz</a> abrufbar.
+          </p>
+          <p class="text-gray-600 mt-2">
+            procurement-ai fungiert als Auftragsverarbeiter gemäß Art. 28 DSGVO. Ein Vertrag über
+            Auftragsverarbeitung (AVV) wird auf Anfrage bereitgestellt.
+          </p>
+          <p class="text-gray-600 mt-2">
+            Alle Daten werden auf Servern in Deutschland (EU) gehostet. Die Datenübertragung erfolgt
+            verschlüsselt (TLS 1.2+). Eine Übermittlung an Drittstaaten außerhalb der EU erfolgt nicht
+            ohne vorherige Zustimmung des Kunden.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 13 Nutzungsrechte und Lizenzbedingungen</h2>
+          <p class="text-gray-600">
+            Der Kunde erhält ein einfaches, nicht übertragbares Nutzungsrecht an der Plattform für eigene
+            geschäftliche Zwecke während der Vertragslaufzeit.
+          </p>
+          <p class="text-gray-600 mt-2">
+            Dem Kunden ist insbesondere untersagt:
+          </p>
+          <ul class="list-disc list-inside text-gray-600 mt-1 space-y-1">
+            <li>Weiterverkauf oder Unterlizenzierung des Service</li>
+            <li>Dekompilierung oder Reverse Engineering der Software</li>
+            <li>Automatisierte Massenanfragen oder Scraping</li>
+            <li>Umgehung von Sicherheitsmechanismen</li>
+          </ul>
+          <p class="text-gray-600 mt-2">
+            Alle Rechte am geistigen Eigentum verbleiben bei der {FIRMA.betreiber}.
+          </p>
+        </div>
+
+        <!-- Teil C -->
+        <div>
+          <h2 class="text-2xl font-bold text-gray-900 mb-4 mt-12">Teil C — Gemeinsame Bestimmungen</h2>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 14 Haftung</h2>
+          <p class="text-gray-600">
+            <strong>Unbeschränkte Haftung:</strong> procurement-ai haftet unbeschränkt für Schäden aus der
+            Verletzung des Lebens, des Körpers oder der Gesundheit, bei Vorsatz und grober Fahrlässigkeit
+            sowie nach dem Produkthaftungsgesetz.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Beschränkte Haftung:</strong> Bei leichter Fahrlässigkeit haftet procurement-ai nur bei
+            Verletzung wesentlicher Vertragspflichten (Kardinalpflichten). In diesem Fall ist die Haftung
+            auf den vertragstypischen, vorhersehbaren Schaden begrenzt, maximal jedoch auf die vom Kunden
+            in den letzten 12 Monaten gezahlten Entgelte.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>KI-Klassifizierung:</strong> Für fehlerhafte KI-generierte CPV-Zuordnungen und daraus
+            resultierende Schäden wird keine Haftung übernommen. Der Kunde ist verpflichtet,
+            KI-Ergebnisse vor vergaberechtlich relevanten Entscheidungen zu prüfen.
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Externe Links:</strong> Für die Inhalte externer verlinkter Seiten ist stets der jeweilige
+            Anbieter verantwortlich. Links werden bei Bekanntwerden von Rechtsverletzungen umgehend entfernt.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 15 Höhere Gewalt</h2>
+          <p class="text-gray-600">
+            Keine Partei haftet für Verzögerungen oder Nichterfüllung aufgrund von Umständen höherer Gewalt,
+            einschließlich Naturkatastrophen, Pandemien, Krieg, Cyberangriffe, Stromausfälle, behördliche
+            Anordnungen oder Streiks.
+          </p>
+          <p class="text-gray-600 mt-2">
+            Die betroffene Partei hat die andere Partei unverzüglich zu benachrichtigen. Dauert die höhere
+            Gewalt länger als 30 Tage an, steht beiden Parteien ein außerordentliches Kündigungsrecht zu.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 16 Urheberrecht und geistiges Eigentum</h2>
+          <p class="text-gray-600">
+            Alle Inhalte der Website und der Plattform unterliegen dem deutschen Urheberrecht. Die Vervielfältigung,
+            Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts
+            bedürfen der vorherigen schriftlichen Zustimmung der {FIRMA.betreiber}.
+          </p>
+          <p class="text-gray-600 mt-2">
+            Die vom Kunden in die Plattform eingegebenen Daten verbleiben im Eigentum des Kunden.
+            procurement-ai erhält lediglich das zur Vertragserfüllung erforderliche Nutzungsrecht
+            an diesen Daten.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 17 Vergabedokumentation und Datenintegrität</h2>
+          <p class="text-gray-600">
+            Die revisionssichere Vergabedokumentation wird mit SHA-256 Integritätsprüfung erstellt.
+            Jeder Beschaffungsvorgang wird automatisch protokolliert und kann nicht nachträglich
+            verändert werden.
+          </p>
+          <p class="text-gray-600 mt-2">
+            Der Kunde ist für die Einhaltung der vergaberechtlichen Dokumentationspflichten
+            verantwortlich. procurement-ai stellt die technische Infrastruktur bereit, übernimmt
+            jedoch keine Gewähr für die vergaberechtliche Konformität der Dokumentation.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 18 Datenportabilität und Anbieterwechsel</h2>
+          <p class="text-gray-600">
+            Gemäß EU Data Act hat der Kunde das Recht, seine Daten in einem gängigen, maschinenlesbaren
+            Format zu exportieren. procurement-ai stellt hierfür eine Exportfunktion im Admin-Dashboard
+            bereit (JSON, CSV).
+          </p>
+          <p class="text-gray-600 mt-2">
+            Nach Vertragsende besteht eine 30-tägige Frist für den Datenexport. Es erfolgt kein
+            künstliches Lock-in über die vereinbarte Kündigungsfrist hinaus.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 19 Änderungen der AGB</h2>
+          <p class="text-gray-600">
+            Änderungen dieser AGB werden mit einer Ankündigungsfrist von mindestens 30 Tagen per E-Mail
+            mitgeteilt. Widerspricht der Kunde nicht innerhalb der Frist, gelten die neuen AGB als akzeptiert.
+          </p>
+          <p class="text-gray-600 mt-2">
+            Bei Widerspruch steht dem Kunden ein Sonderkündigungsrecht zu. Wesentliche Änderungen
+            bedürfen der ausdrücklichen Zustimmung des Kunden; anderenfalls besteht ebenfalls ein
+            Sonderkündigungsrecht.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-3">§ 20 Schlussbestimmungen</h2>
+          <p class="text-gray-600">
+            Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts (CISG).
+          </p>
+          <p class="text-gray-600 mt-2">
+            Sollten einzelne Bestimmungen dieser AGB unwirksam oder undurchführbar sein, so wird dadurch
+            die Wirksamkeit der übrigen Bestimmungen nicht berührt (Salvatorische Klausel).
+          </p>
+          <p class="text-gray-600 mt-2">
+            Gerichtsstand für alle Streitigkeiten aus oder im Zusammenhang mit diesen AGB ist
+            Fürstenfeldbruck, sofern der Kunde Kaufmann, juristische Person des öffentlichen Rechts
+            oder öffentlich-rechtliches Sondervermögen ist.
+          </p>
+          <p class="text-gray-600 mt-2">
+            Nebenabreden und Änderungen bedürfen der Textform.
+          </p>
+        </div>
+
+        <div class="pt-6 border-t border-gray-200">
+          <p class="text-sm text-gray-500">
+            Stand: Februar 2026
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

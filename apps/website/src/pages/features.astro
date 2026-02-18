@@ -3,10 +3,25 @@ import PageLayout from '../layouts/PageLayout.astro';
 import SectionHeading from '../components/astro/SectionHeading.astro';
 import CTASection from '../components/astro/CTASection.astro';
 import Screenshot from '../components/astro/Screenshot.astro';
-import { FEATURES } from '../lib/constants';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { FEATURES, FIRMA } from '../lib/constants';
 
 const featureGallery = FEATURES.map((f) => f.screenshot);
 const featureGalleryAlts = FEATURES.map((f) => f.titel);
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'procurement-ai Features',
+  description: 'Alle Features der KI-gestützten Beschaffungsplattform procurement-ai',
+  numberOfItems: FEATURES.length,
+  itemListElement: FEATURES.map((f, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: f.titel,
+    description: f.beschreibung,
+  })),
+};
 ---
 
 <PageLayout title="Features" description="Alle Features von procurement-ai im Überblick: KI-Klassifizierung, Multi-Marktplatz-Suche, OCI 5.0, Rahmenvertrags-Management und mehr.">
@@ -62,4 +77,5 @@ const featureGalleryAlts = FEATURES.map((f) => f.titel);
   </section>
 
   <CTASection />
+  <JsonLd schema={itemListSchema} />
 </PageLayout>

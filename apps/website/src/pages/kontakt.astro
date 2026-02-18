@@ -1,7 +1,30 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import DemoRequestForm from '../components/react/DemoRequestForm';
+import JsonLd from '../components/seo/JsonLd.astro';
 import { FIRMA } from '../lib/constants';
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: FIRMA.name,
+  url: FIRMA.website,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: FIRMA.telefon,
+    email: FIRMA.email,
+    contactType: 'sales',
+    availableLanguage: 'German',
+    areaServed: 'DE',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: FIRMA.strasse,
+    addressLocality: FIRMA.ort,
+    postalCode: FIRMA.plz,
+    addressCountry: 'DE',
+  },
+};
 ---
 
 <PageLayout title="Kontakt" description="Kontaktieren Sie uns für eine kostenlose Demo von procurement-ai. Wir beraten Sie gerne persönlich.">
@@ -55,4 +78,5 @@ import { FIRMA } from '../lib/constants';
       </div>
     </div>
   </section>
+  <JsonLd schema={contactSchema} />
 </PageLayout>

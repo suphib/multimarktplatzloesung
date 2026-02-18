@@ -1,0 +1,57 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import CTASection from '../components/astro/CTASection.astro';
+import SectionHeading from '../components/astro/SectionHeading.astro';
+import FaqSchema from '../components/seo/FaqSchema.astro';
+import { FAQ_ITEMS } from '../lib/constants';
+
+const alleFaqItems = [
+  ...FAQ_ITEMS,
+  { frage: 'Für wen ist procurement-ai geeignet?', antwort: 'procurement-ai richtet sich an öffentliche Auftraggeber (Behörden, Kommunen, Landesverwaltungen), Kliniken und Krankenhäuser sowie regulierte Industrien, die vergaberechtskonforme Beschaffungsprozesse benötigen.' },
+  { frage: 'Wie sicher sind meine Daten?', antwort: 'Alle Daten werden auf deutschen Servern bei 24fire GmbH gehostet. Die KI-Verarbeitung erfolgt über Azure OpenAI in der EU (Sweden Central). Wir sind 100% DSGVO-konform, haben AVVs mit allen Auftragsverarbeitern und verwenden TLS 1.3 sowie AES-256 Verschlüsselung.' },
+  { frage: 'Werden meine Daten für KI-Training verwendet?', antwort: 'Nein. Microsoft verwendet Kundendaten nicht zum Training seiner KI-Modelle. Es gelten die Azure OpenAI Data Processing Terms mit 0 Tagen Datenretention — Ihre Daten werden sofort nach der Verarbeitung gelöscht.' },
+  { frage: 'Kann ich procurement-ai in mein ERP-System integrieren?', antwort: 'Ja. procurement-ai unterstützt OCI 5.0, cXML und REST APIs. Die Integration in SAP S/4HANA, SAP Ariba, Microsoft Dynamics, Oracle und weitere ERP-Systeme ist standardmäßig möglich.' },
+  { frage: 'Was passiert, wenn die KI einen Fehler macht?', antwort: 'Jede KI-Klassifizierung kann von autorisierten Nutzern manuell übersteuert werden. Änderungen erfordern eine Begründung und werden in einer lückenlosen Änderungshistorie protokolliert. Zusätzlich gibt es ein regelbasiertes Fallback-System.' },
+  { frage: 'Welche Marktplätze sind angebunden?', antwort: 'Aktuell sind Amazon Business, Mercateo und Conrad angebunden. Weitere Marktplätze werden kontinuierlich ergänzt. Im Enterprise-Tarif sind auch kundenspezifische Anbindungen möglich.' },
+  { frage: 'Wie funktioniert der Genehmigungsworkflow?', antwort: 'Bestellungen über konfigurierbaren Schwellenwerten (Standard: 1.000 €) erfordern automatisch eine Genehmigung. Genehmiger werden per E-Mail benachrichtigt und können Bestellungen im Admin-Dashboard freigeben oder ablehnen.' },
+  { frage: 'Kann ich meine Daten exportieren?', antwort: 'Ja. Gemäß EU Data Act bieten wir vollständige Datenportabilität. Sie können alle Ihre Daten in den Formaten JSON und CSV über das Admin-Dashboard exportieren. Nach Vertragsende haben Sie 30 Tage Zeit für den Export.' },
+  { frage: 'Gibt es eine On-Premise-Option?', antwort: 'Ja, im Enterprise-Tarif bieten wir eine On-Premise-Option an. Die Software wird auf Ihren eigenen Servern betrieben, sodass keine Daten Ihre Infrastruktur verlassen.' },
+] as const;
+---
+
+<PageLayout title="Häufig gestellte Fragen (FAQ)" description="Antworten auf häufige Fragen zu procurement-ai: Funktionen, Preise, Sicherheit, DSGVO, Integration und mehr.">
+
+  <!-- Hero -->
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">Häufig gestellte Fragen</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Antworten auf die wichtigsten Fragen zu procurement-ai, Sicherheit, Integration und Vergaberecht.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="space-y-4">
+        {alleFaqItems.map((item) => (
+          <details class="group bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <summary class="flex items-center justify-between cursor-pointer p-5 sm:p-6 text-left">
+              <span class="text-sm sm:text-base font-semibold text-gray-900 pr-4">{item.frage}</span>
+              <svg class="w-5 h-5 text-gray-400 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </summary>
+            <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+              <p class="text-sm sm:text-base text-gray-600 leading-relaxed">{item.antwort}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection titel="Noch Fragen?" beschreibung="Unser Team berät Sie gerne persönlich. Fordern Sie eine kostenlose Demo an." />
+  <FaqSchema items={alleFaqItems} />
+</PageLayout>

@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://procurement-ai.de/sitemap-index.xml
+
+# Bing Webmaster Tools
+# Gleiche Sitemap wird von Bing automatisch erkannt

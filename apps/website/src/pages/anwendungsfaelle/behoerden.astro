@@ -1,0 +1,107 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import CTASection from '../../components/astro/CTASection.astro';
+import SectionHeading from '../../components/astro/SectionHeading.astro';
+---
+
+<PageLayout title="eProcurement für Behörden" description="procurement-ai für den öffentlichen Sektor: KI-gestützte Beschaffung, vergaberechtskonform, DSGVO-konform, gehostet in Deutschland. Speziell für Behörden und Kommunen.">
+
+  <!-- Hero -->
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-100 text-xs font-semibold mb-4">
+        Öffentlicher Sektor
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">eProcurement für Behörden & Kommunen</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Vergaberechtskonforme Beschaffung mit KI-Unterstützung — speziell entwickelt für den öffentlichen Sektor.
+      </p>
+    </div>
+  </section>
+
+  <!-- Herausforderungen -->
+  <section class="section-padding">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Herausforderungen im öffentlichen Einkauf" untertitel="Bekannte Probleme, die procurement-ai löst" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[
+          { problem: 'Zeitaufwändige CPV-Klassifizierung', loesung: 'KI klassifiziert in unter 3 Sekunden', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+          { problem: 'Fehlerhafte Dokumentation', loesung: 'Revisionssicherer Audit-Trail mit SHA-256', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+          { problem: 'Manuelle Preisvergleiche', loesung: 'Multi-Marktplatz-Suche auf einen Klick', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
+          { problem: 'Fehlende Rahmenvertrags-Nutzung', loesung: 'Automatisches Rahmenvertrags-Matching', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
+          { problem: 'Medienbrüche bei ERP-Anbindung', loesung: 'OCI 5.0 & cXML nahtlose Integration', icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1' },
+          { problem: 'Unkontrollierte Freigaben', loesung: 'Konfigurierbare Genehmigungsworkflows', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+        ].map((item) => (
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d={item.icon} />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-1">{item.problem}</h3>
+            <p class="text-sm text-green-600 font-medium flex items-center gap-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              {item.loesung}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Für wen -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Für wen ist procurement-ai?" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { titel: 'Bundesbehörden', beschreibung: 'Ministerien, Bundesämter und nachgeordnete Behörden' },
+          { titel: 'Landesverwaltungen', beschreibung: 'Landesbehörden, Bezirksregierungen und Landesämter' },
+          { titel: 'Kommunen & Städte', beschreibung: 'Stadtverwaltungen, Gemeinden und kommunale Betriebe' },
+          { titel: 'Öffentliche Einrichtungen', beschreibung: 'Universitäten, Forschungseinrichtungen, Stiftungen' },
+        ].map((zielgruppe) => (
+          <div class="bg-white rounded-xl border border-gray-200 p-6 text-center">
+            <h3 class="font-semibold text-gray-900 mb-2">{zielgruppe.titel}</h3>
+            <p class="text-sm text-gray-500">{zielgruppe.beschreibung}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Compliance Vorteile -->
+  <section class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Compliance im öffentlichen Sektor</h2>
+      <p class="text-gray-600 leading-relaxed mb-8">
+        procurement-ai wurde speziell für die Anforderungen des öffentlichen Sektors entwickelt.
+        Vergaberecht, DSGVO und EU KI-Verordnung sind keine Hürden — sondern Teil unserer DNA.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {[
+          { label: 'Vergaberecht', items: ['UVgO / VgV konform', 'CPV-Klassifizierung', 'Schwellenwertprüfung'] },
+          { label: 'Datenschutz', items: ['100% DSGVO-konform', 'Hosting in Deutschland', 'AVV nach Art. 28'] },
+          { label: 'KI-Transparenz', items: ['EU KI-Verordnung', 'Kein KI-Training mit Daten', 'Audit-Trail'] },
+        ].map((bereich) => (
+          <div class="bg-gray-50 rounded-xl p-6 text-left">
+            <h3 class="font-semibold text-gray-900 mb-3">{bereich.label}</h3>
+            <ul class="space-y-2">
+              {bereich.items.map((item) => (
+                <li class="flex items-center gap-2 text-sm text-gray-600">
+                  <svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection titel="Jetzt Demo für Ihre Behörde anfordern" beschreibung="Erleben Sie vergaberechtskonforme Beschaffung mit KI. Kostenlose Demo und persönliche Beratung." />
+</PageLayout>

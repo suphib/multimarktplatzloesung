@@ -2,6 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import SectionHeading from '../components/astro/SectionHeading.astro';
 import CTASection from '../components/astro/CTASection.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
 import { ERP_LOGOS } from '../lib/constants';
 
 const marktplaetze = [
@@ -15,6 +16,28 @@ const erpIntegrationen = ERP_LOGOS.map((logo) => ({
   typ: logo.name.startsWith('SAP') ? 'OCI 5.0 / RFC' : 'OCI 5.0 / cXML',
   status: 'Unterstützt',
 }));
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'procurement-ai ERP-Integrationen',
+  description: 'Unterstützte ERP-Systeme und Marktplatz-Integrationen',
+  numberOfItems: ERP_LOGOS.length + marktplaetze.length,
+  itemListElement: [
+    ...ERP_LOGOS.map((erp, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: erp.name,
+      description: erp.beschreibung,
+    })),
+    ...marktplaetze.map((mp, i) => ({
+      '@type': 'ListItem',
+      position: ERP_LOGOS.length + i + 1,
+      name: mp.name,
+      description: `${mp.typ} – ${mp.status}`,
+    })),
+  ],
+};
 ---
 
 <PageLayout title="Integrationen" description="procurement-ai integriert sich nahtlos in SAP, Microsoft Dynamics, Oracle und alle führenden ERP-Systeme über OCI 5.0 und cXML.">
@@ -149,4 +172,5 @@ const erpIntegrationen = ERP_LOGOS.map((logo) => ({
   </section>
 
   <CTASection />
+  <JsonLd schema={itemListSchema} />
 </PageLayout>

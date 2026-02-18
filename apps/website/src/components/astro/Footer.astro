@@ -5,10 +5,10 @@ import DsgvoBadge from './DsgvoBadge.astro';
 
 <footer class="bg-gray-900 text-gray-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-    <!-- Footer Grid: 1 col mobile, 2 col sm, 4 col lg -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+    <!-- Footer Grid: 1 col mobile, 2 col sm, 5 col lg -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
       <!-- Spalte 1: Unternehmen -->
-      <div>
+      <div class="lg:col-span-1">
         <a href="/" class="inline-block mb-4">
           <img src="/images/logo.svg" alt="procurement-ai" class="h-8 brightness-200" />
         </a>
@@ -22,29 +22,45 @@ import DsgvoBadge from './DsgvoBadge.astro';
         <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Produkt</h3>
         <ul class="space-y-3">
           <li><a href="/features" class="text-sm hover:text-white transition-colors">Features</a></li>
+          <li><a href="/cpv-klassifizierung" class="text-sm hover:text-white transition-colors">CPV-Klassifizierung</a></li>
+          <li><a href="/oci-integration" class="text-sm hover:text-white transition-colors">OCI-Integration</a></li>
           <li><a href="/integrationen" class="text-sm hover:text-white transition-colors">Integrationen</a></li>
           <li><a href="/preise" class="text-sm hover:text-white transition-colors">Preise</a></li>
+        </ul>
+      </div>
+
+      <!-- Spalte 3: Ressourcen -->
+      <div>
+        <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Ressourcen</h3>
+        <ul class="space-y-3">
+          <li><a href="/vergaberecht" class="text-sm hover:text-white transition-colors">Vergaberecht</a></li>
+          <li><a href="/sicherheit" class="text-sm hover:text-white transition-colors">Sicherheit & DSGVO</a></li>
+          <li><a href="/glossar" class="text-sm hover:text-white transition-colors">Glossar</a></li>
+          <li><a href="/faq" class="text-sm hover:text-white transition-colors">FAQ</a></li>
           <li><a href="/blog" class="text-sm hover:text-white transition-colors">Blog</a></li>
           <li><a href="/rss.xml" class="text-sm hover:text-white transition-colors">RSS-Feed</a></li>
         </ul>
       </div>
 
-      <!-- Spalte 3: Unternehmen -->
+      <!-- Spalte 4: Unternehmen -->
       <div>
         <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Unternehmen</h3>
         <ul class="space-y-3">
           <li><a href="/ueber-uns" class="text-sm hover:text-white transition-colors">Über uns</a></li>
+          <li><a href="/referenzen" class="text-sm hover:text-white transition-colors">Referenzen</a></li>
           <li><a href="/kontakt" class="text-sm hover:text-white transition-colors">Kontakt</a></li>
-          <li><a href="/blog" class="text-sm hover:text-white transition-colors">Blog</a></li>
+          <li><a href="/anwendungsfaelle/behoerden" class="text-sm hover:text-white transition-colors">Für Behörden</a></li>
+          <li><a href="/anwendungsfaelle/kliniken" class="text-sm hover:text-white transition-colors">Für Kliniken</a></li>
         </ul>
       </div>
 
-      <!-- Spalte 4: Rechtliches -->
+      <!-- Spalte 5: Rechtliches -->
       <div>
         <h3 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Rechtliches</h3>
         <ul class="space-y-3">
           <li><a href="/impressum" class="text-sm hover:text-white transition-colors">Impressum</a></li>
           <li><a href="/datenschutz" class="text-sm hover:text-white transition-colors">Datenschutz</a></li>
+          <li><a href="/agb" class="text-sm hover:text-white transition-colors">AGB</a></li>
         </ul>
         <div class="mt-6">
           <DsgvoBadge />

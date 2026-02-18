@@ -1,0 +1,93 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import CTASection from '../../components/astro/CTASection.astro';
+import SectionHeading from '../../components/astro/SectionHeading.astro';
+---
+
+<PageLayout title="eProcurement für Kliniken & Krankenhäuser" description="procurement-ai für das Gesundheitswesen: KI-gestützte Beschaffung für Kliniken, Krankenhäuser und medizinische Einrichtungen. DSGVO-konform, vergaberechtskonform.">
+
+  <!-- Hero -->
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-100 text-xs font-semibold mb-4">
+        Gesundheitswesen
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">eProcurement für Kliniken</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Effiziente Beschaffung von Medizinprodukten, Verbrauchsmaterial und Dienstleistungen —
+        vergaberechtskonform und DSGVO-konform.
+      </p>
+    </div>
+  </section>
+
+  <!-- Besondere Anforderungen -->
+  <section class="section-padding">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Besondere Anforderungen im Gesundheitswesen" untertitel="Kliniken stehen vor einzigartigen Beschaffungsherausforderungen" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {[
+          { titel: 'Medizinprodukte-Klassifizierung', beschreibung: 'Korrekte CPV-Zuordnung für medizinische Geräte, Verbrauchsmaterial und pharmazeutische Produkte. Die KI kennt medizinische Fachbegriffe und MPG-Kategorien.', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
+          { titel: 'Zeitkritische Bestellungen', beschreibung: 'Medizinisches Verbrauchsmaterial muss schnell verfügbar sein. Multi-Marktplatz-Suche liefert sofortige Preisvergleiche und Verfügbarkeitsinformationen.', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+          { titel: 'Rahmenverträge im Klinikverbund', beschreibung: 'Zentrale Rahmenverträge über Einkaufsgemeinschaften werden automatisch berücksichtigt. Skonto-Konditionen und Mindestbestellwerte immer im Blick.', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
+          { titel: 'Regulatorische Compliance', beschreibung: 'Kliniken unterliegen dem Vergaberecht, dem Krankenhausfinanzierungsgesetz und besonderen Datenschutzanforderungen. procurement-ai erfüllt alle Anforderungen.', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z' },
+        ].map((item) => (
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d={item.icon} />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">{item.titel}</h3>
+            <p class="text-sm text-gray-600">{item.beschreibung}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Typische Beschaffungsartikel -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Typische Beschaffungskategorien" untertitel="CPV-Codes, die procurement-ai für Kliniken automatisch klassifiziert" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {[
+          { code: '33100000-1', bezeichnung: 'Medizinische Geräte' },
+          { code: '33140000-3', bezeichnung: 'Medizinisches Verbrauchsmaterial' },
+          { code: '33600000-6', bezeichnung: 'Pharmazeutische Erzeugnisse' },
+          { code: '33190000-8', bezeichnung: 'Medizinische Instrumente' },
+          { code: '39330000-4', bezeichnung: 'Desinfektionsmittel' },
+          { code: '85100000-0', bezeichnung: 'Gesundheitswesen' },
+        ].map((artikel) => (
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <div class="text-xs font-mono text-primary-600 bg-primary-50 rounded px-2 py-1 inline-block mb-2">{artikel.code}</div>
+            <h3 class="font-semibold text-gray-900">{artikel.bezeichnung}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Vorteile für Kliniken -->
+  <section class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Vorteile für Kliniken" />
+      <div class="space-y-6">
+        {[
+          { titel: 'Schnellere Beschaffung', beschreibung: 'KI-Klassifizierung und Multi-Marktplatz-Suche reduzieren den Beschaffungsprozess von Stunden auf Minuten. Kritisches Material ist schneller verfügbar.' },
+          { titel: 'Kosteneinsparung', beschreibung: 'Automatischer Preisvergleich über alle angebundenen Marktplätze. Rahmenverträge werden automatisch berücksichtigt. Skonto-Konditionen werden nie verpasst.' },
+          { titel: 'Revisionssicherheit', beschreibung: 'Lückenlose Dokumentation aller Beschaffungsvorgänge. SHA-256 Hashing garantiert die Integrität bei Prüfungen durch den Rechnungshof oder interne Revision.' },
+          { titel: 'ERP-Integration', beschreibung: 'Nahtlose Anbindung an SAP, Microsoft Dynamics und andere KIS/ERP-Systeme über OCI 5.0 und cXML. Keine Medienbrüche.' },
+        ].map((vorteil) => (
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h3 class="font-semibold text-gray-900 mb-2">{vorteil.titel}</h3>
+            <p class="text-sm text-gray-600">{vorteil.beschreibung}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection titel="Demo für Ihre Klinik anfordern" beschreibung="Erleben Sie, wie procurement-ai den Einkauf in Ihrem Krankenhaus optimiert. Kostenlose Demo und persönliche Beratung." />
+</PageLayout>

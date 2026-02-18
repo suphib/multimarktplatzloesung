@@ -1,0 +1,181 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import CTASection from '../components/astro/CTASection.astro';
+import SectionHeading from '../components/astro/SectionHeading.astro';
+import FaqSchema from '../components/seo/FaqSchema.astro';
+
+const cpvBeispiele = [
+  { code: '30213300-8', bezeichnung: 'Desktop-Computer', kategorie: 'IT-Ausstattung' },
+  { code: '39130000-2', bezeichnung: 'Büromöbel', kategorie: 'Mobiliar' },
+  { code: '22462000-6', bezeichnung: 'Werbematerial', kategorie: 'Drucksachen' },
+  { code: '50112000-3', bezeichnung: 'KFZ-Reparatur', kategorie: 'Fahrzeugservice' },
+  { code: '79211000-6', bezeichnung: 'Buchhaltung', kategorie: 'Dienstleistungen' },
+  { code: '48000000-8', bezeichnung: 'Softwarepakete', kategorie: 'IT-Software' },
+];
+
+const schritte = [
+  { titel: 'Artikel beschreiben', beschreibung: 'Geben Sie eine Artikelbeschreibung in natürlicher Sprache ein — z. B. „Ergonomischer Bürostuhl mit Armlehnen".', icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z' },
+  { titel: 'KI klassifiziert', beschreibung: 'Azure OpenAI GPT-4o analysiert die Beschreibung und ordnet automatisch den passenden CPV-Code zu — in unter 3 Sekunden.', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+  { titel: 'Ergebnis prüfen', beschreibung: 'Sie erhalten den CPV-Code mit Konfidenzbewertung. Bei Bedarf können Sie manuell übersteuern — mit Begründungspflicht und Audit-Trail.', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+];
+
+const faqItems = [
+  { frage: 'Was sind CPV-Codes?', antwort: 'CPV steht für Common Procurement Vocabulary. Es ist das EU-weite Klassifizierungssystem für öffentliche Aufträge. Jeder CPV-Code besteht aus 8 Ziffern und einer Prüfziffer und beschreibt die Art der zu beschaffenden Güter oder Dienstleistungen.' },
+  { frage: 'Wie genau ist die KI-Klassifizierung?', antwort: 'Unsere KI erreicht eine hohe Trefferquote bei der CPV-Zuordnung. Jede Klassifizierung wird mit einer Konfidenzbewertung versehen. Bei niedriger Konfidenz wird automatisch ein regelbasiertes Fallback-System aktiviert. Zusätzlich kann jede Zuordnung manuell übersteuert werden.' },
+  { frage: 'Werden meine Daten für KI-Training verwendet?', antwort: 'Nein. Wir nutzen Azure OpenAI mit EU Data Boundary (Sweden Central). Microsoft verwendet Kundendaten nicht zum Training seiner KI-Modelle. Die Verarbeitungsdaten werden sofort nach der Klassifizierung verworfen (0 Tage Retention).' },
+  { frage: 'Was passiert, wenn die KI nicht verfügbar ist?', antwort: 'procurement-ai verfügt über ein regelbasiertes Fallback-System. Wenn Azure OpenAI nicht erreichbar ist, erfolgt die Klassifizierung automatisch über Keyword-Matching. Keine Daten werden dabei an externe Dienste übermittelt.' },
+  { frage: 'Kann ich die KI-Klassifizierung manuell korrigieren?', antwort: 'Ja. Jede KI-Zuordnung kann über einen durchsuchbaren CPV-Code-Picker übersteuert werden. Änderungen erfordern eine Begründung und werden in einer lückenlosen Änderungshistorie mit Zeitstempel, Benutzer und Vorher-/Nachher-Vergleich protokolliert.' },
+] as const;
+---
+
+<PageLayout title="KI-gestützte CPV-Klassifizierung" description="Automatische Artikelklassifizierung nach CPV-Codes mit KI. Azure OpenAI GPT-4o ordnet Beschreibungen in unter 3 Sekunden dem richtigen CPV-Code zu.">
+
+  <!-- Hero -->
+  <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-100 text-xs font-semibold mb-4">
+        Kern-Feature
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">KI-gestützte CPV-Klassifizierung</h1>
+      <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+        Automatische Zuordnung von Artikelbeschreibungen zu CPV-Codes in unter 3 Sekunden —
+        powered by Azure OpenAI, gehostet in der EU.
+      </p>
+    </div>
+  </section>
+
+  <!-- Was sind CPV-Codes -->
+  <section class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Was sind CPV-Codes?</h2>
+      <p class="text-gray-600 leading-relaxed mb-4">
+        Das <strong>Common Procurement Vocabulary (CPV)</strong> ist das EU-weite Klassifizierungssystem für das
+        öffentliche Beschaffungswesen. Jeder öffentliche Auftrag muss mit einem CPV-Code versehen werden, um
+        europaweit einheitlich kategorisiert zu werden.
+      </p>
+      <p class="text-gray-600 leading-relaxed">
+        Die manuelle Zuordnung ist zeitaufwändig und fehleranfällig — über 9.000 CPV-Codes machen die
+        korrekte Klassifizierung zur Herausforderung. procurement-ai automatisiert diesen Prozess mit
+        künstlicher Intelligenz.
+      </p>
+    </div>
+  </section>
+
+  <!-- So funktioniert es -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="So funktioniert es" untertitel="Von der Beschreibung zum CPV-Code in 3 Schritten" />
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {schritte.map((schritt, index) => (
+          <div class="relative">
+            <div class="bg-white rounded-2xl p-6 border border-gray-200 h-full">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d={schritt.icon} />
+                  </svg>
+                </div>
+                <span class="text-sm font-bold text-primary-600">Schritt {index + 1}</span>
+              </div>
+              <h3 class="text-lg font-bold text-gray-900 mb-2">{schritt.titel}</h3>
+              <p class="text-sm text-gray-600 leading-relaxed">{schritt.beschreibung}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CPV-Code Beispiele -->
+  <section class="section-padding">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="CPV-Code Beispiele" untertitel="So klassifiziert die KI typische Beschaffungsartikel" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {cpvBeispiele.map((beispiel) => (
+          <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md hover:border-primary-200 transition-all">
+            <div class="text-xs font-mono text-primary-600 bg-primary-50 rounded px-2 py-1 inline-block mb-3">{beispiel.code}</div>
+            <h3 class="font-semibold text-gray-900 mb-1">{beispiel.bezeichnung}</h3>
+            <p class="text-sm text-gray-500">{beispiel.kategorie}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Vorteile -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Vorteile der KI-Klassifizierung" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {[
+          { titel: 'Zeitersparnis', beschreibung: 'Klassifizierung in unter 3 Sekunden statt 5-15 Minuten manueller Recherche pro Artikel.', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+          { titel: 'Höhere Genauigkeit', beschreibung: 'KI-gestützte Zuordnung mit Konfidenzbewertung reduziert Fehlerquoten bei der Klassifizierung.', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+          { titel: 'Revisionssicher', beschreibung: 'Lückenloser Audit-Trail mit Zeitstempel, Benutzer und Begründung für jede Änderung.', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+          { titel: 'Fallback-System', beschreibung: 'Regelbasiertes Keyword-Matching als Backup — die Klassifizierung funktioniert immer, auch ohne Internetverbindung.', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15' },
+        ].map((vorteil) => (
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d={vorteil.icon} />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">{vorteil.titel}</h3>
+            <p class="text-sm text-gray-600">{vorteil.beschreibung}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Technische Details -->
+  <section class="section-padding">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Technische Details" />
+      <div class="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100">
+        {[
+          ['KI-Modell', 'Azure OpenAI GPT-4o'],
+          ['Standort', 'Sweden Central (EU Data Boundary)'],
+          ['Klassifizierungszeit', '< 3 Sekunden'],
+          ['CPV-Codes', '> 9.000 Codes (EU-Standard)'],
+          ['Fallback', 'Regelbasiertes Keyword-Matching'],
+          ['Datenretention', '0 Tage (sofortige Löschung)'],
+          ['Audit-Trail', 'SHA-256 Integritätsprüfung'],
+        ].map(([label, value]) => (
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 gap-1">
+            <span class="text-sm font-medium text-gray-900">{label}</span>
+            <span class="text-sm text-gray-500">{value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading titel="Häufige Fragen zur CPV-Klassifizierung" />
+
+      <div class="space-y-4">
+        {faqItems.map((item) => (
+          <details class="group bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <summary class="flex items-center justify-between cursor-pointer p-5 sm:p-6 text-left">
+              <span class="text-sm sm:text-base font-semibold text-gray-900 pr-4">{item.frage}</span>
+              <svg class="w-5 h-5 text-gray-400 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </summary>
+            <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+              <p class="text-sm sm:text-base text-gray-600 leading-relaxed">{item.antwort}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection titel="CPV-Klassifizierung testen" beschreibung="Erleben Sie, wie procurement-ai Ihre Artikelbeschreibungen in Sekunden klassifiziert. 30 Tage kostenlos." />
+  <FaqSchema items={faqItems} />
+</PageLayout>
