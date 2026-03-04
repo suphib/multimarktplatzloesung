@@ -87,7 +87,7 @@ export function MobileNav() {
                 {/* CTA */}
                 <div className="p-4 border-t border-gray-100">
                   <a
-                    href="/kontakt"
+                    href="/kontakt/"
                     onClick={close}
                     className="block w-full text-center px-6 py-3 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-700 transition-colors"
                   >

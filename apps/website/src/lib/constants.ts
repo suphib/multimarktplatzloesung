@@ -24,12 +24,12 @@ export const MATOMO = {
 } as const;
 
 export const NAV_ITEMS = [
-  { label: 'Features', href: '/features' },
-  { label: 'Integrationen', href: '/integrationen' },
-  { label: 'Preise', href: '/preise' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Über uns', href: '/ueber-uns' },
-  { label: 'Kontakt', href: '/kontakt' },
+  { label: 'Features', href: '/features/' },
+  { label: 'Integrationen', href: '/integrationen/' },
+  { label: 'Preise', href: '/preise/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Über uns', href: '/ueber-uns/' },
+  { label: 'Kontakt', href: '/kontakt/' },
 ] as const;
 
 export const FEATURES = [

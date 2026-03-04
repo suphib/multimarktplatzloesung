@@ -1,20 +1,31 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro';
-import HeroSection from '../components/astro/HeroSection.astro';
-import TrustMetrics from '../components/astro/TrustMetrics.astro';
-import FeatureGrid from '../components/astro/FeatureGrid.astro';
-import IntegrationGrid from '../components/astro/IntegrationGrid.astro';
-import CTASection from '../components/astro/CTASection.astro';
-import SectionHeading from '../components/astro/SectionHeading.astro';
-import Screenshot from '../components/astro/Screenshot.astro';
-import OrganizationSchema from '../components/seo/OrganizationSchema.astro';
-import SoftwareApplicationSchema from '../components/seo/SoftwareApplicationSchema.astro';
+import PageLayout from "../layouts/PageLayout.astro";
+import HeroSection from "../components/astro/HeroSection.astro";
+import TrustMetrics from "../components/astro/TrustMetrics.astro";
+import FeatureGrid from "../components/astro/FeatureGrid.astro";
+import IntegrationGrid from "../components/astro/IntegrationGrid.astro";
+import CTASection from "../components/astro/CTASection.astro";
+import SectionHeading from "../components/astro/SectionHeading.astro";
+import Screenshot from "../components/astro/Screenshot.astro";
+import OrganizationSchema from "../components/seo/OrganizationSchema.astro";
+import SoftwareApplicationSchema from "../components/seo/SoftwareApplicationSchema.astro";
 
-const vpGallery = ['admin-bestellung-detail', 'admin-rahmenvertraege', 'results'];
-const vpGalleryAlts = ['Bestellungsdetail mit Genehmigungs-Timeline', 'Rahmenverträge-Verwaltung', 'Multi-Marktplatz Suchergebnisse'];
+const vpGallery = [
+  "admin-bestellung-detail",
+  "admin-rahmenvertraege",
+  "results",
+];
+const vpGalleryAlts = [
+  "Bestellungsdetail mit Genehmigungs-Timeline",
+  "Rahmenverträge-Verwaltung",
+  "Multi-Marktplatz Suchergebnisse",
+];
 ---
 
-<PageLayout title="Startseite">
+<PageLayout
+  title="Startseite"
+  description="KI-Beschaffungssoftware für öffentliche Auftraggeber: CPV-Klassifizierung, Multi-Marktplatz-Suche, OCI 5.0 und vergaberechtskonforme Dokumentation. DSGVO-konform, in Deutschland gehostet. 30 Tage kostenlos testen."
+>
   <HeroSection />
   <TrustMetrics />
   <FeatureGrid max={3} />
@@ -22,8 +33,9 @@ const vpGalleryAlts = ['Bestellungsdetail mit Genehmigungs-Timeline', 'Rahmenver
 
   <!-- Value Props: alternierend Bild+Text -->
   <section class="section-padding">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 lg:space-y-24">
-
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 lg:space-y-24"
+    >
       <!-- VP 1: Vergaberecht -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
         <div class="order-2 lg:order-1">
@@ -31,51 +43,111 @@ const vpGalleryAlts = ['Bestellungsdetail mit Genehmigungs-Timeline', 'Rahmenver
             Vergaberechtskonform auf Knopfdruck
           </h3>
           <p class="text-gray-600 leading-relaxed mb-4">
-            Automatische Prüfung gegen EU-Schwellenwerte und nationale Vergabevorschriften.
-            Jeder Beschaffungsvorgang wird lückenlos dokumentiert und mit SHA-256 Hash gesichert.
+            Automatische Prüfung gegen EU-Schwellenwerte und nationale
+            Vergabevorschriften. Jeder Beschaffungsvorgang wird lückenlos
+            dokumentiert und mit SHA-256 Hash gesichert.
           </p>
           <ul class="space-y-2">
             <li class="flex items-center gap-2 text-sm text-gray-600">
-              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <svg
+                class="w-5 h-5 text-green-500 shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                ><path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"></path></svg
+              >
               EU-Schwellenwerte automatisch geprüft
             </li>
             <li class="flex items-center gap-2 text-sm text-gray-600">
-              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <svg
+                class="w-5 h-5 text-green-500 shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                ><path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"></path></svg
+              >
               Revisionssichere Dokumentation
             </li>
             <li class="flex items-center gap-2 text-sm text-gray-600">
-              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <svg
+                class="w-5 h-5 text-green-500 shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                ><path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"></path></svg
+              >
               CPV-Code Klassifizierung
             </li>
           </ul>
         </div>
         <div class="order-1 lg:order-2">
-          <Screenshot name="admin-bestellung-detail" alt="Bestellungsdetail mit Genehmigungs-Timeline" gallery={vpGallery} galleryAlts={vpGalleryAlts} />
+          <Screenshot
+            name="admin-bestellung-detail"
+            alt="Bestellungsdetail mit Genehmigungs-Timeline"
+            gallery={vpGallery}
+            galleryAlts={vpGalleryAlts}
+          />
         </div>
       </div>
 
       <!-- VP 2: Rahmenverträge -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-        <Screenshot name="admin-rahmenvertraege" alt="Rahmenverträge-Verwaltung" gallery={vpGallery} galleryAlts={vpGalleryAlts} />
+        <Screenshot
+          name="admin-rahmenvertraege"
+          alt="Rahmenverträge-Verwaltung"
+          gallery={vpGallery}
+          galleryAlts={vpGalleryAlts}
+        />
         <div>
           <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
             Rahmenverträge intelligent nutzen
           </h3>
           <p class="text-gray-600 leading-relaxed mb-4">
-            Automatischer Abgleich Ihrer Bedarfe mit bestehenden Rahmenverträgen.
-            Skonto-Konditionen, Mindestbestellwerte und Abrufvolumen immer im Blick.
+            Automatischer Abgleich Ihrer Bedarfe mit bestehenden
+            Rahmenverträgen. Skonto-Konditionen, Mindestbestellwerte und
+            Abrufvolumen immer im Blick.
           </p>
           <ul class="space-y-2">
             <li class="flex items-center gap-2 text-sm text-gray-600">
-              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <svg
+                class="w-5 h-5 text-green-500 shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                ><path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"></path></svg
+              >
               Automatisches RV-Matching
             </li>
             <li class="flex items-center gap-2 text-sm text-gray-600">
-              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <svg
+                class="w-5 h-5 text-green-500 shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                ><path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"></path></svg
+              >
               Skonto automatisch berechnet
             </li>
             <li class="flex items-center gap-2 text-sm text-gray-600">
-              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <svg
+                class="w-5 h-5 text-green-500 shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                ><path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"></path></svg
+              >
               Laufzeit-Überwachung
             </li>
           </ul>
@@ -89,27 +161,108 @@ const vpGalleryAlts = ['Bestellungsdetail mit Genehmigungs-Timeline', 'Rahmenver
             Ein Zugang, alle Marktplätze
           </h3>
           <p class="text-gray-600 leading-relaxed mb-4">
-            Durchsuchen Sie Amazon Business, Mercateo, Conrad und weitere Marktplätze gleichzeitig.
-            Vergleichen Sie Preise, Lieferzeiten und Konditionen auf einen Blick.
+            Durchsuchen Sie Amazon Business, Mercateo, Conrad und weitere
+            Marktplätze gleichzeitig. Vergleichen Sie Preise, Lieferzeiten und
+            Konditionen auf einen Blick.
           </p>
           <ul class="space-y-2">
             <li class="flex items-center gap-2 text-sm text-gray-600">
-              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <svg
+                class="w-5 h-5 text-green-500 shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                ><path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"></path></svg
+              >
               Parallele Marktplatzsuche
             </li>
             <li class="flex items-center gap-2 text-sm text-gray-600">
-              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <svg
+                class="w-5 h-5 text-green-500 shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                ><path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"></path></svg
+              >
               Preisvergleich in Echtzeit
             </li>
             <li class="flex items-center gap-2 text-sm text-gray-600">
-              <svg class="w-5 h-5 text-green-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <svg
+                class="w-5 h-5 text-green-500 shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                ><path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"></path></svg
+              >
               Direkte Bestellung aus der Plattform
             </li>
           </ul>
         </div>
         <div class="order-1 lg:order-2">
-          <Screenshot name="results" alt="Multi-Marktplatz Suchergebnisse" gallery={vpGallery} galleryAlts={vpGalleryAlts} />
+          <Screenshot
+            name="results"
+            alt="Multi-Marktplatz Suchergebnisse"
+            gallery={vpGallery}
+            galleryAlts={vpGalleryAlts}
+          />
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Anwendungsfälle -->
+  <section class="section-padding bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
+          Für wen ist procurement-ai?
+        </h2>
+        <p class="mt-3 text-gray-600 max-w-2xl mx-auto">
+          Speziell entwickelt für den öffentlichen Sektor und regulierte
+          Industrien.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <a
+          href="/anwendungsfaelle/behoerden/"
+          class="block bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-primary-200 transition-all"
+        >
+          <h3 class="font-semibold text-gray-900 mb-2">Behörden & Kommunen</h3>
+          <p class="text-sm text-gray-600">
+            Vergaberechtskonforme Beschaffung mit KI-Unterstützung.
+            UVgO/VgV-konform.
+          </p>
+        </a>
+        <a
+          href="/anwendungsfaelle/kliniken/"
+          class="block bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-primary-200 transition-all"
+        >
+          <h3 class="font-semibold text-gray-900 mb-2">
+            Kliniken & Krankenhäuser
+          </h3>
+          <p class="text-sm text-gray-600">
+            Medizinische Beschaffung optimieren. DSGVO-konform und gehostet in
+            Deutschland.
+          </p>
+        </a>
+        <a
+          href="/vergleich/manuelle-beschaffung/"
+          class="block bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-primary-200 transition-all"
+        >
+          <h3 class="font-semibold text-gray-900 mb-2">
+            KI vs. manuelle Beschaffung
+          </h3>
+          <p class="text-sm text-gray-600">
+            Vergleichen Sie Zeitaufwand, Kosten und Compliance im direkten
+            Vergleich.
+          </p>
+        </a>
       </div>
     </div>
   </section>

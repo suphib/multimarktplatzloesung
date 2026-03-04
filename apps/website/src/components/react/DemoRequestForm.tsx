@@ -196,7 +196,7 @@ export function DemoRequestForm() {
             className="mt-0.5 w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
           />
           <span className="text-xs sm:text-sm text-gray-600">
-            Ich habe die <a href="/datenschutz" className="text-primary-600 underline">Datenschutzbestimmungen</a> gelesen und bin damit einverstanden. *
+            Ich habe die <a href="/datenschutz/" className="text-primary-600 underline">Datenschutzbestimmungen</a> gelesen und bin damit einverstanden. *
           </span>
         </label>
         {errors.datenschutz && <p className="text-xs text-red-600">{errors.datenschutz}</p>}

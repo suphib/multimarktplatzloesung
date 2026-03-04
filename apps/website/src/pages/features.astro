@@ -1,22 +1,23 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro';
-import SectionHeading from '../components/astro/SectionHeading.astro';
-import CTASection from '../components/astro/CTASection.astro';
-import Screenshot from '../components/astro/Screenshot.astro';
-import JsonLd from '../components/seo/JsonLd.astro';
-import { FEATURES, FIRMA } from '../lib/constants';
+import PageLayout from "../layouts/PageLayout.astro";
+import SectionHeading from "../components/astro/SectionHeading.astro";
+import CTASection from "../components/astro/CTASection.astro";
+import Screenshot from "../components/astro/Screenshot.astro";
+import JsonLd from "../components/seo/JsonLd.astro";
+import { FEATURES, FIRMA } from "../lib/constants";
 
 const featureGallery = FEATURES.map((f) => f.screenshot);
 const featureGalleryAlts = FEATURES.map((f) => f.titel);
 
 const itemListSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'procurement-ai Features',
-  description: 'Alle Features der KI-gestützten Beschaffungsplattform procurement-ai',
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "procurement-ai Features",
+  description:
+    "Alle Features der KI-gestützten Beschaffungsplattform procurement-ai",
   numberOfItems: FEATURES.length,
   itemListElement: FEATURES.map((f, i) => ({
-    '@type': 'ListItem',
+    "@type": "ListItem",
     position: i + 1,
     name: f.titel,
     description: f.beschreibung,
@@ -24,55 +25,83 @@ const itemListSchema = {
 };
 ---
 
-<PageLayout title="Features" description="Alle Features von procurement-ai im Überblick: KI-Klassifizierung, Multi-Marktplatz-Suche, OCI 5.0, Rahmenvertrags-Management und mehr.">
-
+<PageLayout
+  title="KI-Beschaffungssoftware Features — CPV, OCI, Marktplatzsuche"
+  description="Alle Funktionen im Überblick: CPV-Klassifizierung, Multi-Marktplatz-Suche, OCI 5.0/cXML, Rahmenverträge, Genehmigungen und revisionssichere Vergabedokumentation."
+>
   <!-- Hero -->
   <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">Leistungsstarke Features</h1>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">
+        Leistungsstarke Features
+      </h1>
       <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
-        Entdecken Sie alle Funktionen, die procurement-ai zur führenden Beschaffungslösung für den öffentlichen Sektor machen.
+        Entdecken Sie alle Funktionen, die procurement-ai zur führenden
+        Beschaffungslösung für den öffentlichen Sektor machen.
       </p>
     </div>
   </section>
 
   <!-- Feature Details -->
   <section class="section-padding">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 lg:space-y-24">
-
-      {FEATURES.map((feature, index) => {
-        const isReversed = index % 2 !== 0;
-        return (
-          <div class={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center`}>
-            <div class={isReversed ? 'lg:order-2' : ''}>
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-xs font-semibold mb-4">
-                Feature {index + 1}
+    <div
+      class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 lg:space-y-24"
+    >
+      {
+        FEATURES.map((feature, index) => {
+          const isReversed = index % 2 !== 0;
+          return (
+            <div
+              class={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center`}
+            >
+              <div class={isReversed ? "lg:order-2" : ""}>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-xs font-semibold mb-4">
+                  Feature {index + 1}
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+                  {feature.titel}
+                </h2>
+                <p class="text-gray-600 leading-relaxed">
+                  {feature.beschreibung}
+                </p>
               </div>
-              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">{feature.titel}</h2>
-              <p class="text-gray-600 leading-relaxed">{feature.beschreibung}</p>
+              <div class={isReversed ? "lg:order-1" : ""}>
+                <Screenshot
+                  name={feature.screenshot}
+                  alt={feature.titel}
+                  gallery={featureGallery}
+                  galleryAlts={featureGalleryAlts}
+                />
+              </div>
             </div>
-            <div class={isReversed ? 'lg:order-1' : ''}>
-              <Screenshot
-                name={feature.screenshot}
-                alt={feature.titel}
-                gallery={featureGallery}
-                galleryAlts={featureGalleryAlts}
-              />
-            </div>
-          </div>
-        );
-      })}
-
+          );
+        })
+      }
     </div>
   </section>
 
-  <!-- Pricing Teaser -->
+  <!-- Related Links -->
   <section class="py-12 bg-gray-50">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
       <p class="text-gray-600">
         Alle Features sind ab dem <strong>Starter-Paket</strong> verfügbar.
-        <a href="/preise" class="text-primary-600 font-semibold hover:underline">Preise und Pakete vergleichen →</a>
+        <a
+          href="/preise/"
+          class="text-primary-600 font-semibold hover:underline"
+          >Preise und Pakete vergleichen →</a
+        >
       </p>
+      <div class="flex flex-wrap justify-center gap-4 text-sm">
+        <a href="/cpv-klassifizierung/" class="text-primary-600 hover:underline"
+          >CPV-Klassifizierung im Detail →</a
+        >
+        <a href="/oci-integration/" class="text-primary-600 hover:underline"
+          >OCI 5.0 Integration →</a
+        >
+        <a href="/vergaberecht/" class="text-primary-600 hover:underline"
+          >Vergaberecht & Compliance →</a
+        >
+      </div>
     </div>
   </section>
 

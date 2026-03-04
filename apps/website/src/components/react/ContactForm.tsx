@@ -189,7 +189,7 @@ export function ContactForm({ typ = 'KONTAKT', quelle = 'website_kontakt' }: Pro
           />
           <span className="text-xs sm:text-sm text-gray-600">
             Ich habe die{' '}
-            <a href="/datenschutz" className="text-primary-600 underline">Datenschutzbestimmungen</a>
+            <a href="/datenschutz/" className="text-primary-600 underline">Datenschutzbestimmungen</a>
             {' '}gelesen und bin damit einverstanden. *
           </span>
         </label>

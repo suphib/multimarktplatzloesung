@@ -2,32 +2,32 @@
 import PageLayout from '../layouts/PageLayout.astro';
 
 const glossar = [
-  { begriff: 'AVV', erklaerung: 'Auftragsverarbeitungsvertrag. Vertrag nach Art. 28 DSGVO zwischen dem Verantwortlichen und dem Auftragsverarbeiter, der die Datenverarbeitung regelt.', links: ['/datenschutz'] },
-  { begriff: 'Bedarfsermittlung', erklaerung: 'Erster Schritt im Beschaffungsprozess. Feststellung von Art, Menge und Zeitpunkt des benötigten Bedarfs an Gütern oder Dienstleistungen.', links: ['/vergaberecht'] },
-  { begriff: 'CPV-Code', erklaerung: 'Common Procurement Vocabulary. EU-weites Klassifizierungssystem für öffentliche Aufträge. Jeder Code besteht aus 8 Ziffern und einer Prüfziffer (z. B. 30213300-8 für Desktop-Computer).', links: ['/cpv-klassifizierung'] },
-  { begriff: 'cXML', erklaerung: 'Commerce XML. Offener Standard für B2B-E-Commerce-Transaktionen, entwickelt von Ariba/SAP. Wird für Punchout-Kataloge und elektronische Bestellungen verwendet.', links: ['/oci-integration'] },
-  { begriff: 'DSGVO', erklaerung: 'Datenschutz-Grundverordnung. EU-Verordnung 2016/679 zum Schutz natürlicher Personen bei der Verarbeitung personenbezogener Daten.', links: ['/sicherheit', '/datenschutz'] },
-  { begriff: 'eVergabe', erklaerung: 'Elektronische Vergabe. Durchführung von Vergabeverfahren in elektronischer Form, einschließlich Bekanntmachung, Angebotsabgabe und Zuschlag.', links: ['/vergaberecht'] },
-  { begriff: 'Genehmigungsworkflow', erklaerung: 'Digitaler Freigabeprozess für Bestellungen. In procurement-ai werden Bestellungen über konfigurierbare Schwellenwerte automatisch zur Genehmigung vorgelegt.', links: ['/features'] },
-  { begriff: 'GWB', erklaerung: 'Gesetz gegen Wettbewerbsbeschränkungen. Teil 4 regelt die Vergabe öffentlicher Aufträge oberhalb der EU-Schwellenwerte.', links: ['/vergaberecht'] },
-  { begriff: 'Konfidenz', erklaerung: 'Vertrauensgrad einer KI-Klassifizierung. Gibt an, wie sicher die KI bei der CPV-Zuordnung ist. Bei niedriger Konfidenz wird ein Fallback-System aktiviert.', links: ['/cpv-klassifizierung'] },
+  { begriff: 'AVV', erklaerung: 'Auftragsverarbeitungsvertrag. Vertrag nach Art. 28 DSGVO zwischen dem Verantwortlichen und dem Auftragsverarbeiter, der die Datenverarbeitung regelt.', links: ['/datenschutz/'] },
+  { begriff: 'Bedarfsermittlung', erklaerung: 'Erster Schritt im Beschaffungsprozess. Feststellung von Art, Menge und Zeitpunkt des benötigten Bedarfs an Gütern oder Dienstleistungen.', links: ['/vergaberecht/'] },
+  { begriff: 'CPV-Code', erklaerung: 'Common Procurement Vocabulary. EU-weites Klassifizierungssystem für öffentliche Aufträge. Jeder Code besteht aus 8 Ziffern und einer Prüfziffer (z. B. 30213300-8 für Desktop-Computer).', links: ['/cpv-klassifizierung/'] },
+  { begriff: 'cXML', erklaerung: 'Commerce XML. Offener Standard für B2B-E-Commerce-Transaktionen, entwickelt von Ariba/SAP. Wird für Punchout-Kataloge und elektronische Bestellungen verwendet.', links: ['/oci-integration/'] },
+  { begriff: 'DSGVO', erklaerung: 'Datenschutz-Grundverordnung. EU-Verordnung 2016/679 zum Schutz natürlicher Personen bei der Verarbeitung personenbezogener Daten.', links: ['/sicherheit/', '/datenschutz/'] },
+  { begriff: 'eVergabe', erklaerung: 'Elektronische Vergabe. Durchführung von Vergabeverfahren in elektronischer Form, einschließlich Bekanntmachung, Angebotsabgabe und Zuschlag.', links: ['/vergaberecht/'] },
+  { begriff: 'Genehmigungsworkflow', erklaerung: 'Digitaler Freigabeprozess für Bestellungen. In procurement-ai werden Bestellungen über konfigurierbare Schwellenwerte automatisch zur Genehmigung vorgelegt.', links: ['/features/'] },
+  { begriff: 'GWB', erklaerung: 'Gesetz gegen Wettbewerbsbeschränkungen. Teil 4 regelt die Vergabe öffentlicher Aufträge oberhalb der EU-Schwellenwerte.', links: ['/vergaberecht/'] },
+  { begriff: 'Konfidenz', erklaerung: 'Vertrauensgrad einer KI-Klassifizierung. Gibt an, wie sicher die KI bei der CPV-Zuordnung ist. Bei niedriger Konfidenz wird ein Fallback-System aktiviert.', links: ['/cpv-klassifizierung/'] },
   { begriff: 'Mindestbestellwert', erklaerung: 'Minimaler Bestellwert, ab dem eine Bestellung bei einem Lieferanten oder über einen Rahmenvertrag möglich ist.', links: [] },
-  { begriff: 'OCI 5.0', erklaerung: 'Open Catalog Interface Version 5.0. Von SAP entwickelter Standard für die Integration externer Kataloge in ERP-Systeme über Punchout-Mechanismen.', links: ['/oci-integration'] },
-  { begriff: 'Punchout', erklaerung: 'Prozess, bei dem ein Nutzer aus dem ERP-System heraus auf einen externen Katalog zugreift, dort Artikel auswählt und den Warenkorb zurück ins ERP überträgt.', links: ['/oci-integration'] },
-  { begriff: 'Rahmenvertrag', erklaerung: 'Langfristiger Vertrag zwischen Auftraggeber und Lieferant, der Konditionen (Preise, Skonto, Lieferzeiten) für wiederkehrende Bestellungen festlegt.', links: ['/features'] },
-  { begriff: 'Schwellenwert', erklaerung: 'Auftragswert, ab dem bestimmte Vergabevorschriften gelten. Unterhalb des nationalen Schwellenwerts gilt die UVgO, oberhalb des EU-Schwellenwerts die VgV.', links: ['/vergaberecht'] },
-  { begriff: 'SHA-256', erklaerung: 'Kryptografischer Hash-Algorithmus. Wird in procurement-ai zur Integritätsprüfung der Vergabedokumentation eingesetzt. Jede Änderung am Dokument erzeugt einen neuen Hash.', links: ['/sicherheit'] },
+  { begriff: 'OCI 5.0', erklaerung: 'Open Catalog Interface Version 5.0. Von SAP entwickelter Standard für die Integration externer Kataloge in ERP-Systeme über Punchout-Mechanismen.', links: ['/oci-integration/'] },
+  { begriff: 'Punchout', erklaerung: 'Prozess, bei dem ein Nutzer aus dem ERP-System heraus auf einen externen Katalog zugreift, dort Artikel auswählt und den Warenkorb zurück ins ERP überträgt.', links: ['/oci-integration/'] },
+  { begriff: 'Rahmenvertrag', erklaerung: 'Langfristiger Vertrag zwischen Auftraggeber und Lieferant, der Konditionen (Preise, Skonto, Lieferzeiten) für wiederkehrende Bestellungen festlegt.', links: ['/features/'] },
+  { begriff: 'Schwellenwert', erklaerung: 'Auftragswert, ab dem bestimmte Vergabevorschriften gelten. Unterhalb des nationalen Schwellenwerts gilt die UVgO, oberhalb des EU-Schwellenwerts die VgV.', links: ['/vergaberecht/'] },
+  { begriff: 'SHA-256', erklaerung: 'Kryptografischer Hash-Algorithmus. Wird in procurement-ai zur Integritätsprüfung der Vergabedokumentation eingesetzt. Jede Änderung am Dokument erzeugt einen neuen Hash.', links: ['/sicherheit/'] },
   { begriff: 'Skonto', erklaerung: 'Preisnachlass bei Zahlung innerhalb einer bestimmten Frist. In procurement-ai werden Skonto-Konditionen aus Rahmenverträgen automatisch berechnet.', links: [] },
-  { begriff: 'TED', erklaerung: 'Tenders Electronic Daily. Online-Supplement zum Amtsblatt der EU, in dem alle EU-weiten Ausschreibungen veröffentlicht werden.', links: ['/vergaberecht'] },
-  { begriff: 'UVgO', erklaerung: 'Unterschwellenvergabeordnung. Regelt die Vergabe von Liefer- und Dienstleistungsaufträgen unterhalb der EU-Schwellenwerte.', links: ['/vergaberecht'] },
-  { begriff: 'Vergabedokumentation', erklaerung: 'Lückenlose Dokumentation des gesamten Beschaffungsprozesses — von der Bedarfsermittlung bis zum Vertragsschluss. Muss revisionssicher und nachvollziehbar sein.', links: ['/vergaberecht', '/sicherheit'] },
-  { begriff: 'VgV', erklaerung: 'Vergabeverordnung. Regelt die Vergabe von Liefer- und Dienstleistungsaufträgen oberhalb der EU-Schwellenwerte.', links: ['/vergaberecht'] },
+  { begriff: 'TED', erklaerung: 'Tenders Electronic Daily. Online-Supplement zum Amtsblatt der EU, in dem alle EU-weiten Ausschreibungen veröffentlicht werden.', links: ['/vergaberecht/'] },
+  { begriff: 'UVgO', erklaerung: 'Unterschwellenvergabeordnung. Regelt die Vergabe von Liefer- und Dienstleistungsaufträgen unterhalb der EU-Schwellenwerte.', links: ['/vergaberecht/'] },
+  { begriff: 'Vergabedokumentation', erklaerung: 'Lückenlose Dokumentation des gesamten Beschaffungsprozesses — von der Bedarfsermittlung bis zum Vertragsschluss. Muss revisionssicher und nachvollziehbar sein.', links: ['/vergaberecht/', '/sicherheit/'] },
+  { begriff: 'VgV', erklaerung: 'Vergabeverordnung. Regelt die Vergabe von Liefer- und Dienstleistungsaufträgen oberhalb der EU-Schwellenwerte.', links: ['/vergaberecht/'] },
 ];
 
 const buchstaben = [...new Set(glossar.map(g => g.begriff[0].toUpperCase()))].sort();
 ---
 
-<PageLayout title="Beschaffungs-Glossar" description="Glossar für öffentliche Beschaffung: CPV-Codes, OCI 5.0, Vergaberecht, DSGVO und alle wichtigen Fachbegriffe verständlich erklärt.">
+<PageLayout title="Beschaffungs-Glossar — Fachbegriffe einfach erklärt" description="Von CPV-Code bis Vergabedokumentation: Alle wichtigen Fachbegriffe aus öffentlicher Beschaffung, Vergaberecht und eProcurement verständlich erklärt. Inkl. OCI 5.0, DSGVO, UVgO, VgV.">
 
   <!-- Hero -->
   <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">

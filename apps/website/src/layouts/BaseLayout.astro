@@ -1,31 +1,32 @@
 ---
-import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
-import MatomoTracking from '../components/astro/MatomoTracking.astro';
+import BreadcrumbSchema from "../components/seo/BreadcrumbSchema.astro";
+import MatomoTracking from "../components/astro/MatomoTracking.astro";
 
 interface Props {
   title: string;
   description?: string;
   ogImage?: string;
   noIndex?: boolean;
-  ogType?: 'website' | 'article';
+  ogType?: "website" | "article";
   articlePublishedTime?: string;
   articleAuthor?: string;
 }
 
 const {
   title,
-  description = 'Intelligente Beschaffung für den öffentlichen Sektor & regulierte Industrien. DSGVO-konform, gehostet in Deutschland.',
-  ogImage = '/images/og-image.png',
+  description = "Intelligente Beschaffung für den öffentlichen Sektor & regulierte Industrien. DSGVO-konform, gehostet in Deutschland.",
+  ogImage = "/images/og-image.png",
   noIndex = false,
-  ogType = 'website',
+  ogType = "website",
   articlePublishedTime,
   articleAuthor,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const fullTitle = title === 'Startseite'
-  ? 'Intelligente Beschaffung für den öffentlichen Sektor & regulierte Industrien | procurement-ai'
-  : `${title} | procurement-ai`;
+const fullTitle =
+  title === "Startseite"
+    ? "KI-Beschaffungssoftware für öffentliche Auftraggeber | procurement-ai"
+    : `${title} | procurement-ai`;
 ---
 
 <!doctype html>
@@ -35,7 +36,11 @@ const fullTitle = title === 'Startseite'
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/images/apple-touch-icon.png"
+    />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#2563eb" />
     <link rel="canonical" href={canonicalURL} />
@@ -45,17 +50,33 @@ const fullTitle = title === 'Startseite'
 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    {noIndex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    )}
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="procurement-ai" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
     <meta property="og:locale" content="de_DE" />
-    {articlePublishedTime && <meta property="article:published_time" content={articlePublishedTime} />}
-    {articleAuthor && <meta property="article:author" content={articleAuthor} />}
+    {
+      articlePublishedTime && (
+        <meta
+          property="article:published_time"
+          content={articlePublishedTime}
+        />
+      )
+    }
+    {
+      articleAuthor && (
+        <meta property="article:author" content={articleAuthor} />
+      )
+    }
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -64,7 +85,12 @@ const fullTitle = title === 'Startseite'
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
 
     <!-- RSS -->
-    <link rel="alternate" type="application/rss+xml" title="procurement-ai Blog" href="/rss.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="procurement-ai Blog"
+      href="/rss.xml"
+    />
 
     <!-- Structured Data -->
     <BreadcrumbSchema />

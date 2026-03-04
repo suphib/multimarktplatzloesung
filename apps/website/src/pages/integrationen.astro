@@ -1,37 +1,37 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro';
-import SectionHeading from '../components/astro/SectionHeading.astro';
-import CTASection from '../components/astro/CTASection.astro';
-import JsonLd from '../components/seo/JsonLd.astro';
-import { ERP_LOGOS } from '../lib/constants';
+import PageLayout from "../layouts/PageLayout.astro";
+import SectionHeading from "../components/astro/SectionHeading.astro";
+import CTASection from "../components/astro/CTASection.astro";
+import JsonLd from "../components/seo/JsonLd.astro";
+import { ERP_LOGOS } from "../lib/constants";
 
 const marktplaetze = [
-  { name: 'Amazon Business', status: 'Verfügbar', typ: 'REST API' },
-  { name: 'Mercateo', status: 'Verfügbar', typ: 'OCI / cXML' },
-  { name: 'Conrad', status: 'Verfügbar', typ: 'OCI / cXML' },
+  { name: "Amazon Business", status: "Verfügbar", typ: "REST API" },
+  { name: "Mercateo", status: "Verfügbar", typ: "OCI / cXML" },
+  { name: "Conrad", status: "Verfügbar", typ: "OCI / cXML" },
 ];
 
 const erpIntegrationen = ERP_LOGOS.map((logo) => ({
   ...logo,
-  typ: logo.name.startsWith('SAP') ? 'OCI 5.0 / RFC' : 'OCI 5.0 / cXML',
-  status: 'Unterstützt',
+  typ: logo.name.startsWith("SAP") ? "OCI 5.0 / RFC" : "OCI 5.0 / cXML",
+  status: "Unterstützt",
 }));
 
 const itemListSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'procurement-ai ERP-Integrationen',
-  description: 'Unterstützte ERP-Systeme und Marktplatz-Integrationen',
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "procurement-ai ERP-Integrationen",
+  description: "Unterstützte ERP-Systeme und Marktplatz-Integrationen",
   numberOfItems: ERP_LOGOS.length + marktplaetze.length,
   itemListElement: [
     ...ERP_LOGOS.map((erp, i) => ({
-      '@type': 'ListItem',
+      "@type": "ListItem",
       position: i + 1,
       name: erp.name,
       description: erp.beschreibung,
     })),
     ...marktplaetze.map((mp, i) => ({
-      '@type': 'ListItem',
+      "@type": "ListItem",
       position: ERP_LOGOS.length + i + 1,
       name: mp.name,
       description: `${mp.typ} – ${mp.status}`,
@@ -40,13 +40,18 @@ const itemListSchema = {
 };
 ---
 
-<PageLayout title="Integrationen" description="procurement-ai integriert sich nahtlos in SAP, Microsoft Dynamics, Oracle und alle führenden ERP-Systeme über OCI 5.0 und cXML.">
-
+<PageLayout
+  title="ERP-Integrationen für öffentliche Beschaffung — SAP, Dynamics, Oracle"
+  description="OCI 5.0 und cXML Integrationen für SAP S/4HANA, SAP Ariba, Microsoft Dynamics, Oracle u. a. Plus Marktplätze wie Amazon Business, Mercateo, Conrad."
+>
   <section class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">Integrationen</h1>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold">
+        Integrationen
+      </h1>
       <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
-        Nahtlose Anbindung an Ihre bestehende IT-Landschaft über standardisierte Schnittstellen.
+        Nahtlose Anbindung an Ihre bestehende IT-Landschaft über standardisierte
+        Schnittstellen.
       </p>
     </div>
   </section>
@@ -54,23 +59,41 @@ const itemListSchema = {
   <!-- ERP-Systeme -->
   <section class="section-padding">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionHeading titel="ERP-Systeme" untertitel="Integration über OCI 5.0 und cXML in alle führenden ERP-Systeme" />
-      <p class="text-center text-gray-500 text-sm -mt-6 mb-8">Technische Details finden Sie in unserem <a href="/blog/oci-integration-guide" class="text-primary-600 hover:underline">OCI 5.0 Integrationsleitfaden</a>.</p>
+      <SectionHeading
+        titel="ERP-Systeme"
+        untertitel="Integration über OCI 5.0 und cXML in alle führenden ERP-Systeme"
+      />
+      <p class="text-center text-gray-500 text-sm -mt-6 mb-8">
+        Technische Details finden Sie in unserem <a
+          href="/blog/oci-integration-guide/"
+          class="text-primary-600 hover:underline"
+          >OCI 5.0 Integrationsleitfaden</a
+        >.
+      </p>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {erpIntegrationen.map((erp) => (
-          <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-primary-200 transition-all">
-            <div class="flex items-center gap-4 mb-4">
-              <img src={`/erp-logos/${erp.datei}`} alt={erp.name} class="h-10 w-auto" loading="lazy" />
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+      >
+        {
+          erpIntegrationen.map((erp) => (
+            <div class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md hover:border-primary-200 transition-all">
+              <div class="flex items-center gap-4 mb-4">
+                <img
+                  src={`/erp-logos/${erp.datei}`}
+                  alt={erp.name}
+                  class="h-10 w-auto"
+                  loading="lazy"
+                />
+              </div>
+              <h3 class="font-semibold text-gray-900 mb-1">{erp.name}</h3>
+              <p class="text-sm text-gray-500 mb-3">{erp.typ}</p>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-500" />
+                {erp.status}
+              </span>
             </div>
-            <h3 class="font-semibold text-gray-900 mb-1">{erp.name}</h3>
-            <p class="text-sm text-gray-500 mb-3">{erp.typ}</p>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-              {erp.status}
-            </span>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </section>
@@ -78,14 +101,34 @@ const itemListSchema = {
   <!-- Architektur -->
   <section class="section-padding bg-gray-50">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionHeading titel="Architektur" untertitel="So verbindet procurement-ai Ihre Systeme" />
+      <SectionHeading
+        titel="Architektur"
+        untertitel="So verbindet procurement-ai Ihre Systeme"
+      />
 
-      <div class="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 lg:p-12">
-        <div class="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
+      <div
+        class="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 lg:p-12"
+      >
+        <div
+          class="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8"
+        >
           <!-- ERP Side -->
           <div class="text-center p-6 bg-blue-50 rounded-xl w-full lg:w-1/3">
-            <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-blue-100 flex items-center justify-center">
-              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            <div
+              class="w-12 h-12 mx-auto mb-3 rounded-lg bg-blue-100 flex items-center justify-center"
+            >
+              <svg
+                class="w-6 h-6 text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                ></path></svg
+              >
             </div>
             <h4 class="font-semibold text-gray-900 text-sm">Ihr ERP-System</h4>
             <p class="text-xs text-gray-500 mt-1">SAP, Dynamics, Oracle, ...</p>
@@ -93,33 +136,104 @@ const itemListSchema = {
 
           <!-- Arrow -->
           <div class="hidden lg:flex items-center">
-            <svg class="w-12 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 48 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M0 12h44m-6-6l6 6-6 6"/></svg>
+            <svg
+              class="w-12 h-6 text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 48 24"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M0 12h44m-6-6l6 6-6 6"></path></svg
+            >
           </div>
           <div class="lg:hidden">
-            <svg class="w-6 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 48"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 0v44m-6-6l6 6 6-6"/></svg>
+            <svg
+              class="w-6 h-12 text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 48"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 0v44m-6-6l6 6 6-6"></path></svg
+            >
           </div>
 
           <!-- procurement-ai -->
-          <div class="text-center p-6 bg-primary-50 rounded-xl border-2 border-primary-200 w-full lg:w-1/3">
-            <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-primary-100 flex items-center justify-center">
-              <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <div
+            class="text-center p-6 bg-primary-50 rounded-xl border-2 border-primary-200 w-full lg:w-1/3"
+          >
+            <div
+              class="w-12 h-12 mx-auto mb-3 rounded-lg bg-primary-100 flex items-center justify-center"
+            >
+              <svg
+                class="w-6 h-6 text-primary-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg
+              >
             </div>
-            <h4 class="font-semibold text-primary-800 text-sm">procurement-ai</h4>
-            <p class="text-xs text-primary-600 mt-1">KI-Klassifizierung & Suche</p>
+            <h4 class="font-semibold text-primary-800 text-sm">
+              procurement-ai
+            </h4>
+            <p class="text-xs text-primary-600 mt-1">
+              KI-Klassifizierung & Suche
+            </p>
           </div>
 
           <!-- Arrow -->
           <div class="hidden lg:flex items-center">
-            <svg class="w-12 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 48 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M0 12h44m-6-6l6 6-6 6"/></svg>
+            <svg
+              class="w-12 h-6 text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 48 24"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M0 12h44m-6-6l6 6-6 6"></path></svg
+            >
           </div>
           <div class="lg:hidden">
-            <svg class="w-6 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 48"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 0v44m-6-6l6 6 6-6"/></svg>
+            <svg
+              class="w-6 h-12 text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 48"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 0v44m-6-6l6 6 6-6"></path></svg
+            >
           </div>
 
           <!-- Marktplätze -->
           <div class="text-center p-6 bg-green-50 rounded-xl w-full lg:w-1/3">
-            <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-green-100 flex items-center justify-center">
-              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+            <div
+              class="w-12 h-12 mx-auto mb-3 rounded-lg bg-green-100 flex items-center justify-center"
+            >
+              <svg
+                class="w-6 h-6 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
+                ></path></svg
+              >
             </div>
             <h4 class="font-semibold text-gray-900 text-sm">Marktplätze</h4>
             <p class="text-xs text-gray-500 mt-1">Amazon, Mercateo, Conrad</p>
@@ -132,19 +246,26 @@ const itemListSchema = {
   <!-- Marktplatz-Konnektoren -->
   <section class="section-padding">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionHeading titel="Marktplatz-Konnektoren" untertitel="Direkte Anbindung an führende B2B-Marktplätze" />
+      <SectionHeading
+        titel="Marktplatz-Konnektoren"
+        untertitel="Direkte Anbindung an führende B2B-Marktplätze"
+      />
 
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-3xl mx-auto">
-        {marktplaetze.map((mp) => (
-          <div class="bg-white rounded-xl border border-gray-200 p-6 text-center hover:shadow-md transition-shadow">
-            <h3 class="font-semibold text-gray-900 mb-1">{mp.name}</h3>
-            <p class="text-sm text-gray-500 mb-3">{mp.typ}</p>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-              {mp.status}
-            </span>
-          </div>
-        ))}
+      <div
+        class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-3xl mx-auto"
+      >
+        {
+          marktplaetze.map((mp) => (
+            <div class="bg-white rounded-xl border border-gray-200 p-6 text-center hover:shadow-md transition-shadow">
+              <h3 class="font-semibold text-gray-900 mb-1">{mp.name}</h3>
+              <p class="text-sm text-gray-500 mb-3">{mp.typ}</p>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-500" />
+                {mp.status}
+              </span>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -153,20 +274,24 @@ const itemListSchema = {
   <section class="section-padding bg-gray-50">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <SectionHeading titel="Technische Spezifikationen" />
-      <div class="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100">
-        {[
-          ['Protokolle', 'OCI 5.0, cXML 1.2, REST API'],
-          ['Authentifizierung', 'OAuth 2.0, API-Key, SSO (SAML 2.0)'],
-          ['Datenformate', 'JSON, XML, CSV'],
-          ['Verschlüsselung', 'TLS 1.3, AES-256'],
-          ['SLA', '99.7% Verfügbarkeit garantiert'],
-          ['Hosting', 'Deutschland (24fire), DSGVO-konform'],
-        ].map(([label, value]) => (
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 gap-1">
-            <span class="text-sm font-medium text-gray-900">{label}</span>
-            <span class="text-sm text-gray-500">{value}</span>
-          </div>
-        ))}
+      <div
+        class="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100"
+      >
+        {
+          [
+            ["Protokolle", "OCI 5.0, cXML 1.2, REST API"],
+            ["Authentifizierung", "OAuth 2.0, API-Key, SSO (SAML 2.0)"],
+            ["Datenformate", "JSON, XML, CSV"],
+            ["Verschlüsselung", "TLS 1.3, AES-256"],
+            ["SLA", "99.7% Verfügbarkeit garantiert"],
+            ["Hosting", "Deutschland (24fire), DSGVO-konform"],
+          ].map(([label, value]) => (
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 gap-1">
+              <span class="text-sm font-medium text-gray-900">{label}</span>
+              <span class="text-sm text-gray-500">{value}</span>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>

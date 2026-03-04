@@ -1,9 +1,9 @@
 ---
-import PageLayout from './PageLayout.astro';
-import ArticleSchema from '../components/seo/ArticleSchema.astro';
-import CTASection from '../components/astro/CTASection.astro';
-import { FIRMA } from '../lib/constants';
-import { getCollection } from 'astro:content';
+import PageLayout from "./PageLayout.astro";
+import ArticleSchema from "../components/seo/ArticleSchema.astro";
+import CTASection from "../components/astro/CTASection.astro";
+import { FIRMA } from "../lib/constants";
+import { getCollection } from "astro:content";
 
 interface Props {
   title: string;
@@ -18,25 +18,28 @@ interface Props {
 const { title, description, datum, autor, lesezeit, bild, tags } = Astro.props;
 
 const formatDatum = (d: string) => {
-  return new Date(d).toLocaleDateString('de-DE', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  return new Date(d).toLocaleDateString("de-DE", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 };
 
 const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
 
 // Related posts (other blog posts, max 2)
-const allPosts = await getCollection('blog');
+const allPosts = await getCollection("blog");
 const relatedPosts = allPosts
   .filter((p) => p.data.titel !== title)
-  .sort((a, b) => new Date(b.data.datum).getTime() - new Date(a.data.datum).getTime())
+  .sort(
+    (a, b) =>
+      new Date(b.data.datum).getTime() - new Date(a.data.datum).getTime(),
+  )
   .slice(0, 2);
 
 const breadcrumbItems = [
-  { label: 'Startseite', href: '/' },
-  { label: 'Blog', href: '/blog' },
+  { label: "Startseite", href: "/" },
+  { label: "Blog", href: "/blog/" },
   { label: title, href: Astro.url.pathname },
 ];
 ---
@@ -53,34 +56,74 @@ const breadcrumbItems = [
     <!-- Hero Section -->
     <header class="gradient-hero text-white py-12 sm:py-16 lg:py-20">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        {tags && tags.length > 0 && (
-          <div class="flex flex-wrap gap-2 mb-6">
-            {tags.map((tag) => (
-              <span class="px-3 py-1 text-xs font-medium bg-white/15 backdrop-blur-sm text-white rounded-full border border-white/20">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">
+        {
+          tags && tags.length > 0 && (
+            <div class="flex flex-wrap gap-2 mb-6">
+              {tags.map((tag) => (
+                <span class="px-3 py-1 text-xs font-medium bg-white/15 backdrop-blur-sm text-white rounded-full border border-white/20">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )
+        }
+        <h1
+          class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight"
+        >
           {title}
         </h1>
-        {description && (
-          <p class="mt-4 text-lg text-blue-100 max-w-2xl">{description}</p>
-        )}
-        <div class="flex flex-wrap items-center gap-4 mt-6 text-sm text-blue-200">
+        {
+          description && (
+            <p class="mt-4 text-lg text-blue-100 max-w-2xl">{description}</p>
+          )
+        }
+        <div
+          class="flex flex-wrap items-center gap-4 mt-6 text-sm text-blue-200"
+        >
           <div class="flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              ></path></svg
+            >
             <time datetime={datum}>{formatDatum(datum)}</time>
           </div>
           <span class="text-blue-400">|</span>
           <div class="flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              ></path></svg
+            >
             <span>{autor}</span>
           </div>
           <span class="text-blue-400">|</span>
           <div class="flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg
+            >
             <span>{lesezeit} Lesezeit</span>
           </div>
         </div>
@@ -88,13 +131,15 @@ const breadcrumbItems = [
     </header>
 
     <!-- Hero Image -->
-    {bild && (
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
-        <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
-          <img src={bild} alt={title} class="w-full" loading="eager" />
+    {
+      bild && (
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
+          <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+            <img src={bild} alt={title} class="w-full" loading="eager" />
+          </div>
         </div>
-      </div>
-    )}
+      )
+    }
 
     <!-- Content -->
     <div class="py-12 lg:py-16">
@@ -107,40 +152,67 @@ const breadcrumbItems = [
   </article>
 
   <!-- Related Posts -->
-  {relatedPosts.length > 0 && (
-    <section class="border-t border-gray-100 py-12 bg-gray-50/50">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-xl font-bold text-gray-900 mb-6">Weitere Artikel</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {relatedPosts.map((post) => (
-            <a href={`/blog/${post.id}`} class="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-primary-200 hover:shadow-lg transition-all">
-              {post.data.bild && (
-                <div class="aspect-[16/9] overflow-hidden">
-                  <img src={post.data.bild} alt={post.data.titel} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+  {
+    relatedPosts.length > 0 && (
+      <section class="border-t border-gray-100 py-12 bg-gray-50/50">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 class="text-xl font-bold text-gray-900 mb-6">Weitere Artikel</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {relatedPosts.map((post) => (
+              <a
+                href={`/blog/${post.id}/`}
+                class="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-primary-200 hover:shadow-lg transition-all"
+              >
+                {post.data.bild && (
+                  <div class="aspect-[16/9] overflow-hidden">
+                    <img
+                      src={post.data.bild}
+                      alt={post.data.titel}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <div class="p-5">
+                  <h3 class="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors mb-2">
+                    {post.data.titel}
+                  </h3>
+                  <p class="text-sm text-gray-500 line-clamp-2">
+                    {post.data.beschreibung}
+                  </p>
+                  <span class="inline-flex items-center gap-1 mt-3 text-sm text-primary-600 font-medium">
+                    Lesen
+                    <svg
+                      class="w-3.5 h-3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </span>
                 </div>
-              )}
-              <div class="p-5">
-                <h3 class="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors mb-2">{post.data.titel}</h3>
-                <p class="text-sm text-gray-500 line-clamp-2">{post.data.beschreibung}</p>
-                <span class="inline-flex items-center gap-1 mt-3 text-sm text-primary-600 font-medium">
-                  Lesen
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                  </svg>
-                </span>
-              </div>
-            </a>
-          ))}
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  )}
+      </section>
+    )
+  }
 
-  <CTASection titel="Überzeugt?" beschreibung="Fordern Sie jetzt Ihre kostenlose Demo an und erleben Sie procurement-ai in Aktion." />
+  <CTASection
+    titel="Überzeugt?"
+    beschreibung="Fordern Sie jetzt Ihre kostenlose Demo an und erleben Sie procurement-ai in Aktion."
+  />
 
   <ArticleSchema
     titel={title}
-    beschreibung={description || ''}
+    beschreibung={description || ""}
     datum={datum}
     autor={autor}
     url={articleUrl}

@@ -40,7 +40,7 @@ export function CookieConsent() {
                 <p className="text-sm text-gray-700">
                   Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten.
                   Weitere Informationen finden Sie in unserer{' '}
-                  <a href="/datenschutz" className="text-primary-600 underline font-medium">
+                  <a href="/datenschutz/" className="text-primary-600 underline font-medium">
                     Datenschutzerklärung
                   </a>.
                 </p>

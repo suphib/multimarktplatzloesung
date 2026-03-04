@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://procurement-ai.de/sitemap-index.xml
+# Legal pages are handled via page-level noindex meta tags.
+# Keep crawl access so search engines can process noindex reliably.
 
-# Bing Webmaster Tools
-# Gleiche Sitemap wird von Bing automatisch erkannt
+Sitemap: https://procurement-ai.de/sitemap-index.xml
